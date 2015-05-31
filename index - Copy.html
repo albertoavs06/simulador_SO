@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Simulador: Escalonamento em Sistemas Interativos</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script src="jquery-2.1.4.min.js"></script>
+	</head>
+	
+	<body>
+		<div class="container">
+		
+		<!-- Header. Logo e Nome do simulador -->
+		<!-- Colocar uma cor de background-->
+		<div class="row">
+			<div class="col-md-2">
+				<img src="img/logo_icmc.png" height="70" width="110">
+			</div>
+			
+			<div class="col-md-10">
+				<h1>Escalonamento em Sistemas Interativos</h1>
+				<h3>Marcelo Koti Kamada & Maria Lydia Fioravanti</h3>
+			</div>
+		</div>
+			
+		<!-- canvas para os processos -->
+		<div class="row">
+			<div class="col-md-12" style="background-color:lightblue">
+				<canvas id="canvas_processos" class="col-md-12" ></canvas>
+			</div>
+		</div>
+			
+		<!-- canvas para os processos -->	
+		<div class="row" style="background-color:lightgrey">
+			<div class="col-md-3">
+				<h3>Titulo desta area</h3>
+				
+				<p>Tempo de Execucao: 0</p>
+				<p>Ordem de Execucao dos Processos: 0</p>
+				<p>Quantum: 0</p>
+			</div>
+			
+			<div class="col-md-6" style="background-color:lightgreen">
+				<h3>CPU</h3>
+				<canvas id="canvas_cpu" class="col-md-12">
+				</canvas>
+			</div>
+			
+			<div class="col-md-3">
+			
+				<!-- Menu para adicionar novos processos -->
+				<h3>Adicionar Processo</h3>
+				
+				<!-- Menu para adicionar novos processos -->
+				<input type="text" id='tempo_novo_processo' placeholder="Tempo de Execucao">
+				<button type="button" onclick="addProcesso()">Adicionar</button>
+				
+				<!-- Menu para remover processos -->
+				<button type="button" onclick="rmProcesso()">Remover</button>								
+				
+				<div>
+					<input type="text" id="valor_opcional" placeholder="prioridade ou tickets" hidden="true">
+				</div>
+				
+				<!-- CPU ou IO bound -->
+				<div>
+					<p>Tipo do Processo</p>
+					<input type="radio" name="bound" value="cpu" checked>CPU bound<br>
+					<input type="radio" name="bound" value="io">I/O bound<br>
+				</div>
+				
+				<!--Algoritimo de Escalonamento -->
+				<h3>Algoritimo de Escalonamento</h3>
+				
+				<input type="radio" name="algoritimo" value="round robin" checked onclick="selecionaAlgoritimo()">Round Robin<br>
+				<input type="radio" name="algoritimo" value="filas multiplas" onclick="selecionaAlgoritimo()">Filas Multiplas<br>
+				<input type="radio" name="algoritimo" value="proximo mais curto" onclick="selecionaAlgoritimo()">Proximo mais curto<br>
+				<input type="radio" name="algoritimo" value="loteria" onclick="selecionaAlgoritimo()">Loteria<br>
+				<!--document.getElementById("order").value -->
+				
+				<!-- Executar Simulacao -->	
+				<input type="submit" value="Executar Simulacao">
+  
+			</div>			
+		</div>
+			
+		</div><!-- Fim div container -->
+		<script type="text/javascript" src="game.js"></script>
+	</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Marcelo Koti Kamada CV</title>
+</head>
+
+<body>
+    <div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2">
+            <img class="img-responsive" src="img/foto1.jpg">
+            <h4 class="text-uppercase text-center">Resumo</h4>
+            <p class="text-justify">Atualmente e graduando em Ciencias da Computacao pela Universidade de Sao Paulo, com experiencia na area de arquitetura de computadores. 
+            Possui experiencia profissional nas empresas sul coreanas KOHEA e Samsung Electronics, adquiridos durante o periodo de intercambio pelo Ciencias sem Fronteiras. Ja foi bolsista de inicia
+            cientifica, trabalhando com projeto de processadores RISC, desenvolvimento de ambientes de simuladores e compiladores para os mesmos.</p>
+        </div>
+
+        <div class="col-md-10">
+            <div class="row">
+                <h3>Marcelo Koti Kamada</h3>
+            </div>
+
+            <div class="row">
+               <h4 class="text-uppercase">Contato</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <p>Telefone: (16) 98243-9428</p>
+                    <p>Endereco: Rua Fortaleza 363, Lins / Sao Paulo</p>
+                </div>
+
+                <div class="col-md-5">
+                    email: marcelokkamada@gmail.com
+                </div>
+            </div>
+
+            <div class="row">
+                <h4 class="text-uppercase">Formacao</h4>
+                    <div class="col-md-1 text-right">2010-07/2015</div> 
+                    <div class="col-md-11">Universidade de Sao Paulo - Graduando em Bacharelado em Ciencias da Computacao</div>
+
+                    <div class="col-md-1 text-right">03/2013- 03/2014</div>
+                    <div class="col-md-11">Sogang University (Coreia do Sul) Intercambio pelo Ciencias sem Fronteiras</div>
+                </ul>
+            </div>
+            
+            <div class="row">
+                <div>
+                    <h4 class="text-uppercase">Formacao Complementar</h4>
+                </div>
+
+                <!-- Extensao Universitaria -->
+                <h4 class="text-uppercase">Extensao Universitaria (minicursos)</h4>
+
+                <div class="col-md-1 text-right">2010</div> 
+                <div class="col-md-11">Blender ? Universidade de Sao Paulo, carga horaria 7 horas</div> 
+
+                <div class="col-md-1 text-right">2010</div> 
+                <div class="col-md-11">Java ? Fundamentos, Universidade de Sao Paulo, carga horaria 7 horas</div> 
+
+                <div class="col-md-1 text-right">2012</div> 
+                <div class="col-md-11">Programando o Kernel do Linux ? Universidade de Sao Paulo, carga horaria 7 horas</div> 
+
+                <!-- Curso de Linguas -->
+                <h4 class="text-uppercase">Curso de Linguas</h4>
+
+                <div class="col-md-1 text-right">2008-2009</div>
+                <div class="col-md-11">Ingles ? CCBEU Lins (Fluente)</div>
+
+                <div class="col-md-1 text-right">2010</div>
+                <div class="col-md-11">Japones ? ACENB (Basico)</div>
+
+                <div class="col-md-1 text-right">2013</div>
+                <div class="col-md-11">Coreano ? Sogang University (Basico)</div>
+
+                <!-- Microlins -->
+                <h4 class="text-uppercase">Microlins (Sao Carlos)</h4>
+                <ul>
+                    <li>Administracao de Redes Linux</li>
+                    <li>Manutencao de Hardware</li>
+                </ul>
+                    
+                <h4 class="text-uppercase">Senac (Sao Carlos)</h4>
+                <ul>
+                    <li>Comunicacao Escrita e Revisao Gramatical;</li>
+                    <li>Frances, educacao distancia (cursando);</li>
+                    <li>CCNA (Cisco Certified Network Associate) 4 Exploration 4.0 - Acesso WAN;</li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <h4 class="text-uppercase">Experiencia Profissional</h4>
+                <ul>
+                    <li>Bolsista de Inicicao Cientifica Santander 2012-2013, carga horaria 12 horas semanais;</li>
+                    <li>Estagio na empresa Samsung Electronics 07/2013;</li>
+                    <li>Estagio na empresa KOHEA 01/2014-02/2014;</li>
+                    <li>Bolsista de Inicicao Cientifica CNPq, carga horaria 12 horas semanais (Atual);</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
