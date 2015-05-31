@@ -61,10 +61,10 @@ function selecionaAlgoritimo() {
 		segundo_campo_input.hidden = true;
 		titulo_opcional.hidden = true;		
 		
-		nextTitulo = document.getElementById('titulo_mais_curto').innerHTML;
-		nextDescricao = document.getElementById('descricao_mais_curto').innerHTML;
-		nextVantangens = document.getElementById('vantagens_mais_curto').innerHTML;
-		nextDesvantagens = document.getElementById('desvantagens_mais_curto').innerHTML;	
+		nextTitulo = document.getElementById('titulo_shortest').innerHTML;
+		nextDescricao = document.getElementById('descricao_shortest').innerHTML;
+		nextVantangens = document.getElementById('vantagens_shortest').innerHTML;
+		nextDesvantagens = document.getElementById('desvantagens_shortest').innerHTML;	
 		
 	} else if (selecionado == 'loteria') {
 		segundo_campo_input.hidden = false;
@@ -73,10 +73,10 @@ function selecionaAlgoritimo() {
 		nextTitulo_opcional = "Numero de Tickets";
 		segundo_campo_input.placeholder = "Numero de Tickets";
 		
-		nextTitulo = document.getElementById('titulo_loteria').innerHTML;
-		nextDescricao = document.getElementById('descricao_loteria').innerHTML;
-		nextVantangens = document.getElementById('vantagens_loteria').innerHTML;
-		nextDesvantagens = document.getElementById('desvantagens_loteria').innerHTML;		
+		nextTitulo = document.getElementById('titulo_lotery').innerHTML;
+		nextDescricao = document.getElementById('descricao_lotery').innerHTML;
+		nextVantangens = document.getElementById('vantagens_lotery').innerHTML;
+		nextDesvantagens = document.getElementById('desvantagens_lotery').innerHTML;		
 		
 	} else if(selecionado == 'filas multiplas') {
 		segundo_campo_input.hidden = false;
@@ -85,10 +85,10 @@ function selecionaAlgoritimo() {
 		nextTitulo_opcional = "Prioridade na Fila";		
 		segundo_campo_input.placeholder = "Prioridade na Fila";
 		
-		nextTitulo = document.getElementById('titulo_filas_multiplas').innerHTML;
-		nextDescricao = document.getElementById('descricao_filas_multiplas').innerHTML;
-		nextVantangens = document.getElementById('vantagens_filas_multiplas').innerHTML;
-		nextDesvantagens = document.getElementById('desvantagens_filas_multiplas').innerHTML;
+		nextTitulo = document.getElementById('titulo_queues').innerHTML;
+		nextDescricao = document.getElementById('descricao_queues').innerHTML;
+		nextVantangens = document.getElementById('vantagens_queues').innerHTML;
+		nextDesvantagens = document.getElementById('desvantagens_queues').innerHTML;
 		
 	} else if(selecionado == 'prioridade') {
 		segundo_campo_input.hidden = false;
@@ -97,10 +97,10 @@ function selecionaAlgoritimo() {
 		nextTitulo_opcional = "Prioridade na Fila";		
 		segundo_campo_input.placeholder = "Prioridade na Fila";
 		
-		nextTitulo = document.getElementById('titulo_prioridade').innerHTML;
-		nextDescricao = document.getElementById('descricao_prioridade').innerHTML;
-		nextVantangens = document.getElementById('vantagens_prioridade').innerHTML;
-		nextDesvantagens = document.getElementById('desvantagens_prioridade').innerHTML;
+		nextTitulo = document.getElementById('titulo_priority').innerHTML;
+		nextDescricao = document.getElementById('descricao_priority').innerHTML;
+		nextVantangens = document.getElementById('vantagens_priority').innerHTML;
+		nextDesvantagens = document.getElementById('desvantagens_priority').innerHTML;
 	}
 	
 	titulo.innerHTML = nextTitulo;	
@@ -114,13 +114,14 @@ function tempoExecucaoSelecionado() {
 	var titulo = document.getElementById('titulo_secao2');	
 	var descricao = document.getElementById('descricao_secao2');
 
-	var nextTitulo = document.getElementById('titulo_tempo_execucao').innerHTML;
-	var nextDescricao = document.getElementById('descricao_tempo_execucao').innerHTML;
+	var nextTitulo = document.getElementById('titulo_execution_time').innerHTML;
+	var nextDescricao = document.getElementById('descricao_execution_time').innerHTML;
 	
 	titulo.innerHTML = nextTitulo;	
 	descricao.innerHTML = nextDescricao;		
 }
 
+// falta fazer
 function valorOpcionalSelecionado() {
 	var titulo = document.getElementById('titulo_secao2');	
 	var descricao = document.getElementById('descricao_secao2');
@@ -139,7 +140,7 @@ function tipoSelecionado() {
 	var nextTitulo = "titulo";
 	var nextDescricao = "descricao";	
 	
-	var selecionado = $('input[name="algoritimo"]:checked').val();
+	var selecionado = $('input[name="bound"]:checked').val();
 	
 	if(selecionado == "cpu") {
 		nextTitulo = document.getElementById('titulo_cpu_bound').innerHTML;

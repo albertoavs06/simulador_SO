@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+	<!-- ########## Algorithms ########## -->
+	<algorithm name="round_robin">
+		<title>Round Robin</title>
+		<description>your description here</description>
+		<pros>pros?</pros>
+		<cons>cons?</cons>
+	</algorithm>
+	
+	<algorithm name="queues">
+		<title>Multiple Queues</title>
+		<description>your description here</description>
+		<pros>pros?</pros>
+		<cons>cons?</cons>
+	</algorithm>
+	
+	<algorithm name="priority">
+		<title>Priority</title>
+		<description>your description here</description>
+		<pros>pros?</pros>
+		<cons>cons?</cons>
+	</algorithm>
+	
+	<algorithm name="shortest">
+		<title>Shortest First</title>
+		<description>your description here</description>
+		<pros>pros?</pros>
+		<cons>cons?</cons>
+	</algorithm>
+
+	<algorithm name="lotery">
+		<title>Lotery</title>
+		<description>your description here</description>
+		<pros>pros?</pros>
+		<cons>cons?</cons>
+	</algorithm>
+
+	<!-- ########## Second Section ########## -->
+
+	<second_section name="execution_time">
+		<title>Tempo de Execucao</title>
+		<description>your description here</description>
+	</second_section>
+	
+	<second_section name="cpu_bound">
+		<title>CPU bound</title>
+		<description>your description here</description>
+	</second_section>
+
+	<second_section name="io_bound">
+		<title>I/O bound</title>
+		<description>your description here</description>
+	</second_section>
+
+</root>
