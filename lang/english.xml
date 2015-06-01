@@ -75,4 +75,10 @@
 	<title name="section2">
 		<value>2 - Adicione Processos para Serem Escalonados</value>
 	</title>
+
+	<!-- ########## Section Title ########## -->
+	<error name="execution_time_error">
+		<value>Execution Time must be between 0 and 100</value>
+	</error>
+
 </root>

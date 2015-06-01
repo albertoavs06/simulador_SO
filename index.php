@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<?php
+// restart no apache
+// sudo systemctl restart apache2
+
+// carrega o arquivo de configuracoes xml
+$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
+?>
 
 <html>
 	<head>
@@ -44,13 +51,7 @@
 		<!-- Titulo da primeira secao -->
 		<div class="row">
 			<div class="col-md-12" style="background-color:lightblue">
-                <?php
-                	$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
-					echo '<h2>'. $xml->title[0]->value .'</h2>';
-                ?>
-                <!--  
-				<h2>1 - Escolha o algoritimo de escalonamento</h2>
-                -->
+                <?php echo '<h2>'. $xml->title[0]->value .'</h2>'; ?>
 			</div>
 		</div>
 			
@@ -87,29 +88,17 @@
 		</div>
 			
 		<!-- Titulo da segunda secao -->	
-		<div class="row" style="background-color:lightgrey">
+		<div class="row" style="background-color:khaki">
 			<div class="col-md-12">
-                <?php
-                	$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
-					echo '<h2>'. $xml->title[1]->value .'</h2>';
-                ?>
-				<!--  
-				<h2>2 - Adicione processos para serem escalonados</h2>
-				-->
+                <?php echo '<h2>'. $xml->title[1]->value .'</h2>'; ?>
 			</div>
 		</div>	
 
-		<div class="row" style="background-color:orange">
+		<div class="row" style="background-color:khaki">
 			<div class="col-md-5">
 				<!-- Menu para adicionar novos processos -->
 				<h4>Tempo de Execucao</h4>
-                <?php
-                	$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
-					echo '<input type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">';
-                ?>
-                <!--  
-				<input type="text" id='tempo_novo_processo' placeholder="Tempo de Execucao" onfocus="tempoExecucaoSelecionado()">			
-                -->
+                <?php echo '<input type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">'; ?>
 			
 				<!-- Campo opcional para alguns algoritimos -->
 				<div>
@@ -138,7 +127,7 @@
 			</div>	
 		</div>
 		
-		<div class="row" style="background-color:gray">		
+		<div class="row" style="background-color:khaki">		
 			<div class="col-md-12">
 				<table style="width:100%" id="myTable">
 				  <tr>
@@ -150,7 +139,7 @@
 			</div>
 		</div>	
 			
-		<div class="row" style="background-color:blue">	
+		<div class="row" style="background-color:coral">	
 			<div class="col-md-12">
 				<!-- Executar Simulacao -->
 				<center>
@@ -162,8 +151,6 @@
 		</div><!-- Fim div container -->
 		
     	<?php
-    	    $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
-
             // ################### Descricoes dos algoritimos ###################
     	    foreach($xml->algorithm as $algoritimo):
     	    		$campo = $algoritimo['name'];
@@ -212,13 +199,18 @@
 				echo $valor;
 				echo "</div>";
 			}
+			
+			foreach($xml->error as $item) {
+				$campo = $item['name'];
+				$valor = $item->value;
+				
+				echo "<div hidden=true id=\"" . $campo . "\">";
+				echo $valor;
+				echo "</div>";
+			}
 		?>
 		<!-- Script javascript para as funcoes -->
 		<script type="text/javascript" src="game.js"></script>		
 	</body>
 </html>
 
-<?php
-// restart no apache
-// sudo systemctl restart apache2
-?>

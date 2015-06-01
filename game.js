@@ -3,19 +3,22 @@
 // lista de processos
 var processos = new Array();
 
+var old_selecionado = "round robin";
+
 // adicionar um novo processo na lista
 function addProcesso() {
 	
 	var name = String.fromCharCode(65 + processos.length); // 65 = 'A'
-	var tempo = document.getElementById('tempo_novo_processo').value;
+	var tempo = document.getElementById('execution_time').value;
 	var valor_opcional = document.getElementById('valor_opcional').value;
 	var selecionado = $('input[name="bound"]:checked').val();	
 
 	if(!isNumber(tempo) || tempo < 0 || tempo > 100) {
-		var campo = document.getElementById('tempo_novo_processo');
+		var campo = document.getElementById('execution_time');
+		var msg = document.getElementById('execution_time_error').innerHTML;
 		campo.value = "";
 		campo.focus();
-		alert("Valores aceitos entre 0 e 100");
+		alert(msg);
 		return;
 	}
 	
@@ -61,6 +64,13 @@ function isNumber(n) {
 
 function selecionaAlgoritimo() {
 	var selecionado = $('input[name="algoritimo"]:checked').val();
+	
+	// selecionou o mesmo, nao faz nada
+	if(selecionado == old_selecionado) {
+		return;
+	}
+	old_selecionado = selecionado;
+	
 	var segundo_campo_input = document.getElementById('valor_opcional');
 	var titulo_opcional = document.getElementById('titulo_opcional');
 	
@@ -135,6 +145,13 @@ function selecionaAlgoritimo() {
 	vantagens.innerHTML = nextVantangens;	
 	desvantagens.innerHTML = nextDesvantagens;	
 	titulo_opcional.innerHTML = nextTitulo_opcional;	
+	
+	var i;
+	var tabela = document.getElementById("myTable");
+	for(i = 0; i < processos.length; i++) {
+        tabela.deleteRow(1);
+	}
+	processos = new Array();
 }
 
 function tempoExecucaoSelecionado() {
