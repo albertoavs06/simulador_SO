@@ -1,4 +1,10 @@
 // printf do javascript: console.log(selecionado);
+window.onload=run;
+
+// executa quando a pagina carrega, uso para evitar inconsistencias em refreshes
+function run() {
+	selecionaAlgoritimo();
+}
 
 // lista de processos
 var processos = new Array();
@@ -22,6 +28,24 @@ function addProcesso() {
 		return;
 	}
 	
+	if(valor_opcional == "" || valor_opcional == null) {
+        var algoritimo = $('input[name="algoritimo"]:checked').val();	
+		if(algoritimo == "loteria" || algoritimo == "prioridade" || algoritimo == "filas multiplas") {
+			var campo = document.getElementById('valor_opcional');
+			var msg;
+				
+			if(algoritimo == "loteria") {
+				msg = document.getElementById('missing_tickets').innerHTML;
+			} else {
+				msg = document.getElementById('missing_priority').innerHTML;
+			}
+		
+			campo.focus();
+			alert(msg);
+			return;
+		}
+	}
+
 	var processo = {
 		nome : name,
 		tempo : tempo,
@@ -200,3 +224,19 @@ function tipoSelecionado() {
 	descricao.innerHTML = nextDescricao;		
 }
 
+function show(json) {
+	alert(json);
+}
+//
+//function run() {
+//	$.getJSON(
+//			"/server_test.php", // The server URL 
+//			{ id: 567 }, // Data you want to pass to the server.
+//			show // The function to call on completion.
+//	);
+//}	
+function simular() {
+	$.getJSON("/simulador_SO/simulador.php",
+			{id : 567},
+			show);
+}
