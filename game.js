@@ -1,7 +1,7 @@
 // printf do javascript: console.log(selecionado);
 
 // lista de processos
-var processos = [];
+var processos = new Array();
 
 // adicionar um novo processo na lista
 function addProcesso() {
@@ -9,23 +9,50 @@ function addProcesso() {
 	var name = String.fromCharCode(65 + processos.length); // 65 = 'A'
 	var tempo = document.getElementById('tempo_novo_processo').value;
 	var valor_opcional = document.getElementById('valor_opcional').value;
-	
-	if(!isNumber(tempo)) {
+	var selecionado = $('input[name="bound"]:checked').val();	
+
+	if(!isNumber(tempo) || tempo < 0 || tempo > 100) {
+		var campo = document.getElementById('tempo_novo_processo');
+		campo.value = "";
+		campo.focus();
+		alert("Valores aceitos entre 0 e 100");
 		return;
 	}
 	
 	var processo = {
 		nome : name,
 		tempo : tempo,
+		tipo : selecionado,
 		valor : valor_opcional		// pode ser o tempo de execucao, prioridade
 	};
 	
 	processos.push(processo);
+
+	// ############# Insercao na Tabela #################
+	var table = document.getElementById("myTable");
+
+	// Create an empty <tr> element and add it to the 1st position of the table:
+	var row = table.insertRow(processos.length);
+
+	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+
+	// Add some text to the new cells:
+	cell1.innerHTML = name;
+	cell2.innerHTML = tempo;
+	cell3.innerHTML = selecionado;
+	cell1.style = "text-align:center";
 }
 
 // remove o ultimo processo da lista
 function rmProcesso() {
-	processos.pop();
+	if(processos.length > 0) {
+        processos.pop();
+//        document.getElementById("myTable").deleteRow(processos.lenght-1);
+        document.getElementById("myTable").deleteRow(processos.length+1);
+	}
 }
 
 function isNumber(n) {

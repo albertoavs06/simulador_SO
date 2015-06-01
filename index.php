@@ -44,7 +44,13 @@
 		<!-- Titulo da primeira secao -->
 		<div class="row">
 			<div class="col-md-12" style="background-color:lightblue">
+                <?php
+                	$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
+					echo '<h2>'. $xml->title[0]->value .'</h2>';
+                ?>
+                <!--  
 				<h2>1 - Escolha o algoritimo de escalonamento</h2>
+                -->
 			</div>
 		</div>
 			
@@ -83,7 +89,13 @@
 		<!-- Titulo da segunda secao -->	
 		<div class="row" style="background-color:lightgrey">
 			<div class="col-md-12">
+                <?php
+                	$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
+					echo '<h2>'. $xml->title[1]->value .'</h2>';
+                ?>
+				<!--  
 				<h2>2 - Adicione processos para serem escalonados</h2>
+				-->
 			</div>
 		</div>	
 
@@ -91,7 +103,13 @@
 			<div class="col-md-5">
 				<!-- Menu para adicionar novos processos -->
 				<h4>Tempo de Execucao</h4>
+                <?php
+                	$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
+					echo '<input type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">';
+                ?>
+                <!--  
 				<input type="text" id='tempo_novo_processo' placeholder="Tempo de Execucao" onfocus="tempoExecucaoSelecionado()">			
+                -->
 			
 				<!-- Campo opcional para alguns algoritimos -->
 				<div>
@@ -102,11 +120,12 @@
 				<!-- CPU ou IO bound -->
 				<div>
 					<h4>Tipo do Processo</h4>
-					<p><input type="radio" name="bound" value="cpu" checked onclick="tipoSelecionado()">CPU bound</p>
-					<p><input type="radio" name="bound" value="io" onclick="tipoSelecionado()">I/O bound</p>
+					<p><input type="radio" name="bound" value="CPU bound" checked onclick="tipoSelecionado()">CPU bound</p>
+					<p><input type="radio" name="bound" value="I/O bound" onclick="tipoSelecionado()">I/O bound</p>
 				</div>			
 			
 				<button type="button" onclick="addProcesso()">Adicionar</button>
+				<button type="button" onclick="rmProcesso()">Remover</button>
 			</div>	
 			
 			<div class="col-md-7">
@@ -121,29 +140,12 @@
 		
 		<div class="row" style="background-color:gray">		
 			<div class="col-md-12">
-				<table style="width:100%">
+				<table style="width:100%" id="myTable">
 				  <tr>
 					<th>Nome</th>
 					<th>Tempo</th> 
 					<th>Tipo</th>
 				  </tr>
-				  <tr>
-					<td>A</td>
-					<td>100</td> 
-					<td>I/O bound</td>
-				  </tr>
-				  
-				  <tr>
-					<td>B</td>
-					<td>70</td> 
-					<td>CPU bound</td>
-				  </tr>
-
-				  <tr>
-					<td>C</td>
-					<td>120</td> 
-					<td>I/O bound</td>
-				  </tr>				  
 				</table>
 			</div>
 		</div>	
@@ -201,6 +203,15 @@
 				echo $descricao;
 		    	echo "</div>";
 			endforeach;
+			
+			foreach($xml->input as $item) {
+				$campo = $item['name'];
+				$valor = $item->value;
+				
+				echo "<div hidden=true id=\"" . $campo . "\">";
+				echo $valor;
+				echo "</div>";
+			}
 		?>
 		<!-- Script javascript para as funcoes -->
 		<script type="text/javascript" src="game.js"></script>		

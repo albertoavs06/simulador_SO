@@ -54,4 +54,25 @@
 		<description>your description here</description>
 	</second_section>
 
+	<!-- ########## Inputs ########## -->
+	<input name="execution_time">
+		<value>Execution Time between 0 and 100</value>
+	</input>
+
+	<input name="optional_field_tickets">
+		<value>Number of Tickets between 0 and 100</value>
+	</input>
+
+	<input name="optional_field_priority">
+		<value>Priority Level between 0 and 3</value>
+	</input>
+	
+	<!-- ########## Section Title ########## -->
+	<title name="section1">
+		<value>1 - Escolha o Algoritimo de Escalonamento</value>
+	</title>
+	
+	<title name="section2">
+		<value>2 - Adicione Processos para Serem Escalonados</value>
+	</title>
 </root>
