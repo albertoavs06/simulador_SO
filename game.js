@@ -18,7 +18,9 @@ function addProcesso() {
 	var tempo = document.getElementById('execution_time').value;
 	var valor_opcional = document.getElementById('valor_opcional').value;
 	var selecionado = $('input[name="bound"]:checked').val();	
+    var algoritimo = $('input[name="algoritimo"]:checked').val();	
 
+	// checa se e' um numero e se esta dentro dos limites 0 e 100
 	if(!isNumber(tempo) || tempo < 0 || tempo > 100) {
 		var campo = document.getElementById('execution_time');
 		var msg = document.getElementById('execution_time_error').innerHTML;
@@ -29,7 +31,6 @@ function addProcesso() {
 	}
 	
 	if(valor_opcional == "" || valor_opcional == null) {
-        var algoritimo = $('input[name="algoritimo"]:checked').val();	
 		if(algoritimo == "loteria" || algoritimo == "prioridade" || algoritimo == "filas multiplas") {
 			var campo = document.getElementById('valor_opcional');
 			var msg;
@@ -70,7 +71,17 @@ function addProcesso() {
 	cell1.innerHTML = name;
 	cell2.innerHTML = tempo;
 	cell3.innerHTML = selecionado;
-	cell1.style = "text-align:center";
+	
+	// se for algum desses tres algoritimos, tem uma coluna a mais
+	if(algoritimo == "loteria" || algoritimo == "prioridade" || algoritimo == "filas multiplas") {
+		var cell4 = row.insertCell(3);
+		cell4.innerHTML = valor_opcional;
+	}
+
+	// alinha todas as colunas
+	for(i = 0; i < row.cells.length; i++) {
+		row.cells[i].style = "text-align:center";
+	}
 }
 
 // remove o ultimo processo da lista
@@ -170,12 +181,39 @@ function selecionaAlgoritimo() {
 	desvantagens.innerHTML = nextDesvantagens;	
 	titulo_opcional.innerHTML = nextTitulo_opcional;	
 	
+	// reseta a tabela
 	var i;
 	var tabela = document.getElementById("myTable");
-	for(i = 0; i < processos.length; i++) {
-        tabela.deleteRow(1);
+	for(i = 0; i < processos.length + 1; i++) {
+        tabela.deleteRow(0);
 	}
 	processos = new Array();
+
+	// novo cabecalho
+	var row = tabela.insertRow(0);
+	
+	// cabecalho padrao de todos
+	var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+
+    // Add some text to the new cells:
+    cell1.innerHTML = 'Nome';
+    cell2.innerHTML = 'Tempo';
+    cell3.innerHTML = 'Tipo';
+	
+	// ajusta o cabecalho das colunas
+	if(selecionado == 'filas multiplas' || selecionado == 'prioridade') {
+		var cell4 = row.insertCell(3);
+		cell4.innerHTML = 'Prioridade';
+	} else if(selecionado == 'loteria') {
+		var cell4 = row.insertCell(3);
+		cell4.innerHTML = 'Numero de Tickets';
+	}
+	
+	for(i = 0; i < row.cells.length; i++) {
+		row.cells[i].style = "text-align:center";
+	}
 }
 
 function tempoExecucaoSelecionado() {
@@ -194,9 +232,17 @@ function valorOpcionalSelecionado() {
 	var titulo = document.getElementById('titulo_secao2');	
 	var descricao = document.getElementById('descricao_secao2');
 
-	var nextTitulo = document.getElementById('titulo_tempo_execucao').innerHTML;
-	var nextDescricao = document.getElementById('descricao_tempo_execucao').innerHTML;
+	var nextTitulo = null;
+	var nextDescricao = null;
 	
+	var selecionado = $('input[name="algoritimo"]:checked').val();
+	if(selecionado == 'loteria') {
+		nextTitulo = document.getElementById('titulo_lotery_value').innerHTML;
+		nextDescricao = document.getElementById('descricao_lotery_value').innerHTML;
+	} else {
+		nextTitulo = document.getElementById('titulo_priority_value').innerHTML;
+		nextDescricao = document.getElementById('descricao_priority_value').innerHTML;
+	}
 	titulo.innerHTML = nextTitulo;	
 	descricao.innerHTML = nextDescricao;		
 }

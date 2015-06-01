@@ -139,6 +139,20 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 			</div>
 		</div>	
 			
+		<!-- Simulacao -->
+		<div class="row" style="background-color:coral">	
+			<div class="col-md-12">
+				<h2>3 - Simulacao</h2>
+			</div>
+		</div>
+
+		<div class="row" style="background-color:coral">	
+			<div class="col-md-12">
+				<p>Para simular o algoritimo, clique no botao abaixo. Se voce adicionou processos em mais de um
+					algoritimo, uma comparacao entre os algoritimos sera feita em vez de simular passo a passo</p>
+			</div>
+		</div>
+		
 		<div class="row" style="background-color:coral">	
 			<div class="col-md-12">
 				<!-- Executar Simulacao -->

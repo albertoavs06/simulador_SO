@@ -54,6 +54,16 @@
 		<description>your description here</description>
 	</second_section>
 
+	<second_section name="lotery_value">
+		<title>Lotery</title>
+		<description>your description here</description>
+	</second_section>
+
+	<second_section name="priority_value">
+		<title>Priority</title>
+		<description>your description here</description>
+	</second_section>
+
 	<!-- ########## Inputs ########## -->
 	<input name="execution_time">
 		<value>Execution Time between 0 and 100</value>
@@ -76,7 +86,7 @@
 		<value>2 - Adicione Processos para Serem Escalonados</value>
 	</title>
 
-	<!-- ########## Section Title ########## -->
+	<!-- ########## Error messages ########## -->
 	<error name="execution_time_error">
 		<value>Execution Time must be between 0 and 100</value>
 	</error>
