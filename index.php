@@ -109,8 +109,8 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 				<!-- CPU ou IO bound -->
 				<div>
 					<h4>Tipo do Processo</h4>
-					<p><input type="radio" name="bound" value="CPU bound" checked onclick="tipoSelecionado()">CPU bound</p>
-					<p><input type="radio" name="bound" value="I/O bound" onclick="tipoSelecionado()">I/O bound</p>
+					<p><input type="radio" name="bound" value="cpu" checked onclick="tipoSelecionado()">CPU bound</p>
+					<p><input type="radio" name="bound" value="io" onclick="tipoSelecionado()">I/O bound</p>
 				</div>			
 			
 				<button type="button" onclick="addProcesso()">Adicionar</button>
@@ -157,7 +157,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 			<div class="col-md-12">
 				<!-- Executar Simulacao -->
 				<center>
-					<input type="submit" value="Executar Simulacao" style="width: 50%">
+					<input type="submit" value="Executar Simulacao" style="width: 50%" onclick="simular()">
 				</center>
 			</div>
 		</div>

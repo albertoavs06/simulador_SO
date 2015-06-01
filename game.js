@@ -4,6 +4,16 @@ window.onload=run;
 // executa quando a pagina carrega, uso para evitar inconsistencias em refreshes
 function run() {
 	selecionaAlgoritimo();
+	form = document.getElementById('myForm');
+	
+//	form.onsubmit = function (e) {
+//		e.preventDefault();
+//		
+//		var xhr = new XMLHttpRequest();
+//		xhr.open(form.method, form.action, true);
+//		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+//		xhr.send(JSON.stringfy({nome : 'marcelo'}));
+//	}
 }
 
 // lista de processos
@@ -282,7 +292,40 @@ function show(json) {
 //	);
 //}	
 function simular() {
-	$.getJSON("/simulador_SO/simulador.php",
-			{id : 567},
-			show);
+//	$.getJSON("simulador.php",
+//			{id : 567},
+//			show);
+//	$.post('simulador.php', {nome: 'marcelo'});
+	if(processos.length == 0) {
+		alert('nenhum processo para simular');
+	} else {
+// para mandar coisas pela url para outro javascript
+//		var str_json = {nome : 'marcelo'};
+//		
+//		request  = new XMLHttpRequest();
+//		request.open("POST", "teste.php", true);
+//		request.setRequestHeader("Content-type", "application/json");
+//		request.send(str_json);
+//
+//		window.location.href = 'teste.php';
+
+//		var msg = '';
+//
+//		for(var i = 0; i < processos.length; i++) {
+//			var processo = processos[i];
+//			var nome = processo['nome'];
+//			var tempo = processo['tempo'];
+//			var tipo = processo['tipo'];
+//			msg = msg + nome + ':' + tempo + ':' + tipo + '&';
+//		}
+//		msg = msg.substring(0, msg.length - 1);
+//
+//		window.location.href = "teste.php?" + msg;
+//		xhr.send(JSON.stringfy({nome : 'marcelo'}));
+//		window.location.href = "teste.php?value=" + JSON.stringify({nome : 'marcelo'});
+		
+		// para mandar coisas pela url como JSON
+		window.location.href = "teste.php?value=" + JSON.stringify(processos);
+	}
 }
+

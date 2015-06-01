@@ -1,24 +1,3 @@
-<?php
-// Prevent caching.
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
-
-// The JSON standard MIME header.
-header('Content-type: application/json');
-
-// This ID parameter is sent by our javascript client.
-$id = $_GET['id'];
-
-// Here's some data that we want to send via JSON.
-// We'll include the $id parameter so that we
-// can show that it has been passed in correctly.
-// You can send whatever data you like.
-$data = array("Hello", $id);
-
-// Send the data.
-echo json_encode($data);
-?>
-
 <!DOCTYPE html>
 
 <html>
@@ -156,6 +135,40 @@ echo json_encode($data);
 		</div>	
 		
 		</div><!-- Fim div container -->
+		<h1 id="teste_id"></h1>
+		<script type="text/javascript" src="simulador.js"></script>		
+<?php
+//$str_json = file_get_contents('php://input');		
+//echo '<h1> aqui' . $str_json . '</h1>';
+
+//// Prevent caching.
+//header('Cache-Control: no-cache, must-revalidate');
+//header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
+//
+// The JSON standard MIME header.
+header('Content-type: application/json');
+
+// This ID parameter is sent by our javascript client.
+$id = $_GET['id'];
+echo $_GET['nome'];
+
+// Here's some data that we want to send via JSON.
+// We'll include the $id parameter so that we
+// can show that it has been passed in correctly.
+// You can send whatever data you like.
+$data = array("Hello", $id);
+
+// Send the data.
+echo json_encode($data);
+echo $_POST['nome'];
+echo $_POST['id'];
+//
+//echo "comeca aqui";
+//foreach($xml->algorithm as $algoritimo):
+//	echo $algoritimo->title;
+//endforeach;
+//echo "termina aqui";
+?>
 </body>
 
 </html>
