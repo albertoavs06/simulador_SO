@@ -1,19 +1,25 @@
 // printf do javascript: console.log(selecionado);
 window.onload=run;
 
+// algoritimos
+var loteria;
+var filas;
+var prioridade;
+var round_robin;
+var proximo_mais_curto;
+
 // executa quando a pagina carrega, uso para evitar inconsistencias em refreshes
 function run() {
+	// inicializacao das variaveis com os valores dos radios buttons
+	round_robin = document.getElementById('valor_round_robin').innerHTML;
+	filas = document.getElementById('valor_queues').innerHTML;
+	prioridade = document.getElementById('valor_priority').innerHTML;
+	proximo_mais_curto = document.getElementById('valor_shortest').innerHTML;
+	loteria = document.getElementById('valor_lotery').innerHTML;
+
+	// inicializa a descricao do algoritimo selecionado
 	selecionaAlgoritimo();
 	form = document.getElementById('myForm');
-	
-//	form.onsubmit = function (e) {
-//		e.preventDefault();
-//		
-//		var xhr = new XMLHttpRequest();
-//		xhr.open(form.method, form.action, true);
-//		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-//		xhr.send(JSON.stringfy({nome : 'marcelo'}));
-//	}
 }
 
 // lista de processos
@@ -31,7 +37,7 @@ function addProcesso() {
     var algoritimo = $('input[name="algoritimo"]:checked').val();	
 
 	// checa se e' um numero e se esta dentro dos limites 0 e 100
-	if(!isNumber(tempo) || tempo < 0 || tempo > 100) {
+	if(!isNumber(tempo) || tempo <= 0 || tempo > 100) {
 		var campo = document.getElementById('execution_time');
 		var msg = document.getElementById('execution_time_error').innerHTML;
 		campo.value = "";
@@ -40,12 +46,14 @@ function addProcesso() {
 		return;
 	}
 	
-	if(valor_opcional == "" || valor_opcional == null) {
-		if(algoritimo == "loteria" || algoritimo == "prioridade" || algoritimo == "filas multiplas") {
+	// se for algum desses algoritimos, tem que ter valor no campo opcional
+	if(algoritimo == loteria || algoritimo == prioridade || algoritimo == filas) {
+		// se o campo esta vazio, mostra uma mensagem de erro
+		if(valor_opcional == "" || valor_opcional == null) {
 			var campo = document.getElementById('valor_opcional');
 			var msg;
 				
-			if(algoritimo == "loteria") {
+			if(algoritimo == loteria) {
 				msg = document.getElementById('missing_tickets').innerHTML;
 			} else {
 				msg = document.getElementById('missing_priority').innerHTML;
@@ -54,6 +62,20 @@ function addProcesso() {
 			campo.focus();
 			alert(msg);
 			return;
+		} 
+		// se o campo estiver preenchido, tem que ver se o valor esta dentro do esperado
+		else {
+			if(algoritimo == loteria) {
+				if(!isNumber(valor_opcional) || valor_opcional <= 0 || valor_opcional > 100) {
+					var msg = document.getElementById('missing_tickets').innerHTML;
+					alert(msg);
+				}
+			} else {
+				if(!isNumber(valor_opcional) || valor_opcional <= 0 || valor_opcional > 4) {
+					var msg = document.getElementById('missing_priority').innerHTML;
+					alert(msg);
+                }
+			}
 		}
 	}
 
@@ -83,7 +105,7 @@ function addProcesso() {
 	cell3.innerHTML = selecionado;
 	
 	// se for algum desses tres algoritimos, tem uma coluna a mais
-	if(algoritimo == "loteria" || algoritimo == "prioridade" || algoritimo == "filas multiplas") {
+	if(algoritimo == loteria || algoritimo == prioridade || algoritimo == filas) {
 		var cell4 = row.insertCell(3);
 		cell4.innerHTML = valor_opcional;
 	}
@@ -130,7 +152,7 @@ function selecionaAlgoritimo() {
 	var nextDesvantagens = "desvantagens";
 	var nextTitulo_opcional = "titulo opcional";
 	
-	if(selecionado == "round robin") {
+	if(selecionado == round_robin) {
 		segundo_campo_input.hidden = true;
 		titulo_opcional.hidden = true;
 		
@@ -139,7 +161,7 @@ function selecionaAlgoritimo() {
 		nextVantangens = document.getElementById('vantagens_round_robin').innerHTML;
 		nextDesvantagens = document.getElementById('desvantagens_round_robin').innerHTML;
 		
-	} else if(selecionado == 'proximo mais curto') {
+	} else if(selecionado == proximo_mais_curto) {
 		segundo_campo_input.hidden = true;
 		titulo_opcional.hidden = true;		
 		
@@ -148,7 +170,7 @@ function selecionaAlgoritimo() {
 		nextVantangens = document.getElementById('vantagens_shortest').innerHTML;
 		nextDesvantagens = document.getElementById('desvantagens_shortest').innerHTML;	
 		
-	} else if (selecionado == 'loteria') {
+	} else if (selecionado == loteria) {
 		segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;		
 		
@@ -160,7 +182,7 @@ function selecionaAlgoritimo() {
 		nextVantangens = document.getElementById('vantagens_lotery').innerHTML;
 		nextDesvantagens = document.getElementById('desvantagens_lotery').innerHTML;		
 		
-	} else if(selecionado == 'filas multiplas') {
+	} else if(selecionado == filas) {
 		segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;				
 		
@@ -172,7 +194,7 @@ function selecionaAlgoritimo() {
 		nextVantangens = document.getElementById('vantagens_queues').innerHTML;
 		nextDesvantagens = document.getElementById('desvantagens_queues').innerHTML;
 		
-	} else if(selecionado == 'prioridade') {
+	} else if(selecionado == prioridade) {
 		segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;				
 		
@@ -213,7 +235,7 @@ function selecionaAlgoritimo() {
     cell3.innerHTML = 'Tipo';
 	
 	// ajusta o cabecalho das colunas
-	if(selecionado == 'filas multiplas' || selecionado == 'prioridade') {
+	if(selecionado == filas || selecionado == prioridade) {
 		var cell4 = row.insertCell(3);
 		cell4.innerHTML = 'Prioridade';
 	} else if(selecionado == 'loteria') {

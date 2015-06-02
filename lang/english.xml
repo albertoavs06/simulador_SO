@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- do not change name field -->
+
 <root>
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round Robin</title>
+		<value>round_robin</value>	
 		<description>your description here</description>
 		<pros>pros?</pros>
 		<cons>cons?</cons>
@@ -11,6 +14,7 @@
 	
 	<algorithm name="queues">
 		<title>Multiple Queues</title>
+		<value>queues</value>		
 		<description>your description here</description>
 		<pros>pros?</pros>
 		<cons>cons?</cons>
@@ -18,6 +22,7 @@
 	
 	<algorithm name="priority">
 		<title>Priority</title>
+		<value>priority</value>		
 		<description>your description here</description>
 		<pros>pros?</pros>
 		<cons>cons?</cons>
@@ -25,6 +30,7 @@
 	
 	<algorithm name="shortest">
 		<title>Shortest First</title>
+		<value>shortest</value>		
 		<description>your description here</description>
 		<pros>pros?</pros>
 		<cons>cons?</cons>
@@ -32,6 +38,7 @@
 
 	<algorithm name="lotery">
 		<title>Lotery</title>
+		<value>lotery</value>	
 		<description>your description here</description>
 		<pros>pros?</pros>
 		<cons>cons?</cons>
@@ -64,20 +71,29 @@
 		<description>your description here</description>
 	</second_section>
 
+	<!-- ########## Third Section ########## -->
+	<third_section name="simulation_description">
+		<description>your description here</description>
+	</third_section>
+
 	<!-- ########## Inputs ########## -->
 	<input name="execution_time">
-		<value>Execution Time between 0 and 100</value>
+		<value>Execution Time between 1 and 100</value>
 	</input>
 
 	<input name="optional_field_tickets">
-		<value>Number of Tickets between 0 and 100</value>
+		<value>Number of Tickets between 1 and 100</value>
 	</input>
 
 	<input name="optional_field_priority">
-		<value>Priority Level between 0 and 3</value>
+		<value>Priority Level between 1 and 3</value>
 	</input>
 	
 	<!-- ########## Section Title ########## -->
+	<title name="header">
+		<value>Simulador: Escalonamento em Sistemas Interativos</value>
+	</title>
+
 	<title name="section1">
 		<value>1 - Escolha o Algoritimo de Escalonamento</value>
 	</title>
@@ -86,16 +102,21 @@
 		<value>2 - Adicione Processos para Serem Escalonados</value>
 	</title>
 
+	<title name="section3">
+		<value>3 - Simulacao</value>
+	</title>
+
 	<!-- ########## Error messages ########## -->
 	<error name="execution_time_error">
-		<value>Execution Time must be between 0 and 100</value>
+		<value>Execution Time must be between 1 and 100</value>
 	</error>
 
 	<error name="missing_tickets">
-		<value>Number of Tickets must be between 0 and 100</value>
+		<value>Number of Tickets must be between 1 and 100</value>
 	</error>
 
 	<error name="missing_priority">
-		<value>Priority must be between 0 and 3</value>
+		<value>Priority must be between 1 and 3</value>
 	</error>
+
 </root>

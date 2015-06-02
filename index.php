@@ -9,7 +9,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 
 <html>
 	<head>
-		<title>Simulador: Escalonamento em Sistemas Interativos</title>
+        <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<!-- <script src="jquery-2.1.4.min.js"></script> -->
 		
@@ -43,7 +43,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 			</div>
 			
 			<div class="col-md-10">
-				<h1>Escalonamento em Sistemas Interativos</h1>
+        		<?php echo '<h1>'. $xml->title[0]->value .'</h1>'; ?>
 				<h3>Marcelo Koti Kamada & Maria Lydia Fioravanti</h3>
 			</div>
 		</div>
@@ -51,7 +51,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 		<!-- Titulo da primeira secao -->
 		<div class="row">
 			<div class="col-md-12" style="background-color:lightblue">
-                <?php echo '<h2>'. $xml->title[0]->value .'</h2>'; ?>
+                <?php echo '<h2>'. $xml->title[1]->value .'</h2>'; ?>
 			</div>
 		</div>
 			
@@ -60,11 +60,21 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 		<div class="row">
 			<div class="row-eq-height">
 				<div class="col-md-5" style="background-color:lightblue">			
-					<p style="font-weight: bold;"><input type="radio" name="algoritimo" value="round robin" checked onclick="selecionaAlgoritimo()">Round Robin</p>
-					<p style="font-weight: bold;"><input type="radio" name="algoritimo" value="prioridade" onclick="selecionaAlgoritimo()">Prioridade</p>
-					<p style="font-weight: bold;"><input type="radio" name="algoritimo" value="filas multiplas" onclick="selecionaAlgoritimo()">Filas Multiplas</p>
-					<p style="font-weight: bold;"><input type="radio" name="algoritimo" value="proximo mais curto" onclick="selecionaAlgoritimo()">Proximo mais curto</p>
-					<p style="font-weight: bold;"><input type="radio" name="algoritimo" value="loteria" onclick="selecionaAlgoritimo()">Loteria</p>			
+					<?php 
+					$first = 0;
+
+					foreach($xml->algorithm as $item):
+						$value = $item->value;
+						$title = $item->title;
+					
+						if($first == 0) {
+							echo '<p style="font-weight: bold;"><input type="radio" name="algoritimo" checked value=' . $value . ' onclick="selecionaAlgoritimo()">' . $title . '</p>';
+							$first = 1;
+						} else {
+							echo '<p style="font-weight: bold;"><input type="radio" name="algoritimo" value=' . $value . ' onclick="selecionaAlgoritimo()">' . $title . '</p>';
+						}
+					endforeach;						
+					?>
 				</div>
 			
 				<div class="col-md-7" style="background-color:lightblue">
@@ -90,7 +100,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 		<!-- Titulo da segunda secao -->	
 		<div class="row" style="background-color:khaki">
 			<div class="col-md-12">
-                <?php echo '<h2>'. $xml->title[1]->value .'</h2>'; ?>
+                <?php echo '<h2>'. $xml->title[2]->value .'</h2>'; ?>
 			</div>
 		</div>	
 
@@ -142,14 +152,13 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 		<!-- Simulacao -->
 		<div class="row" style="background-color:coral">	
 			<div class="col-md-12">
-				<h2>3 - Simulacao</h2>
+                <?php echo '<h2>'. $xml->title[3]->value .'</h2>'; ?>
 			</div>
 		</div>
 
 		<div class="row" style="background-color:coral">	
 			<div class="col-md-12">
-				<p>Para simular o algoritimo, clique no botao abaixo. Se voce adicionou processos em mais de um
-					algoritimo, uma comparacao entre os algoritimos sera feita em vez de simular passo a passo</p>
+                <?php echo '<p>'. $xml->third_section[0]->description .'</p>'; ?>
 			</div>
 		</div>
 		
@@ -172,6 +181,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
     	            $descricao = $algoritimo->description;
     	            $vantagens = $algoritimo->pros;
     	            $desvantagens = $algoritimo->cons;
+    	            $valor = $algoritimo->value;
     	            
     	            echo "<div hidden=true id=\"titulo_" . $campo . "\">";
     	            echo $titulo;
@@ -187,6 +197,10 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
     	            
     	            echo "<div hidden=true id=\"desvantagens_" . $campo . "\">";
     	            echo $desvantagens;
+    	            echo "</div>";
+
+    	            echo "<div hidden=true id=\"valor_" . $campo . "\">";
+    	            echo $valor;
     	            echo "</div>";
     	    endforeach;
 		
@@ -204,7 +218,8 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 				echo $descricao;
 		    	echo "</div>";
 			endforeach;
-			
+
+			// ################### placeholder dos campos de input ###################
 			foreach($xml->input as $item) {
 				$campo = $item['name'];
 				$valor = $item->value;
@@ -214,6 +229,7 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 				echo "</div>";
 			}
 			
+			// ################### mensagens de erro ###################
 			foreach($xml->error as $item) {
 				$campo = $item['name'];
 				$valor = $item->value;
