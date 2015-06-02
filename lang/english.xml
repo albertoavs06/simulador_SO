@@ -119,4 +119,28 @@
 		<value>Priority must be between 1 and 3</value>
 	</error>
 
+	<error name="no_process">
+		<value>No process to simulate</value>
+	</error>
+
+	<!-- ########## Table headers ########## -->
+	<table_header name="name">
+		<value>Name</value>
+	</table_header>
+
+	<table_header name="type">
+		<value>Type</value>
+	</table_header>
+
+	<table_header name="time">
+		<value>Time</value>
+	</table_header>
+
+	<table_header name="tickets">
+		<value>Number of Tickets</value>
+	</table_header>
+
+	<table_header name="priority">
+		<value>Priority</value>
+	</table_header>
 </root>

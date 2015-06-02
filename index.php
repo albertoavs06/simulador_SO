@@ -3,8 +3,23 @@
 // restart no apache
 // sudo systemctl restart apache2
 
+// verifica a lingua da pagina
+$lang_file;
+$lingua = $_GET['lang'];
+
+if($lingua == null || !strcmp($lingua, "")) {
+	$lang_file = "lang/english.xml";	// padrao
+	$lingua = "en";
+} else {
+	if(!strcmp($lingua, "en")) {
+		$lang_file = "lang/english.xml";
+	} else if(!strcmp($lingua, "pt")) {
+		$lang_file = "lang/portugues.xml";
+	}
+}
+
 // carrega o arquivo de configuracoes xml
-$xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create object");
+$xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 ?>
 
 <html>
@@ -46,6 +61,23 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
         		<?php echo '<h1>'. $xml->title[0]->value .'</h1>'; ?>
 				<h3>Marcelo Koti Kamada & Maria Lydia Fioravanti</h3>
 			</div>
+		</div>
+
+		<div style="float:right">
+			<?php 
+				$en = "";
+				$pt = "";
+				if(!strcmp($lingua, "en")) {
+					$en = 'style="text-decoration: underline"';
+					echo '<p>Language';
+				} else {
+					$pt = 'style="text-decoration: underline"';
+					echo '<p>Idioma';
+				}
+				echo '	<a href="index.php?lang=pt"'. $pt . '>Portugues</a>
+						<a href="index.php?lang=en"'. $en . '>English</a>
+					</p>';
+			?>
 		</div>
 
 		<!-- Titulo da primeira secao -->
@@ -231,6 +263,16 @@ $xml = simplexml_load_file("lang/english.xml") or die("Error: Cannot create obje
 			
 			// ################### mensagens de erro ###################
 			foreach($xml->error as $item) {
+				$campo = $item['name'];
+				$valor = $item->value;
+				
+				echo "<div hidden=true id=\"" . $campo . "\">";
+				echo $valor;
+				echo "</div>";
+			}
+
+			// ################### cabecalho da tabela ###################
+			foreach($xml->table_header as $item) {
 				$campo = $item['name'];
 				$valor = $item->value;
 				

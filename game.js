@@ -30,7 +30,7 @@ function run() {
 	processos[loteria] = new Array();
 
 	// inicializa a descricao do algoritimo selecionado
-	old_selecionado = round_robin;
+	//old_selecionado = round_robin;
 	selecionaAlgoritimo();
 	form = document.getElementById('myForm');
 }
@@ -241,17 +241,17 @@ function selecionaAlgoritimo() {
     var cell3 = row.insertCell(2);
 
     // Add some text to the new cells:
-    cell1.innerHTML = 'Nome';
-    cell2.innerHTML = 'Tempo';
-    cell3.innerHTML = 'Tipo';
+    cell1.innerHTML = document.getElementById('name').innerHTML;
+    cell2.innerHTML = document.getElementById('time').innerHTML;
+    cell3.innerHTML = document.getElementById('type').innerHTML;
 	
 	// ajusta o cabecalho das colunas
 	if(selecionado == filas || selecionado == prioridade) {
 		var cell4 = row.insertCell(3);
-		cell4.innerHTML = 'Prioridade';
-	} else if(selecionado == 'loteria') {
+		cell4.innerHTML = document.getElementById('priority').innerHTML;
+	} else if(selecionado == loteria) {
 		var cell4 = row.insertCell(3);
-		cell4.innerHTML = 'Numero de Tickets';
+		cell4.innerHTML = document.getElementById('tickets').innerHTML;
 	}
 	
 	for(i = 0; i < row.cells.length; i++) {
@@ -342,27 +342,51 @@ function tipoSelecionado() {
 
 function simular() {
 	
-	var count = 0;
+	var mensagem = "";
+	var flag = 0;
 	
-	if(processos[round_robin].length == 0) 	{ count++; }
-	if(processos[loteira].length == 0) 		{ count++; }
-	if(processos[filas].length == 0) 		{ count++; }
-	if(processos[prioridade] == 0) 			{ count++; }
-	if(processos[proximo_mais_curto] == 0) 	{ count++; }
-
-	if(count == 5) {
-		alert('nenhum processo para simular');
+	if(processos[round_robin].length != 0) 	{ 
+		mensagem = mensagem + "round_robin=" + JSON.stringify(processos[round_robin]) + "&";
+		flag = 1;
 	} else {
-		// so tem um, simula
-		if(count == 1) {
-			
-		} 
-		// tem mais de um, comapara
-		else {
-			
-		}
+		mensagem = mensagem + "round_robin=null&";
+	}
+
+	if(processos[loteria].length != 0) { 
+		mensagem = mensagem + "lotery=" + JSON.stringify(processos[loteria]) + "&";
+		flag = 1;
+	} else {
+		mensagem = mensagem + "lotery=null&";
+	}
+
+	if(processos[filas].length != 0) { 
+		mensagem = mensagem + "queues=" + JSON.stringify(processos[filas]) + "&";
+		flag = 1;
+	} else {
+		mensagem = mensagem + "queues=null&";
+	}
+
+	if(processos[prioridade].length != 0) { 
+		mensagem = mensagem + "priority=" + JSON.stringify(processos[prioridade]) + "&";
+		flag = 1;
+	} else {
+		mensagem = mensagem + "priority=null&";
+	}
+
+	if(processos[proximo_mais_curto] != 0) 	{ 
+		mensagem = mensagem + "shortest=" + JSON.stringify(processos[proximo_mais_curto]) + "&";
+		flag = 1;
+	} else {
+		mensagem = mensagem + "shortest=null&";
+	}
+
+	if(flag == 0) {
+		var error = document.getElementById('no_process').innerHTML;
+		alert(error);
+	} else {
 		// para mandar coisas pela url como JSON
-		window.location.href = "teste.php?value=" + JSON.stringify(processos);
+		mensagem = mensagem.substring(0, mensagem.length-1);
+		window.location.href = "teste.php?" + mensagem;
 	}
 }
 
