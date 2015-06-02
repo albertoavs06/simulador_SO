@@ -22,26 +22,7 @@
 			echo '<p>' . $processo['nome'] . " " . $processo['tempo'] . '</p>';
 			
 		}
-//		$obj = json_decode($json);
-//		foreach($obj as $key => $value) {
-//			echo '<p>' . $key . " " . $value . "</p>";
-//		}
-		
-//		$someJSON = '[{"nome":"A","tempo":"1","tipo":"cpu","valor":""},{"nome":"B","tempo":"1","tipo":"cpu","valor":""},{"nome":"C","tempo":"1","tipo":"cpu","valor":""},{"nome":"D","tempo":"1","tipo":"cpu","valor":""}]';
-//		// JSON string
-//		//$someJSON = '[{"name":"Jonathan Suh","gender":"male"},{"name":"William Philbin","gender":"male"},{"name":"Allison McKinnery","gender":"female"}]';
-//		
-//		// Convert JSON string to Array
-//		$someArray = json_decode($someJSON, true);
-//		foreach($someArray as $item) {
-//			echo $item["nome"];
-//			echo $item['tempo'];
-//		}
-//		//echo $someArray[0]["name"]; // Access Array data
-//		
-//		// Convert JSON string to Object
-//		$someObject = json_decode($someJSON);
-//		echo $someObject[0]->name; // Access Object data
+
 	?>
 </body>
 </html>

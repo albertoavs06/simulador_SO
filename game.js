@@ -1,5 +1,10 @@
 // printf do javascript: console.log(selecionado);
+// sudo apt-get install spyder3
 window.onload=run;
+
+// lista de processos
+var processos = new Array();
+var old_selecionado;
 
 // algoritimos
 var loteria;
@@ -17,24 +22,27 @@ function run() {
 	proximo_mais_curto = document.getElementById('valor_shortest').innerHTML;
 	loteria = document.getElementById('valor_lotery').innerHTML;
 
+	// cada algoritimo e' uma lista e processos e' uma lista com as listas de processos dos algoritimos
+	processos[round_robin] = new Array();
+	processos[filas] = new Array();
+	processos[prioridade] = new Array();
+	processos[proximo_mais_curto] = new Array();
+	processos[loteria] = new Array();
+
 	// inicializa a descricao do algoritimo selecionado
+	old_selecionado = round_robin;
 	selecionaAlgoritimo();
 	form = document.getElementById('myForm');
 }
 
-// lista de processos
-var processos = new Array();
-
-var old_selecionado = "round robin";
-
 // adicionar um novo processo na lista
 function addProcesso() {
 	
-	var name = String.fromCharCode(65 + processos.length); // 65 = 'A'
 	var tempo = document.getElementById('execution_time').value;
 	var valor_opcional = document.getElementById('valor_opcional').value;
 	var selecionado = $('input[name="bound"]:checked').val();	
-    var algoritimo = $('input[name="algoritimo"]:checked').val();	
+	var algoritimo = $('input[name="algoritimo"]:checked').val();	
+	var name = String.fromCharCode(65 + processos[algoritimo].length); // 65 = 'A'
 
 	// checa se e' um numero e se esta dentro dos limites 0 e 100
 	if(!isNumber(tempo) || tempo <= 0 || tempo > 100) {
@@ -86,13 +94,13 @@ function addProcesso() {
 		valor : valor_opcional		// pode ser o tempo de execucao, prioridade
 	};
 	
-	processos.push(processo);
+	processos[algoritimo].push(processo);
 
 	// ############# Insercao na Tabela #################
 	var table = document.getElementById("myTable");
 
 	// Create an empty <tr> element and add it to the 1st position of the table:
-	var row = table.insertRow(processos.length);
+	var row = table.insertRow(processos[algoritimo].length);
 
 	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 	var cell1 = row.insertCell(0);
@@ -118,10 +126,12 @@ function addProcesso() {
 
 // remove o ultimo processo da lista
 function rmProcesso() {
-	if(processos.length > 0) {
-        processos.pop();
+	var algoritimo = $('input[name="algoritimo"]:checked').val();
+
+	if(processos[algoritimo].length > 0) {
+        processos[algoritimo].pop();
 //        document.getElementById("myTable").deleteRow(processos.lenght-1);
-        document.getElementById("myTable").deleteRow(processos.length+1);
+        document.getElementById("myTable").deleteRow(processos[algoritimo].length+1);
 	}
 }
 
@@ -136,7 +146,6 @@ function selecionaAlgoritimo() {
 	if(selecionado == old_selecionado) {
 		return;
 	}
-	old_selecionado = selecionado;
 	
 	var segundo_campo_input = document.getElementById('valor_opcional');
 	var titulo_opcional = document.getElementById('titulo_opcional');
@@ -216,10 +225,12 @@ function selecionaAlgoritimo() {
 	// reseta a tabela
 	var i;
 	var tabela = document.getElementById("myTable");
-	for(i = 0; i < processos.length + 1; i++) {
+	
+	var nrows = tabela.rows.length;
+	for(i = 0; i < nrows; i++) {
         tabela.deleteRow(0);
 	}
-	processos = new Array();
+	//processos = new Array();
 
 	// novo cabecalho
 	var row = tabela.insertRow(0);
@@ -246,6 +257,33 @@ function selecionaAlgoritimo() {
 	for(i = 0; i < row.cells.length; i++) {
 		row.cells[i].style = "text-align:center";
 	}
+
+	// agora insere de volta os processos desse algoritimo
+	for(i = 0; i < processos[selecionado].length; i++) {
+		var insert_point = tabela.rows.length;
+		var row = tabela.insertRow(insert_point); // ?
+
+		var cell1 = row.insertCell(0);
+    	var cell2 = row.insertCell(1);
+    	var cell3 = row.insertCell(2);
+
+    	var processo = processos[selecionado][i];
+    	cell1.innerHTML = processo.nome;
+   		cell2.innerHTML = processo.tempo;
+   		cell3.innerHTML = processo.tipo;
+	
+   		// se for algum desses tres algoritimos, tem uma coluna a mais
+   		if(selecionado == loteria || selecionado == prioridade || selecionado == filas) {
+   			var cell4 = row.insertCell(3);
+   			cell4.innerHTML = processo.valor_opcional;
+   		}
+
+   		// alinha todas as colunas
+   		for(var j = 0; j < row.cells.length; j++) {
+   			row.cells[j].style = "text-align:center";
+   		}
+	}
+	old_selecionado = selecionado;
 }
 
 function tempoExecucaoSelecionado() {
@@ -302,50 +340,27 @@ function tipoSelecionado() {
 	descricao.innerHTML = nextDescricao;		
 }
 
-function show(json) {
-	alert(json);
-}
-//
-//function run() {
-//	$.getJSON(
-//			"/server_test.php", // The server URL 
-//			{ id: 567 }, // Data you want to pass to the server.
-//			show // The function to call on completion.
-//	);
-//}	
 function simular() {
-//	$.getJSON("simulador.php",
-//			{id : 567},
-//			show);
-//	$.post('simulador.php', {nome: 'marcelo'});
-	if(processos.length == 0) {
+	
+	var count = 0;
+	
+	if(processos[round_robin].length == 0) 	{ count++; }
+	if(processos[loteira].length == 0) 		{ count++; }
+	if(processos[filas].length == 0) 		{ count++; }
+	if(processos[prioridade] == 0) 			{ count++; }
+	if(processos[proximo_mais_curto] == 0) 	{ count++; }
+
+	if(count == 5) {
 		alert('nenhum processo para simular');
 	} else {
-// para mandar coisas pela url para outro javascript
-//		var str_json = {nome : 'marcelo'};
-//		
-//		request  = new XMLHttpRequest();
-//		request.open("POST", "teste.php", true);
-//		request.setRequestHeader("Content-type", "application/json");
-//		request.send(str_json);
-//
-//		window.location.href = 'teste.php';
-
-//		var msg = '';
-//
-//		for(var i = 0; i < processos.length; i++) {
-//			var processo = processos[i];
-//			var nome = processo['nome'];
-//			var tempo = processo['tempo'];
-//			var tipo = processo['tipo'];
-//			msg = msg + nome + ':' + tempo + ':' + tipo + '&';
-//		}
-//		msg = msg.substring(0, msg.length - 1);
-//
-//		window.location.href = "teste.php?" + msg;
-//		xhr.send(JSON.stringfy({nome : 'marcelo'}));
-//		window.location.href = "teste.php?value=" + JSON.stringify({nome : 'marcelo'});
-		
+		// so tem um, simula
+		if(count == 1) {
+			
+		} 
+		// tem mais de um, comapara
+		else {
+			
+		}
 		// para mandar coisas pela url como JSON
 		window.location.href = "teste.php?value=" + JSON.stringify(processos);
 	}
