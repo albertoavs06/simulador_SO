@@ -69,13 +69,11 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				$pt = "";
 				if(!strcmp($lingua, "en")) {
 					$en = 'style="text-decoration: underline"';
-					echo '<p>Language';
 				} else {
 					$pt = 'style="text-decoration: underline"';
-					echo '<p>Idioma';
 				}
-				echo '	<a href="index.php?lang=pt"'. $pt . '>Portugues</a>
-						<a href="index.php?lang=en"'. $en . '>English</a>
+				echo '<p><a href="index.php?lang=pt"'. $pt . '>Portugues</a>
+						 <a href="index.php?lang=en"'. $en . '>English</a>
 					</p>';
 			?>
 		</div>
@@ -112,11 +110,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				<div class="col-md-7" style="background-color:lightblue">
 					<!-- Breve descricao do algoritimo-->
 					<h4 id="titulo_algoritimo">Round Robin</h4>
-					<p id="descricao_algoritimo">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain 
-							was born and I will give you a complete account of the system, and expound the actual 
-							teachings of the great explorer of the truth, the master-builder of human happiness. 
-							No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because
-					</p>
+					<p id="descricao_algoritimo"></p>
 					
 					<!-- Suas vantanges-->
 					<h4>Vantagens</h4>
@@ -139,8 +133,10 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row" style="background-color:khaki">
 			<div class="col-md-5">
 				<!-- Menu para adicionar novos processos -->
-				<h4>Tempo de Execucao</h4>
-                <?php echo '<input type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">'; ?>
+                <?php 
+                echo '<h4>' . $xml->second_section[0]->title . '</h4>';
+                echo '<input type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">'; 
+                ?>
 			
 				<!-- Campo opcional para alguns algoritimos -->
 				<div>
@@ -150,7 +146,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			
 				<!-- CPU ou IO bound -->
 				<div>
-					<h4>Tipo do Processo</h4>
+					<?php echo '<h4>' . $xml->second_section[1]->title . '</h4>'; ?>
 					<p><input type="radio" name="bound" value="cpu" checked onclick="tipoSelecionado()">CPU bound</p>
 					<p><input type="radio" name="bound" value="io" onclick="tipoSelecionado()">I/O bound</p>
 				</div>			
@@ -161,26 +157,44 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			
 			<div class="col-md-7">
 				<h4 id="titulo_secao2">Titulo</h4>
-				<p id="descricao_secao2">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain 
-						was born and I will give you a complete account of the system, and expound the actual 
-						teachings of the great explorer of the truth, the master-builder of human happiness. 
-						No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because
-				</p>				
+				<p id="descricao_secao2"></p>				
 			</div>	
 		</div>
 		
 		<div class="row" style="background-color:khaki">		
 			<div class="col-md-12">
-				<table style="width:100%" id="myTable">
-				  <tr>
-					<th>Nome</th>
-					<th>Tempo</th> 
-					<th>Tipo</th>
-				  </tr>
-				</table>
+				<table style="width:100%" id="myTable"> </table>
 			</div>
 		</div>	
 			
+		<!-- Parametros Globais de Simulacao -->
+		<div class="row" style="background-color:yellow">	
+			<div class="col-md-12">
+				<h2>Parametros Globais de Simulacao</h2>
+			</div>
+		</div>
+
+		<div class="row" style="background-color:yellow">
+			<div class="col-md-5">
+				<h4>Quantum</h4>
+				<input type="text" id="" placeholder="" onfocus="">
+			
+				<h4>Custo de Switch</h4>
+				<input type="text" id="" placeholder="" onfocus="">
+			
+				<h4>Tempo de Processamento para I/O bound</h4>
+				<input type="text" id="" placeholder="" onfocus="">
+
+				<h4>Tempo de I/O</h4>
+				<input type="text" id="" placeholder="" onfocus="">
+			</div>	
+			
+			<div class="col-md-7">
+				<h4 id="titulo_secao3">Titulo</h4>
+				<p id="descricao_secao3"></p>				
+			</div>	
+		</div>
+
 		<!-- Simulacao -->
 		<div class="row" style="background-color:coral">	
 			<div class="col-md-12">

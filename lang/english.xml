@@ -50,6 +50,11 @@
 		<title>Tempo de Execucao</title>
 		<description>your description here</description>
 	</second_section>
+
+	<second_section name="process_type">
+		<title>Tipo do Processo</title>
+		<description>none</description>
+	</second_section>
 	
 	<second_section name="cpu_bound">
 		<title>CPU bound</title>

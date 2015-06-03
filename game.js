@@ -1,5 +1,6 @@
 // printf do javascript: console.log(selecionado);
 // sudo apt-get install spyder3
+//http://getbootstrap.com/javascript/#collapse
 window.onload=run;
 
 // lista de processos
