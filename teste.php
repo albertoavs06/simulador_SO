@@ -8,6 +8,13 @@
 //  para que fique visivel o que eu estou passando
 //  para nao quebrar quando o cara clicar no botao de voltar
 
+// para dar parse no output do round robin
+// <?php
+// parse_str("name=Peter&age=43");
+// echo $name."<br>";
+// echo $age;
+// >
+
 // recupera os valores da URL
 $round_robin = $_GET['round_robin'];
 $lotery = $_GET['lotery'];
