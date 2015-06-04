@@ -19,6 +19,15 @@ $shortest = $_GET['shortest'];
 if($round_robin == null || $lotery == null || $priority == null || $queues == null || $shortest == null) {
 	header('Location: '.'index.php');
 }
+
+$quantum = $_GET['quantum'];
+$switch = $_GET['switch'];
+$io_time = $_GET['io_time'];
+$until_io = $_GET['until_io'];
+
+if($quantum == null || $switch == null || $io_time == null || $until_io == null) {
+	header('Location: '.'index.php');
+}
 ?>
 
 <html>
@@ -34,7 +43,7 @@ if($round_robin == null || $lotery == null || $priority == null || $queues == nu
 	// para conseguir adicionar a lingua no meio do json
 	$params = array_merge($_GET, array("test" => "testvalue"));
 	$new_query_string = http_build_query($params);
-	echo "<p>" . urldecode($new_query_string) . "</p";
+	echo "<p>" . urldecode($new_query_string) . "</p>";
 	
 // para decodificar um json em php
 //	if(!strcmp($round_robin, "null")) {
@@ -54,9 +63,10 @@ if($round_robin == null || $lotery == null || $priority == null || $queues == nu
 //	echo '</p>';
 
 	// executa o round robin, guardando o stdout em $retorno
-	exec("engine/round_robin/main.py -d engine/round_robin/en.xml -j '" . $round_robin . "' -q 5 -s 1 -i 5 -p 1", $retorno);
+	$command = "engine/round_robin/main.py -d engine/round_robin/en.xml -j '" . $round_robin . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+	exec($command, $retorno);
 	
-	echo '<p>' ."engine/round_robin/main.py -d engine/round_robin/en.xml -j '" . $round_robin . "' -q 5 -s 1 -i 5 -p 1" . '</p>';
+	echo '<p>' . $command . '</p>';
 	
 	$mensagens = array();
 	$estados = array();

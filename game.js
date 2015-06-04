@@ -163,7 +163,7 @@ function selecionaAlgoritimo() {
 	var nextTitulo_opcional = "titulo opcional";
 	
 	if(selecionado == round_robin) {
-		segundo_campo_input.hidden = true;
+		segundo_campo_input.style = "display:none";
 		titulo_opcional.hidden = true;
 		
 		nextTitulo = document.getElementById('titulo_round_robin').innerHTML;
@@ -172,7 +172,8 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_round_robin').innerHTML;
 		
 	} else if(selecionado == proximo_mais_curto) {
-		segundo_campo_input.hidden = true;
+		segundo_campo_input.style = "display:none";
+		//segundo_campo_input.hidden = true;
 		titulo_opcional.hidden = true;		
 		
 		nextTitulo = document.getElementById('titulo_shortest').innerHTML;
@@ -181,7 +182,8 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_shortest').innerHTML;	
 		
 	} else if (selecionado == loteria) {
-		segundo_campo_input.hidden = false;
+		segundo_campo_input.style = "display:block";
+		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;		
 		
 		nextTitulo_opcional = "Numero de Tickets";
@@ -193,7 +195,8 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_lotery').innerHTML;		
 		
 	} else if(selecionado == filas) {
-		segundo_campo_input.hidden = false;
+		segundo_campo_input.style = "display:block";
+		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;				
 		
 		nextTitulo_opcional = "Prioridade na Fila";		
@@ -205,7 +208,8 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_queues').innerHTML;
 		
 	} else if(selecionado == prioridade) {
-		segundo_campo_input.hidden = false;
+		segundo_campo_input.style = "display:block";
+		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;				
 		
 		nextTitulo_opcional = "Prioridade na Fila";		
@@ -369,9 +373,28 @@ function tipoSelecionado() {
 }
 
 function simular() {
-	
 	var mensagem = "";
 	var flag = 0;
+
+	var lista_inputs = new Array();
+	lista_inputs.push(document.getElementById('quantum'));
+	lista_inputs.push(document.getElementById('switch'));
+	lista_inputs.push(document.getElementById('io_time'));
+	lista_inputs.push(document.getElementById('until_io'));
+
+	for(var i = 0; i < lista_inputs.length; i++) {
+		var valor = lista_inputs[i].value;
+		if(valor == "" || valor == null) {
+			alert('Todos os parametros de simulacao devem ter valor');
+			return;
+		}
+		else if(!isNumber(valor) || valor <= 0 || valor > 100) {
+			alert('Os parametros de simulacao devem ser inteiros entre 1 e 99');
+			return;
+		} else {
+			mensagem = mensagem + lista_inputs[i].id + "=" + JSON.stringify(valor) + "&";
+		}
+	}
 	
 	if(processos[round_robin].length != 0) 	{ 
 		mensagem = mensagem + "round_robin=" + JSON.stringify(processos[round_robin]) + "&";

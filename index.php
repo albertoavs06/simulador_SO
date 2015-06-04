@@ -188,7 +188,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 					<input class="form-control" type="text" id="io_time" placeholder="<?php echo $xml->input[5]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
 	
 					<h4> <?php echo '<p>'. $xml->third_section[3]->title .'</p>'; ?> </h4>
-					<input class="form-control" type="text" id="until_io" placeholder="<?php echo $xml->input[6]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
+					<input class="form-control" type="text" id="until_io" placeholder="<?php echo $xml->input[3]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
 				</div>	
 				
 				<div class="col-md-7">
