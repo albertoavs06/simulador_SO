@@ -77,7 +77,28 @@
 	</second_section>
 
 	<!-- ########## Third Section ########## -->
+	<third_section name="quantum">
+		<title>Quantum</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="switch_cost">
+		<title>Switch Cost</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="io_time">
+		<title>Time of one I/O operation</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="processing_until_io">
+		<title>Average processing time until I/O</title>
+		<description>your description here</description>
+	</third_section>
+
 	<third_section name="simulation_description">
+		<title></title>
 		<description>your description here</description>
 	</third_section>
 
@@ -93,7 +114,23 @@
 	<input name="optional_field_priority">
 		<value>Priority Level between 1 and 3</value>
 	</input>
+
+	<input name="quantum">
+		<value>quantum ???</value>
+	</input>
+
+	<input name="switch_cost">
+		<value>switch cost ???</value>
+	</input>
 	
+	<input name="io_time">
+		<value>io time ???</value>
+	</input>
+
+	<input name="processing_until_io">
+		<value>processing until io ???</value>
+	</input>
+
 	<!-- ########## Section Title ########## -->
 	<title name="header">
 		<value>Simulador: Escalonamento em Sistemas Interativos</value>
@@ -108,7 +145,11 @@
 	</title>
 
 	<title name="section3">
-		<value>3 - Simulacao</value>
+		<value>3 - Parametros Globais de Simulacao (opcional)</value>
+	</title>
+
+	<title name="section4">
+		<value>4 - Simulacao</value>
 	</title>
 
 	<!-- ########## Error messages ########## -->
@@ -148,4 +189,5 @@
 	<table_header name="priority">
 		<value>Priority</value>
 	</table_header>
+	
 </root>

@@ -170,8 +170,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row" style="background-color:#ffaf4b ">	
 			<div class="col-md-12">
 				<h2 style="cursor:pointer;" data-toggle="collapse" data-target="#abc">
-				Parametros Globais de Simulacao (Opcional)
-				</a>
+                <?php echo $xml->title[3]->value; ?>
 				</h2>
 			</div>
 		</div>
@@ -179,17 +178,17 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div id="abc" class="collapse">
 			<div class="row" style="background-color:#ffaf4b">
 				<div class="col-md-5">
-					<h4>Quantum</h4>
-					<input type="text" id="" placeholder="" onfocus="">
+					<h4> <?php echo '<p>'. $xml->third_section[0]->title .'</p>'; ?> </h4>
+					<input class="form-control" type="text" id="quantum" placeholder="<?php echo $xml->input[3]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
 				
-					<h4>Custo de Switch</h4>
-					<input type="text" id="" placeholder="" onfocus="">
+					<h4> <?php echo '<p>'. $xml->third_section[1]->title .'</p>'; ?> </h4>
+					<input class="form-control" type="text" id="switch" placeholder="<?php echo $xml->input[4]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
 				
-					<h4>Tempo de Processamento para I/O bound</h4>
-					<input type="text" id="" placeholder="" onfocus="">
+					<h4> <?php echo '<p>'. $xml->third_section[2]->title .'</p>'; ?> </h4>
+					<input class="form-control" type="text" id="io_time" placeholder="<?php echo $xml->input[5]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
 	
-					<h4>Tempo de I/O</h4>
-					<input type="text" id="" placeholder="" onfocus="">
+					<h4> <?php echo '<p>'. $xml->third_section[3]->title .'</p>'; ?> </h4>
+					<input class="form-control" type="text" id="until_io" placeholder="<?php echo $xml->input[6]->value ?>" onfocus="terceiraSecaoSelecionada(this);">
 				</div>	
 				
 				<div class="col-md-7">
@@ -202,13 +201,13 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<!-- Simulacao -->
 		<div class="row" style="background-color:#b0d4e3">	
 			<div class="col-md-12">
-                <?php echo '<h2>'. $xml->title[3]->value .'</h2>'; ?>
+                <?php echo '<h2>'. $xml->title[4]->value .'</h2>'; ?>
 			</div>
 		</div>
 
 		<div class="row" style="background-color:#b0d4e3">	
 			<div class="col-md-12">
-                <?php echo '<p>'. $xml->third_section[0]->description .'</p>'; ?>
+                <?php echo '<p>'. $xml->third_section[4]->description .'</p>'; ?>
 			</div>
 		</div>
 		
@@ -256,6 +255,21 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		
 			// ################### Descricoes da segunda secao ###################
 		    foreach($xml->second_section as $item):
+		    	$campo = $item['name'];
+		    	$titulo = $item->title;
+		    	$descricao = $item->description;
+		    	
+		    	echo "<div hidden=true id=\"titulo_" . $campo . "\">";
+		    	echo $titulo;
+		    	echo "</div>";
+					
+				echo "<div hidden=true id=\"descricao_" . $campo . "\">";
+				echo $descricao;
+		    	echo "</div>";
+			endforeach;
+
+			// ################### Descricoes da terceira secao ###################
+		    foreach($xml->third_section as $item):
 		    	$campo = $item['name'];
 		    	$titulo = $item->title;
 		    	$descricao = $item->description;

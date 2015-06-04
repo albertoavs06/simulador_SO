@@ -298,6 +298,33 @@ function tempoExecucaoSelecionado() {
 	descricao.innerHTML = nextDescricao;		
 }
 
+function terceiraSecaoSelecionada(element) {
+	var id = element.id;
+
+	var titulo = document.getElementById('titulo_secao3');	
+	var descricao = document.getElementById('descricao_secao3');
+
+	var nextTitulo;
+	var nextDescricao;
+
+	if(id == "quantum") {
+		nextTitulo = document.getElementById('titulo_quantum').innerHTML;
+		nextDescricao = document.getElementById('descricao_quantum').innerHTML;
+	} else if(id == "switch") {
+		nextTitulo = document.getElementById('titulo_switch_cost').innerHTML;
+		nextDescricao = document.getElementById('descricao_switch_cost').innerHTML;
+	} else if(id == "io_time") {
+		nextTitulo = document.getElementById('titulo_io_time').innerHTML;
+		nextDescricao = document.getElementById('descricao_io_time').innerHTML;
+	} else if(id == "until_io") {
+		nextTitulo = document.getElementById('titulo_processing_until_io').innerHTML;
+		nextDescricao = document.getElementById('descricao_processing_until_io').innerHTML;
+	}
+	
+	titulo.innerHTML = nextTitulo;	
+	descricao.innerHTML = nextDescricao;		
+}
+
 // falta fazer
 function valorOpcionalSelecionado() {
 	var titulo = document.getElementById('titulo_secao2');	
