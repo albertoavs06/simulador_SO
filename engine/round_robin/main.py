@@ -1,5 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
+import json
+import optparse
 from xml.dom import minidom
 
 # ########## dicionario, suporte a linguas ##########
@@ -18,17 +22,6 @@ processing_time_until_io = 1
 # lista de processos
 processos = []
 lista_bloqueados = []
-
-json_string = [ {"nome":"A","tempo":"10","tipo":"cpu","valor":""},
-                {"nome":"B","tempo":"21","tipo":"io","valor":""},
-                {"nome":"C","tempo":"13","tipo":"cpu","valor":""},
-                {"nome":"D","tempo":"15","tipo":"cpu","valor":""},
-                {"nome":"E","tempo":"30","tipo":"io","valor":""},
-                {"nome":"F","tempo":"25","tipo":"cpu","valor":""},
-                {"nome":"G","tempo":"15","tipo":"cpu","valor":""},
-                {"nome":"H","tempo":"16","tipo":"io","valor":""},
-                {"nome":"I","tempo":"17","tipo":"cpu","valor":""},
-                {"nome":"J","tempo":"18","tipo":"cpu","valor":""}]
 
 class Processo:
     def __init__(self, nome, tempo, tipo):
@@ -56,8 +49,25 @@ def main():
     global lista_bloqueados
     global current_time
 
+    parser = optparse.OptionParser('usage%prog -d <dictionary> -j <json data>')
+    parser.add_option('-j', dest='jname', type='string', help='json data')
+    parser.add_option('-d', dest='dname', type='string', help='specify dictionary file')
+
+    (options, args) = parser.parse_args()
+
+    if (options.jname == None) | (options.dname == None):
+        print(parser.usage)
+        exit(0)
+
     # ########## carrega o dicionario de mensagens ##########
-    doc = minidom.parse("en.xml")
+    try:
+        arquivo = open(options.dname, 'r')
+        arquivo.close()
+    except IOError as e:
+        print("I/O error({0}): {1}".format(e.errno, e.strerror))
+        exit(0)
+
+    doc = minidom.parse(options.dname)
 
     messages = doc.getElementsByTagName('message')
     for message in messages:
@@ -66,8 +76,16 @@ def main():
         dicionario[name] = value
 
     # ########## itera pelo json, adicionando processos na lista ##########
-    for s in json_string:
-        p = Processo(s['nome'], s['tempo'], s['tipo'])
+    json_string = options.jname[1:-1]
+    json_list = []
+
+    result = re.findall('{.*?}', json_string)
+    for item in result:
+        json_list.append(item)
+
+    for s in json_list:
+        parsed_json = json.loads(s)
+        p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'])
         processos.append(p)
 
     # algoritimo do round robin, enquanto ainda ha' processos na lista
@@ -145,4 +163,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
 
