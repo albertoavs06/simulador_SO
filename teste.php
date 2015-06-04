@@ -54,7 +54,9 @@ if($round_robin == null || $lotery == null || $priority == null || $queues == nu
 //	echo '</p>';
 
 	// executa o round robin, guardando o stdout em $retorno
-	exec("engine/round_robin/main.py -d engine/round_robin/en.xml -j '" . $round_robin . "'", $retorno);
+	exec("engine/round_robin/main.py -d engine/round_robin/en.xml -j '" . $round_robin . "' -q 5 -s 1 -i 5 -p 1", $retorno);
+	
+	echo '<p>' ."engine/round_robin/main.py -d engine/round_robin/en.xml -j '" . $round_robin . "' -q 5 -s 1 -i 5 -p 1" . '</p>';
 	
 	$mensagens = array();
 	$estados = array();

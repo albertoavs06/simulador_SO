@@ -33,6 +33,9 @@ class Processo:
     def to_string(self):
         return "[" + self.nome + ":" + str(self.tempo) + ":" + str(self.io_time) + "]"
 
+def getKey(processo):
+    return processo.tempo
+
 def atualiza_lista_bloqueados(tempo_utilizado):
     # para cada processo, eu preciso atualizar o tempo de I/O deles
     for processo in lista_bloqueados:
@@ -52,7 +55,6 @@ def main():
     global switch_cost
     global io_operation_time
     global processing_time_until_io
-
 
     parser = optparse.OptionParser('usage%prog -d <dictionary> -j <json data> -q <quantum> -s <switch_cost> -i <io_time> -p <processing_time>')
     parser.add_option('-j', dest='jname', type='string', help='json data')
@@ -121,6 +123,9 @@ def main():
             atualiza_lista_bloqueados(p.io_time)
             continue
 
+        # ordena os processos pelo tempo de execucao restante
+        processos = sorted(processos, key=getKey)
+
         # pega o primeiro da lista
         p = processos[0]
 
@@ -178,6 +183,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 
