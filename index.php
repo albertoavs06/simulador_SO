@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<?php
-// restart no apache
-// sudo systemctl restart apache2
 
+<?php
 // verifica a lingua da pagina
 $lang_file;
 $lingua = $_GET['lang'];
@@ -24,19 +22,20 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 
 <html>
 	<head>
+		<!-- Suporte a UTF-8 -->
+		<meta charset="UTF-8">
+
+		<!-- Titulo -->
         <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<!-- <script src="jquery-2.1.4.min.js"></script> -->
-		
-		<!-- DataTables CSS -->
-		<link rel="stylesheet" type="text/css" href="./DataTables-1.10.7/media/css/jquery.dataTables.css">
-		<link rel="stylesheet" type="text/css" href="./equal-height-columns.css">
-		
+
 		<!-- jQuery -->
-		<script type="text/javascript" charset="utf8" src="./DataTables-1.10.7/media/js/jquery.js"></script>
-		  
-		<!-- DataTables -->
-		<script type="text/javascript" charset="utf8" src="./DataTables-1.10.7/media/js/jquery.dataTables.js"></script>
+		<script src="jquery-2.1.4.min.js"></script>
+		
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="./equal-height-columns.css">
 
 		<!-- Altera o tamanho dos radio buttons -->
 		<style>
@@ -51,7 +50,6 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="container">
 		
 		<!-- Header. Logo e Nome do simulador -->
-		<!-- Colocar uma cor de background-->
 		<div class="row" style="background-color:lightgreen">
 			<div class="col-md-2">
 				<img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
@@ -86,7 +84,6 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		</div>
 			
 		<!-- Duas colunas, uma para escolher o algoritimo e a outra para a descricao -->
-		<!-- style="height: 50%" -->
 		<div class="row">
 			<div class="row-eq-height">
 				<div class="col-md-5" style="background-color:lightblue">			
@@ -109,16 +106,16 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			
 				<div class="col-md-7" style="background-color:lightblue">
 					<!-- Breve descricao do algoritimo-->
-					<h4 id="titulo_algoritimo">Round Robin</h4>
+					<h4 id="titulo_algoritimo"></h4>
 					<p id="descricao_algoritimo"></p>
 					
 					<!-- Suas vantanges-->
 					<h4>Vantagens</h4>
-					<p id="vantagens_algoritimo">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium</p>
+					<p id="vantagens_algoritimo"></p>
 					
 					<!-- e desvantagens-->
 					<h4>Desvantagens</h4>
-					<p id="desvantagens_algoritimo">molestias excepturi sint occaecati cupiditate non provident</p>
+					<p id="desvantagens_algoritimo"></p>
 				</div>
 			</div>
 		</div>
@@ -135,13 +132,13 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				<!-- Menu para adicionar novos processos -->
                 <?php 
                 echo '<h4>' . $xml->second_section[0]->title . '</h4>';
-                echo '<input type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">'; 
+                echo '<input class="form-control" type="text" id="' . $xml->input[0]['name'] . '" placeholder="' . $xml->input[0]->value . '" onfocus="tempoExecucaoSelecionado()" size="' . strlen($xml->input[0]->value) .' " maxlength="3">'; 
                 ?>
 			
 				<!-- Campo opcional para alguns algoritimos -->
 				<div>
 					<h4  id="titulo_opcional" hidden="true">Valor Opcional</h4>
-					<input type="text" id="valor_opcional" placeholder="prioridade ou tickets" hidden="true" onfocus="valorOpcionalSelecionado()">
+					<input class="form-control" type="text" id="valor_opcional" placeholder="prioridade ou tickets" hidden="true" onfocus="valorOpcionalSelecionado()">
 				</div>			
 			
 				<!-- CPU ou IO bound -->
@@ -151,8 +148,10 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 					<p><input type="radio" name="bound" value="io" onclick="tipoSelecionado()">I/O bound</p>
 				</div>			
 			
-				<button type="button" onclick="addProcesso()">Adicionar</button>
-				<button type="button" onclick="rmProcesso()">Remover</button>
+				<form class="form-inline">
+					<button class="btn btn-success" type="button" onclick="addProcesso()">Adicionar</button>
+					<button class="btn btn-danger" type="button" onclick="rmProcesso()">Remover</button>
+				</form>
 			</div>	
 			
 			<div class="col-md-7">
@@ -163,56 +162,61 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		
 		<div class="row" style="background-color:khaki">		
 			<div class="col-md-12">
-				<table style="width:100%" id="myTable"> </table>
+				<table class="table table-condensed" style="width:100%" id="myTable"> </table>
 			</div>
 		</div>	
 			
 		<!-- Parametros Globais de Simulacao -->
-		<div class="row" style="background-color:yellow">	
+		<div class="row" style="background-color:#ffaf4b ">	
 			<div class="col-md-12">
-				<h2>Parametros Globais de Simulacao</h2>
+				<h2 style="cursor:pointer;" data-toggle="collapse" data-target="#abc">
+				Parametros Globais de Simulacao (Opcional)
+				</a>
+				</h2>
 			</div>
 		</div>
 
-		<div class="row" style="background-color:yellow">
-			<div class="col-md-5">
-				<h4>Quantum</h4>
-				<input type="text" id="" placeholder="" onfocus="">
-			
-				<h4>Custo de Switch</h4>
-				<input type="text" id="" placeholder="" onfocus="">
-			
-				<h4>Tempo de Processamento para I/O bound</h4>
-				<input type="text" id="" placeholder="" onfocus="">
-
-				<h4>Tempo de I/O</h4>
-				<input type="text" id="" placeholder="" onfocus="">
-			</div>	
-			
-			<div class="col-md-7">
-				<h4 id="titulo_secao3">Titulo</h4>
-				<p id="descricao_secao3"></p>				
-			</div>	
+		<div id="abc" class="collapse">
+			<div class="row" style="background-color:#ffaf4b">
+				<div class="col-md-5">
+					<h4>Quantum</h4>
+					<input type="text" id="" placeholder="" onfocus="">
+				
+					<h4>Custo de Switch</h4>
+					<input type="text" id="" placeholder="" onfocus="">
+				
+					<h4>Tempo de Processamento para I/O bound</h4>
+					<input type="text" id="" placeholder="" onfocus="">
+	
+					<h4>Tempo de I/O</h4>
+					<input type="text" id="" placeholder="" onfocus="">
+				</div>	
+				
+				<div class="col-md-7">
+					<h4 id="titulo_secao3">Titulo</h4>
+					<p id="descricao_secao3"></p>				
+				</div>	
+			</div>
 		</div>
 
 		<!-- Simulacao -->
-		<div class="row" style="background-color:coral">	
+		<div class="row" style="background-color:#b0d4e3">	
 			<div class="col-md-12">
                 <?php echo '<h2>'. $xml->title[3]->value .'</h2>'; ?>
 			</div>
 		</div>
 
-		<div class="row" style="background-color:coral">	
+		<div class="row" style="background-color:#b0d4e3">	
 			<div class="col-md-12">
                 <?php echo '<p>'. $xml->third_section[0]->description .'</p>'; ?>
 			</div>
 		</div>
 		
-		<div class="row" style="background-color:coral">	
+		<div class="row" style="background-color:#b0d4e3">	
 			<div class="col-md-12">
 				<!-- Executar Simulacao -->
 				<center>
-					<input type="submit" value="Executar Simulacao" style="width: 50%" onclick="simular()">
+					<button type="button" class="btn btn-primary btn-lg" onclick="simular()" style="width:50%">Executar Simulacao</button>
 				</center>
 			</div>
 		</div>
