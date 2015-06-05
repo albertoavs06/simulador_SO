@@ -1,174 +1,238 @@
+<?php 
+// mostra os erros de abrir arquivo
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+
+$array_algoritimos = array('round_robin', 'lotery', 'priority', 'queues', 'shortest');
+
+$flag = 0;
+$algoritimos = array();
+foreach($array_algoritimos as $alg) {
+	$conteudo = $_GET[$alg];
+	
+	if($conteudo == null) {
+		header('Location: '.'index.php');
+	} else {
+		if(!strcmp($conteudo, "null")) {
+			$flag = $flag + 1;
+		} else {
+			array_push($algoritimos, $alg);
+		}
+	}
+}
+
+// nenhum dos 5 algoritimos tem processos
+if($flag == 5) {
+	header('Location: '.'index.php');
+}
+
+// recupera os valores da URL
+$round_robin = $_GET['round_robin'];
+$lotery = $_GET['lotery'];
+$priority = $_GET['priority'];
+$queues = $_GET['queues'];
+$shortest = $_GET['shortest'];
+
+// checa se tem todos os parametros esperados, se nao tiver algum, volta para a pagina de simulacao
+if($round_robin == null || $lotery == null || $priority == null || $queues == null || $shortest == null) {
+	header('Location: '.'index.php');
+}
+
+$quantum = $_GET['quantum'];
+$switch = $_GET['switch'];
+$io_time = $_GET['io_time'];
+$until_io = $_GET['until_io'];
+
+if($quantum == null || $switch == null || $io_time == null || $until_io == null) {
+	header('Location: '.'index.php');
+}
+?>
 <!DOCTYPE html>
+
+<?php
+// verifica a lingua da pagina
+$lang_file;
+$lingua = $_GET['lang'];
+
+if($lingua == null || !strcmp($lingua, "")) {
+	$lang_file = "lang/english.xml";	// padrao
+	$lingua = "en";
+} else {
+	if(!strcmp($lingua, "en")) {
+		$lang_file = "lang/english.xml";
+	} else if(!strcmp($lingua, "pt")) {
+		$lang_file = "lang/portugues.xml";
+	}
+}
+
+// carrega o arquivo de configuracoes xml
+$xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
+?>
 
 <html>
 
 <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<!-- <script src="jquery-2.1.4.min.js"></script> -->
-		
-		<!-- DataTables CSS -->
-		<link rel="stylesheet" type="text/css" href="./DataTables-1.10.7/media/css/jquery.dataTables.css">
-		<link rel="stylesheet" type="text/css" href="./equal-height-columns.css">
-		
-		<!-- jQuery -->
-		<script type="text/javascript" charset="utf8" src="./DataTables-1.10.7/media/js/jquery.js"></script>
-		  
-		<!-- DataTables -->
-		<script type="text/javascript" charset="utf8" src="./DataTables-1.10.7/media/js/jquery.dataTables.js"></script>
+	<!-- Suporte a UTF-8 -->
+	<meta charset="UTF-8">
 
-		<!-- Altera o tamanho dos radio buttons -->
-		<style>
-			input[type=radio] { 
-				margin: 1em 1em 1em 0; 
-				transform: scale(1.5, 1.5); 
-			}
-		</style>
+	<!-- Titulo -->
+       <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
+
+	<!-- jQuery -->
+	<script src="jquery-2.1.4.min.js"></script>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="./equal-height-columns.css">
+
+	<!-- Altera o tamanho dos radio buttons -->
+	<style>
+		input[type=radio] { 
+			margin: 1em 1em 1em 0; 
+			transform: scale(1.5, 1.5); 
+		}
+	</style>
 </head>
 
 <body>
-		<div class="container">
-		
-		<!-- Header. Logo e Nome do simulador -->
-		<!-- Colocar uma cor de background-->
-		<div class="row" style="background-color:lightgreen">
-			<div class="col-md-2">
-				<img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
-			</div>
-			
-			<div class="col-md-10">
-				<h1>Escalonamento em Sistemas Interativos</h1>
-				<h3>Marcelo Koti Kamada & Maria Lydia Fioravanti</h3>
-			</div>
+	<div class="container">
+	
+	<!-- Header. Logo e Nome do simulador -->
+	<!-- Colocar uma cor de background-->
+	<div class="row" style="background-color:lightgreen">
+		<div class="col-md-2">
+			<img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
 		</div>
 		
-		<!-- Titulo da primeira secao -->
-    	<div class="row">
-        	<div class="col-md-12" style="background-color:lightblue">
-        		<h2>Round Robin</h2>
-    		</div>
-        </div>
+		<div class="col-md-10">
+       		<?php echo '<h1>'. $xml->title[0]->value .'</h1>'; ?>
+			<h3>Marcelo Koti Kamada & Maria Lydia Fioravanti</h3>
+		</div>
+	</div>
 
-        <div class="row">
-        	<div class="col-md-12" style="background-color:lightblue">
-                <p style="display:inline;">Quantum: 000</p>
-                <p style="display:inline;">Tempo Total de Execucao: 0000</p>
+	<div style="float:right">
+		<?php 
+			$en = "";
+			$pt = "";
+			if(!strcmp($lingua, "en")) {
+				$en = 'style="text-decoration: underline"';
+			} else {
+				$pt = 'style="text-decoration: underline"';
+			}
+
+			$params = array_merge($_GET, array("lang" => "pt"));
+			$new_query_string = http_build_query($params);
+			echo "<p><a href='simulador.php?" . urldecode($new_query_string) . "' " . $pt . ">Portugues</a>";
+
+			$params = array_merge($_GET, array("lang" => "en"));
+			$new_query_string = http_build_query($params);
+			echo "
+			<a href='simulador.php?" . urldecode($new_query_string) . "' " . $en . ">English</a></p>";
+		?>
+	</div>
+	
+	<!-- Titulo da primeira secao -->
+   	<div class="row">
+       	<div class="col-md-12" style="background-color:lightblue">
+       		<h2>Round Robin</h2>
+   		</div>
+       </div>
+
+       <div class="row">
+       	<div class="col-md-12" style="background-color:lightblue">
+               <p style="display:inline;">Quantum: 000</p>
+               <p style="display:inline;">Tempo Total de Execucao: 0000</p>
+           </div>
+       </div>
+	
+	<!-- Tres colunas, uma para a descricao do que ocorreu, a do meio para mostrar a CPU, e a ultima para o menu de opcoes -->
+	<div class="row">
+		<div class="row-eq-height">
+			<div class="col-md-3" style="background-color:lightblue">			
+				<h3>Descricao</h3>
+				<p id="descricao_algoritimo"></p>
+			</div>
+		
+            <div class="col-md-6" style="background-color:lightgreen">
+             	<h3>CPU</h3>
+               	<canvas id="canvas_cpu" class="col-md-12"> </canvas>
             </div>
-        </div>
-		
-		<!-- Tres colunas, uma para a descricao do que ocorreu, a do meio para mostrar a CPU, e a ultima para o menu de opcoes -->
-		<div class="row">
-			<div class="row-eq-height">
-				<div class="col-md-3" style="background-color:lightblue">			
-					<h3>Descricao</h3>
-					<p id="descricao_algoritimo">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain 
-							was born and I will give you a complete account of the system, and expound the actual 
-							teachings of the great explorer of the truth, the master-builder of human happiness. 
-							No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because
-					</p>
-				</div>
-			
-                <div class="col-md-6" style="background-color:lightgreen">
-                	<h3>CPU</h3>
-                	<canvas id="canvas_cpu" class="col-md-12"> </canvas>
-                </div>
 
-				<div class="col-md-3" style="background-color:lightblue">			
-					<h3>Opcoes</h3>
-					<div class="row">
-						<div class="col-md-12">
-                            <button type="button" onclick="">Avancar</button>
-						</div>
+			<div class="col-md-3" style="background-color:lightblue">			
+				<h3>Opcoes</h3>
+				<div class="row">
+					<div class="col-md-12">
+                        <button class="form-control" type="button" onclick="">Avancar</button>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-                    		<button type="button" onclick="">Voltar</button>
-						</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+                   		<button class="form-control" type="button" onclick="">Voltar</button>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-                            <button type="button" onclick="">Automatico</button>
-						</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+                        <button class="form-control" type="button" onclick="">Automatico</button>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-                            <button type="button" onclick="">Resetar</button>
-						</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+                        <button class="form-control" type="button" onclick="">Resetar</button>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-                            <button type="button" onclick="">Home</button>
-						</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+                        <button class="form-control" type="button" onclick="">Home</button>
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
+	</div>		
 
-        <div class="row" style="background-color:gray">		
-			<div class="col-md-12">
-				<table style="width:100%">
-				  <tr>
-					<th>Nome</th>
-					<th>Tempo</th> 
-					<th>Tipo</th>
-				  </tr>
-				  <tr>
-					<td>A</td>
-					<td>100</td> 
-					<td>I/O bound</td>
-				  </tr>
-				  
-				  <tr>
-					<td>B</td>
-					<td>70</td> 
-					<td>CPU bound</td>
-				  </tr>
+       <div class="row" style="background-color:gray">		
+		<div class="col-md-12">
+			<table style="width:100%"> </table>
+		</div>
+	</div>	
+	
+	</div><!-- Fim div container -->
+	<script type="text/javascript" src="simulador.js"></script>		
 
-				  <tr>
-					<td>C</td>
-					<td>120</td> 
-					<td>I/O bound</td>
-				  </tr>				  
-				</table>
-			</div>
-		</div>	
+	<?php 
+
+	// executa o round robin, guardando o stdout em $retorno
+	if(count($algoritimos) == 1) {
+		$command = "engine/round_robin/main.py -d engine/". $algoritimos[0] ."/en.xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+		exec($command, $retorno);
+		echo '<p>' . $command . '</p>';
 		
-		</div><!-- Fim div container -->
-		<h1 id="teste_id"></h1>
-		<script type="text/javascript" src="simulador.js"></script>		
-<?php
-//$str_json = file_get_contents('php://input');		
-//echo '<h1> aqui' . $str_json . '</h1>';
-
-//// Prevent caching.
-//header('Cache-Control: no-cache, must-revalidate');
-//header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
-//
-// The JSON standard MIME header.
-header('Content-type: application/json');
-
-// This ID parameter is sent by our javascript client.
-$id = $_GET['id'];
-echo $_GET['nome'];
-
-// Here's some data that we want to send via JSON.
-// We'll include the $id parameter so that we
-// can show that it has been passed in correctly.
-// You can send whatever data you like.
-$data = array("Hello", $id);
-
-// Send the data.
-echo json_encode($data);
-echo $_POST['nome'];
-echo $_POST['id'];
-//
-//echo "comeca aqui";
-//foreach($xml->algorithm as $algoritimo):
-//	echo $algoritimo->title;
-//endforeach;
-//echo "termina aqui";
-?>
+		$mensagens = array();
+		$estados = array();
+		
+		foreach($retorno as $line) {
+			parse_str($line);	
+	        if(!strcmp($id, "status")) {
+	        	array_push($estados, $value);
+	        } else {
+		        array_push($mensagens, $value);
+	        }
+		}
+		
+		foreach($mensagens as $msg) {
+			echo '<p>' . $msg . '<p>';
+		}
+		
+		foreach($estados as $msg) {
+			echo '<p>' . $msg . '<p>';
+		}
+	} 
+	// senao, tem que comparar os algoritimos
+	else {
+		echo '<p>Compara</p>';
+	}
+	?>
 </body>
 
 </html>

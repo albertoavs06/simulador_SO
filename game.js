@@ -437,7 +437,7 @@ function simular() {
 	} else {
 		// para mandar coisas pela url como JSON
 		mensagem = mensagem.substring(0, mensagem.length-1);
-		window.location.href = "teste.php?" + mensagem;
+		window.location.href = "simulador.php?" + mensagem;
 	}
 }
 
