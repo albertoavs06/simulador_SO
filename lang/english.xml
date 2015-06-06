@@ -3,6 +3,34 @@
 <!-- do not change name field -->
 
 <root>
+	<item name="pros">
+		<value>Vantagens</value>
+	</item>
+
+	<item name="cons">
+		<value>Desvantagens</value>
+	</item>
+
+	<item name="cpu_bound">
+		<value>CPU bound</value>
+	</item>
+
+	<item name="io_bound">
+		<value>I/O bound</value>
+	</item>
+	
+	<item name="add">
+		<value>Adicionar</value>
+	</item>
+
+	<item name="remove">
+		<value>Remover</value>
+	</item>
+
+	<item name="simular">
+		<value>Executar Simulacao</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round Robin</title>

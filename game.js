@@ -56,7 +56,7 @@ function addProcesso() {
 	}
 	
 	// se for algum desses algoritimos, tem que ter valor no campo opcional
-	if(algoritimo == loteria || algoritimo == prioridade || algoritimo == filas) {
+	if(algoritimo == loteria || algoritimo == prioridade) {
 		// se o campo esta vazio, mostra uma mensagem de erro
 		if(valor_opcional == "" || valor_opcional == null) {
 			var campo = document.getElementById('valor_opcional');
@@ -114,7 +114,7 @@ function addProcesso() {
 	cell3.innerHTML = selecionado;
 	
 	// se for algum desses tres algoritimos, tem uma coluna a mais
-	if(algoritimo == loteria || algoritimo == prioridade || algoritimo == filas) {
+	if(algoritimo == loteria || algoritimo == prioridade) {
 		var cell4 = row.insertCell(3);
 		cell4.innerHTML = valor_opcional;
 	}
@@ -195,12 +195,9 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_lotery').innerHTML;		
 		
 	} else if(selecionado == filas) {
-		segundo_campo_input.style = "display:block";
+		segundo_campo_input.style = "display:none";
 		//segundo_campo_input.hidden = false;
-		titulo_opcional.hidden = false;				
-		
-		nextTitulo_opcional = "Prioridade na Fila";		
-		segundo_campo_input.placeholder = "Prioridade na Fila";
+		titulo_opcional.hidden = true;				
 		
 		nextTitulo = document.getElementById('titulo_queues').innerHTML;
 		nextDescricao = document.getElementById('descricao_queues').innerHTML;
@@ -251,7 +248,7 @@ function selecionaAlgoritimo() {
     cell3.innerHTML = document.getElementById('type').innerHTML;
 	
 	// ajusta o cabecalho das colunas
-	if(selecionado == filas || selecionado == prioridade) {
+	if(selecionado == prioridade) {
 		var cell4 = row.insertCell(3);
 		cell4.innerHTML = document.getElementById('priority').innerHTML;
 	} else if(selecionado == loteria) {

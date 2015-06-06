@@ -110,11 +110,11 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 					<p id="descricao_algoritimo"></p>
 					
 					<!-- Suas vantanges-->
-					<h4>Vantagens</h4>
+					<h4> <?php echo $xml->item[0]->value; ?> </h4>
 					<p id="vantagens_algoritimo"></p>
 					
 					<!-- e desvantagens-->
-					<h4>Desvantagens</h4>
+					<h4> <?php echo $xml->item[1]->value; ?> </h4>
 					<p id="desvantagens_algoritimo"></p>
 				</div>
 			</div>
@@ -144,13 +144,13 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				<!-- CPU ou IO bound -->
 				<div>
 					<?php echo '<h4>' . $xml->second_section[1]->title . '</h4>'; ?>
-					<p><input type="radio" name="bound" value="cpu" checked onclick="tipoSelecionado()">CPU bound</p>
-					<p><input type="radio" name="bound" value="io" onclick="tipoSelecionado()">I/O bound</p>
+					<p><input type="radio" name="bound" value="cpu" checked onclick="tipoSelecionado()"><?php echo $xml->item[2]->value; ?></p>
+					<p><input type="radio" name="bound" value="io" onclick="tipoSelecionado()"><?php echo $xml->item[3]->value; ?></p>
 				</div>			
 			
 				<form class="form-inline">
-					<button class="btn btn-success" type="button" onclick="addProcesso()">Adicionar</button>
-					<button class="btn btn-danger" type="button" onclick="rmProcesso()">Remover</button>
+					<button class="btn btn-success" type="button" onclick="addProcesso()"><?php echo $xml->item[4]->value; ?></button>
+					<button class="btn btn-danger" type="button" onclick="rmProcesso()"><?php echo $xml->item[5]->value; ?></button>
 				</form>
 			</div>	
 			
@@ -215,7 +215,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			<div class="col-md-12">
 				<!-- Executar Simulacao -->
 				<center>
-					<button type="button" class="btn btn-primary btn-lg" onclick="simular()" style="width:50%">Executar Simulacao</button>
+					<button type="button" class="btn btn-primary btn-lg" onclick="simular()" style="width:50%"><?php echo $xml->item[6]->value; ?></button>
 				</center>
 			</div>
 		</div>

@@ -1,40 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- do not change name field -->
+
 <root>
+	<item name="pros">
+		<value>Vantagens</value>
+	</item>
+
+	<item name="cons">
+		<value>Desvantagens</value>
+	</item>
+
+	<item name="cpu_bound">
+		<value>CPU bound</value>
+	</item>
+
+	<item name="io_bound">
+		<value>I/O bound</value>
+	</item>
+	
+	<item name="add">
+		<value>Adicionar</value>
+	</item>
+
+	<item name="remove">
+		<value>Remover</value>
+	</item>
+
+	<item name="simular">
+		<value>Executar Simulacao</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round Robin</title>
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<value>round_robin</value>	
+		<description>Round-robin é um algoritmo no qual o sistema operacional utiliza um timer, chamado de quantum, onde todos os processos ganham o mesmo valor de quantum para rodarem na CPU.</description> 
+		<pros>Simplicidade, Fácil implementação, Gera espaço de tempo para cada processo, fazendo com que a fila de processos não fique parada em um só processo</pros>
+		<cons>Processos muito grandes podem ficar muito tempo em execução na CPU, degradando o sistema, Nenhum processo termina de executar antes de todos terem executado um pouco</cons>
 	</algorithm>
 	
 	<algorithm name="queues">
 		<title>Multiple Queues</title>
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<value>queues</value>		
+		<description>Múltiplas Filas é um algoritmo no qual são usadas filas de processos. Cada fila tem um determinado nível de prioridade, sendo que o sistema operacional atende inicialmente as filas de prioridade mais alta, então apenas quando uma fila é esvaziada é que o escalonador passa para a próxima fila.</description>
+		<pros>Aumento da utilização da CPU, Maximização do throughput, Minimização do turnaround, Minimização do tempo de espera, Minimização do tempo de resposta, Diminuição do uso de recursos, Priorização de processos que segurem recursos chave, Não degradação do sistema</pros>
+		<cons>Comportamento de difícil previsão, Processos nunca mudam de fila</cons>
 	</algorithm>
 	
 	<algorithm name="priority">
 		<title>Priority</title>
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<value>priority</value>		
+		<description>Escalonamento por prioridades é um algoritmo em que é atribuída uma prioridade a cada processo, e ao processo executável com a prioridade mais alta é permitido executar. É implementado por uma interrupção de clock gerada em determinados intervalos de tempo a fim de reavaliar as prioridades dos processos na fila de pronto.</description>
+		<pros>Diferenciação de processos de acordo com a sua importância, Nenhum processo de alta prioridade pode executar por um período prolongado, Processos I/O-bound tem prioridade mais alta para acessar a CPU</pros>
+		<cons>Inanição</cons>
 	</algorithm>
 	
 	<algorithm name="shortest">
 		<title>Shortest First</title>
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<value>shortest</value>		
+		<description>SJF é um algoritmo no qual os processos menores terão prioridade, ou seja, o menor processo ganhará a CPU e, atrás do mesmo, forma-se uma fila de processos por ordem crescente de tempo de execução.</description>
+		<pros>Simplicidade, Maximização do tempo de execução do processo, Minimização da quantidade média de tempo que cada processo tem que esperar até que a sua execução esteja completa</pros>
+		<cons>Bloqueio por tempo indefinido, Não se pode priorizar a execução de um processo maior</cons>
 	</algorithm>
 
 	<algorithm name="lotery">
 		<title>Lotery</title>
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<value>lotery</value>	
+		<description>Loteria é um algoritmo no qual o sistema operacional distribui tokens (fichas) numerados entre os processos e, para ocorrer o escalonamento e o processo ganhar a utilização da CPU, é sorteado um número aleatório. Portanto, processos com mais tokens têm mais chance de receber antes a CPU.</description>
+		<pros>Altamente responsivo (ao número de tokens distribuídos), Ideal para processos cooperativos (doação de tokens)</pros>
+		<cons>Processo com maior prioridade pode receber poucos tokens e demorar para ser executado</cons>
 	</algorithm>
 
 	<!-- ########## Second Section ########## -->
@@ -42,6 +77,11 @@
 	<second_section name="execution_time">
 		<title>Tempo de Execucao</title>
 		<description>your description here</description>
+	</second_section>
+
+	<second_section name="process_type">
+		<title>Tipo do Processo</title>
+		<description>none</description>
 	</second_section>
 	
 	<second_section name="cpu_bound">
@@ -54,4 +94,128 @@
 		<description>your description here</description>
 	</second_section>
 
+	<second_section name="lotery_value">
+		<title>Lotery</title>
+		<description>your description here</description>
+	</second_section>
+
+	<second_section name="priority_value">
+		<title>Priority</title>
+		<description>your description here</description>
+	</second_section>
+
+	<!-- ########## Third Section ########## -->
+	<third_section name="quantum">
+		<title>Quantum</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="switch_cost">
+		<title>Switch Cost</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="io_time">
+		<title>Time of one I/O operation</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="processing_until_io">
+		<title>Average processing time until I/O</title>
+		<description>your description here</description>
+	</third_section>
+
+	<third_section name="simulation_description">
+		<title></title>
+		<description>your description here</description>
+	</third_section>
+
+	<!-- ########## Inputs ########## -->
+	<input name="execution_time">
+		<value>Execution Time between 1 and 100</value>
+	</input>
+
+	<input name="optional_field_tickets">
+		<value>Number of Tickets between 1 and 100</value>
+	</input>
+
+	<input name="optional_field_priority">
+		<value>Priority Level between 1 and 3</value>
+	</input>
+
+	<input name="quantum">
+		<value>quantum ???</value>
+	</input>
+
+	<input name="switch_cost">
+		<value>switch cost ???</value>
+	</input>
+	
+	<input name="io_time">
+		<value>io time ???</value>
+	</input>
+
+	<input name="processing_until_io">
+		<value>processing until io ???</value>
+	</input>
+
+	<!-- ########## Section Title ########## -->
+	<title name="header">
+		<value>Simulador: Escalonamento em Sistemas Interativos</value>
+	</title>
+
+	<title name="section1">
+		<value>1 - Escolha o Algoritimo de Escalonamento</value>
+	</title>
+	
+	<title name="section2">
+		<value>2 - Adicione Processos para Serem Escalonados</value>
+	</title>
+
+	<title name="section3">
+		<value>3 - Parametros Globais de Simulacao (opcional)</value>
+	</title>
+
+	<title name="section4">
+		<value>4 - Simulacao</value>
+	</title>
+
+	<!-- ########## Error messages ########## -->
+	<error name="execution_time_error">
+		<value>Execution Time must be between 1 and 100</value>
+	</error>
+
+	<error name="missing_tickets">
+		<value>Number of Tickets must be between 1 and 100</value>
+	</error>
+
+	<error name="missing_priority">
+		<value>Priority must be between 1 and 3</value>
+	</error>
+
+	<error name="no_process">
+		<value>No process to simulate</value>
+	</error>
+
+	<!-- ########## Table headers ########## -->
+	<table_header name="name">
+		<value>Name</value>
+	</table_header>
+
+	<table_header name="type">
+		<value>Type</value>
+	</table_header>
+
+	<table_header name="time">
+		<value>Time</value>
+	</table_header>
+
+	<table_header name="tickets">
+		<value>Number of Tickets</value>
+	</table_header>
+
+	<table_header name="priority">
+		<value>Priority</value>
+	</table_header>
+	
 </root>
