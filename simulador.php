@@ -76,7 +76,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	<meta charset="UTF-8">
 
 	<!-- Titulo -->
-       <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
+    <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
 
 	<!-- jQuery -->
 	<script src="jquery-2.1.4.min.js"></script>
@@ -94,6 +94,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			transform: scale(1.5, 1.5); 
 		}
 	</style>
+	<script type="text/javascript" src="simulador.js"></script>		
 </head>
 
 <body>
@@ -152,7 +153,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3>Descricao</h3>
-				<p id="descricao_algoritimo"></p>
+				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%"></textarea>
 			</div>
 		
             <div class="col-md-6" style="background-color:lightgreen">
@@ -164,27 +165,27 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				<h3>Opcoes</h3>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="">Avancar</button>
+                        <button class="form-control" type="button" onclick="next()">Avancar</button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                   		<button class="form-control" type="button" onclick="">Voltar</button>
+                   		<button class="form-control" type="button" onclick="previous()">Voltar</button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="">Automatico</button>
+                        <button class="form-control" type="button" onclick="auto()">Automatico</button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="">Resetar</button>
+                        <button class="form-control" type="button" onclick="reset()">Resetar</button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="">Home</button>
+                        <button class="form-control" type="button" onclick="home()">Home</button>
 					</div>
 				</div>
 			</div>
@@ -198,7 +199,6 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	</div>	
 	
 	</div><!-- Fim div container -->
-	<script type="text/javascript" src="simulador.js"></script>		
 
 	<?php 
 
@@ -220,12 +220,16 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	        }
 		}
 		
-		foreach($mensagens as $msg) {
-			echo '<p>' . $msg . '<p>';
+		$arrlength = count($mensagens);
+		echo '<p id="msg">' . $arrlength . '</p>';
+		for($i = 0; $i < $arrlength; $i++) {
+			echo '<p id="msg' . $i . '">' . $mensagens[$i] . '<p>';
 		}
-		
-		foreach($estados as $msg) {
-			echo '<p>' . $msg . '<p>';
+
+		$arrlength = count($status);
+		echo '<p id="status">' . $arrlength . '</p>';
+		for($i = 0; $i < $arrlength; $i++) {
+			echo '<p id="status' . $i . '">' . $status[$i] . '<p>';
 		}
 	} 
 	// senao, tem que comparar os algoritimos

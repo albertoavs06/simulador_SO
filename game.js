@@ -14,6 +14,9 @@ var prioridade;
 var round_robin;
 var proximo_mais_curto;
 
+var lista_inputs;
+var valor_inputs;
+
 // executa quando a pagina carrega, uso para evitar inconsistencias em refreshes
 function run() {
 	// inicializacao das variaveis com os valores dos radios buttons
@@ -34,6 +37,27 @@ function run() {
 	//old_selecionado = round_robin;
 	selecionaAlgoritimo();
 	form = document.getElementById('myForm');
+	
+	if(valor_inputs == null) {
+		valor_inputs = new Array();
+		valor_inputs.push(5);
+		valor_inputs.push(1);
+		valor_inputs.push(5);
+		valor_inputs.push(1);
+	}
+
+	// inicializa a lista de parametros de simulacao
+	if(lista_inputs == null) {
+		lista_inputs = new Array();
+		lista_inputs.push(document.getElementById('quantum'));
+		lista_inputs.push(document.getElementById('switch'));
+		lista_inputs.push(document.getElementById('io_time'));
+		lista_inputs.push(document.getElementById('until_io'));
+
+		for(var i = 0; i < lista_inputs.length; i++) {
+			lista_inputs[i].value = valor_inputs[i];
+		}
+	}
 }
 
 // adicionar um novo processo na lista
@@ -373,12 +397,6 @@ function simular() {
 	var mensagem = "";
 	var flag = 0;
 
-	var lista_inputs = new Array();
-	lista_inputs.push(document.getElementById('quantum'));
-	lista_inputs.push(document.getElementById('switch'));
-	lista_inputs.push(document.getElementById('io_time'));
-	lista_inputs.push(document.getElementById('until_io'));
-
 	for(var i = 0; i < lista_inputs.length; i++) {
 		var valor = lista_inputs[i].value;
 		if(valor == "" || valor == null) {
@@ -389,6 +407,7 @@ function simular() {
 			alert('Os parametros de simulacao devem ser inteiros entre 1 e 99');
 			return;
 		} else {
+			valor_inputs[i] = valor;
 			mensagem = mensagem + lista_inputs[i].id + "=" + JSON.stringify(valor) + "&";
 		}
 	}
