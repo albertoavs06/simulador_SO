@@ -30,6 +30,34 @@
 	<item name="simular">
 		<value>Executar Simulacao</value>
 	</item>
+	
+	<item name="outputarea">
+		<value>Descricao</value>
+	</item>
+
+	<item name="options">
+		<value>Opcoes</value>
+	</item>
+
+	<item name="next">
+		<value>Avancar</value>
+	</item>
+
+	<item name="previous">
+		<value>Voltar</value>
+	</item>
+
+	<item name="auto">
+		<value>Automatico</value>
+	</item>
+
+	<item name="reset">
+		<value>Resetar</value>
+	</item>
+
+	<item name="home">
+		<value>Home</value>
+	</item>
 
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">

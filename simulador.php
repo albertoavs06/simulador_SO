@@ -137,22 +137,37 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	<!-- Titulo da primeira secao -->
    	<div class="row">
        	<div class="col-md-12" style="background-color:lightblue">
-       		<h2>Round Robin</h2>
+       		<h2 id="current_algorithm"><?php echo $algoritimos[0];?></h2>
    		</div>
        </div>
 
-       <div class="row">
-       	<div class="col-md-12" style="background-color:lightblue">
-               <p style="display:inline;">Quantum: 000</p>
-               <p style="display:inline;">Tempo Total de Execucao: 0000</p>
-           </div>
-       </div>
+    <div class="row">
+       	<div class="col-md-3" style="background-color:lightblue">
+               <p id="campo_quantum" style="display:inline;"></p>
+               <?php echo $quantum; ?>
+        </div>
+
+       	<div class="col-md-3" style="background-color:lightblue">
+               <p id="campo_switch_cost" style="display:inline;"></p>
+               <?php echo $switch; ?>
+        </div>
+
+       	<div class="col-md-3" style="background-color:lightblue">
+               <p id="campo_io_time" style="display:inline;"></p>
+               <?php echo $io_time; ?>
+        </div>
+
+       	<div class="col-md-3" style="background-color:lightblue">
+               <p id="campo_processing_until_io" style="display:inline;"></p>
+               <?php echo $until_io; ?>
+        </div>
+    </div>
 	
 	<!-- Tres colunas, uma para a descricao do que ocorreu, a do meio para mostrar a CPU, e a ultima para o menu de opcoes -->
 	<div class="row">
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
-				<h3>Descricao</h3>
+				<h3><?php echo $xml->item[7]->value; ?></h3>
 				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%"></textarea>
 			</div>
 		
@@ -162,37 +177,37 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
             </div>
 
 			<div class="col-md-3" style="background-color:lightblue">			
-				<h3>Opcoes</h3>
+				<h3><?php echo $xml->item[8]->value; ?></h3>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="next()">Avancar</button>
+                        <button class="form-control" type="button" onclick="next()"><?php echo $xml->item[9]->value; ?></button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                   		<button class="form-control" type="button" onclick="previous()">Voltar</button>
+                   		<button class="form-control" type="button" onclick="previous()"><?php echo $xml->item[10]->value; ?></button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="auto()">Automatico</button>
+                        <button class="form-control" type="button" onclick="auto()"><?php echo $xml->item[11]->value; ?></button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="reset()">Resetar</button>
+                        <button class="form-control" type="button" onclick="reset()"><?php echo $xml->item[12]->value; ?></button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="home()">Home</button>
+                        <button class="form-control" type="button" onclick="home()"><?php echo $xml->item[13]->value; ?></button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>		
 
-       <div class="row" style="background-color:gray">		
+    <div class="row" style="background-color:gray">		
 		<div class="col-md-12">
 			<table style="width:100%"> </table>
 		</div>
@@ -236,6 +251,26 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	else {
 		echo '<p>Compara</p>';
 	}
+	
+	// ################### Descricoes dos algoritimos ###################
+	foreach($xml->algorithm as $algoritimo):
+	$campo = $algoritimo['name'];
+	$titulo = $algoritimo->title;
+	 
+	echo "<div hidden=true id=\"" . $campo . "\">";
+	echo $titulo;
+	echo "</div>";
+	endforeach;
+	
+	// ################### Descricoes da terceira secao ###################
+	foreach($xml->third_section as $item):
+	$campo = $item['name'];
+	$titulo = $item->title;
+	 
+	echo "<div hidden=true id=\"" . $campo . "\">";
+	echo $titulo;
+	echo "</div>";
+	endforeach
 	?>
 </body>
 

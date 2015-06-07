@@ -1,6 +1,3 @@
-/**
- * 
- */
 window.onload = run;
 
 var mensagens;
@@ -8,6 +5,19 @@ var status;
 var step = 0;
 
 function run() {
+	
+	var aux = ['quantum', 'switch_cost', 'io_time', 'processing_until_io'];
+	
+	// inicializa o titulo
+	var tmp = document.getElementById('current_algorithm').innerHTML;
+	var valor = document.getElementById(tmp).innerHTML;
+	document.getElementById('current_algorithm').innerHTML = valor;
+
+	// e inicializa os parametros de simulacao
+	for(var i = 0; i < aux.length; i++) {
+		var tmp = document.getElementById(aux[i]).innerHTML;
+		document.getElementById('campo_' + aux[i]).innerHTML = tmp;
+	}
 
 	if(mensagens == null) {
 		mensagens = new Array();
