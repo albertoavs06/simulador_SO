@@ -79,13 +79,13 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
     <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
 
 	<!-- jQuery -->
-	<script src="jquery-2.1.4.min.js"></script>
+	<script src="util/jquery-2.1.4.min.js"></script>
 	
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="./equal-height-columns.css">
+	<link rel="stylesheet" type="text/css" href="util/equal-height-columns.css">
 
 	<!-- Altera o tamanho dos radio buttons -->
 	<style>
@@ -209,7 +209,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 
     <div class="row" style="background-color:gray">		
 		<div class="col-md-12">
-			<table style="width:100%"> </table>
+			<table style="width:100%" id="myTable"> </table>
 		</div>
 	</div>	
 	
@@ -230,8 +230,11 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			parse_str($line);	
 	        if(!strcmp($id, "status")) {
 	        	array_push($estados, $value);
-	        } else {
+	        } else if(!strcmp($id, "msg")){
 		        array_push($mensagens, $value);
+				echo '<p>aqui ' . $line . ' </p>';	
+	        } else {
+				echo '<p>la ' . $line . ' </p>';	
 	        }
 		}
 		
@@ -241,10 +244,10 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			echo '<p id="msg' . $i . '">' . $mensagens[$i] . '<p>';
 		}
 
-		$arrlength = count($status);
+		$arrlength = count($estados);
 		echo '<p id="status">' . $arrlength . '</p>';
 		for($i = 0; $i < $arrlength; $i++) {
-			echo '<p id="status' . $i . '">' . $status[$i] . '<p>';
+			echo '<p id="status' . $i . '">' . $estados[$i] . '<p>';
 		}
 	} 
 	// senao, tem que comparar os algoritimos

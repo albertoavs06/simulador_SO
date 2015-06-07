@@ -29,13 +29,13 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
         <?php echo '<title>'. $xml->title[0]->value .'</title>'; ?>
 
 		<!-- jQuery -->
-		<script src="jquery-2.1.4.min.js"></script>
+		<script src="util/jquery-2.1.4.min.js"></script>
 		
 		<!-- Bootstrap -->
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="./equal-height-columns.css">
+		<link rel="stylesheet" type="text/css" href="util/equal-height-columns.css">
 
 		<!-- Altera o tamanho dos radio buttons -->
 		<style>
@@ -314,7 +314,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			}
 		?>
 		<!-- Script javascript para as funcoes -->
-		<script type="text/javascript" src="game.js"></script>		
+		<script type="text/javascript" src="index.js"></script>		
 	</body>
 </html>
 
