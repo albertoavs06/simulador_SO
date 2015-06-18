@@ -125,7 +125,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 
 			$params = array_merge($_GET, array("lang" => "pt"));
 			$new_query_string = http_build_query($params);
-			echo "<p><a href='simulador.php?" . urldecode($new_query_string) . "' " . $pt . ">Portugues</a>";
+			echo "<p><a href='simulador.php?" . urldecode($new_query_string) . "' " . $pt . ">Português</a>";
 
 			$params = array_merge($_GET, array("lang" => "en"));
 			$new_query_string = http_build_query($params);
