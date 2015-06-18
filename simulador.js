@@ -8,7 +8,7 @@ function clearTable(tabela) {
 	// para cada linha na tabela, exceto a primeira que e' o header
 	var nrows = tabela.rows.length;
 	for(i = 1; i < nrows; i++) {
-        tabela.deleteRow(i);
+        tabela.deleteRow(1);
 	}
 }
 
@@ -29,6 +29,7 @@ function run() {
 
 	if(mensagens == null) {
 		mensagens = new Array();
+		mensagens.push("");
 		var n = document.getElementById("msg").innerHTML;
 		for(var i = 0; i < n; i++) {
 			var valor = document.getElementById("msg" + i).innerHTML;
@@ -36,18 +37,20 @@ function run() {
 		}
 	}
 
+	// se array de estados nao esta inicializado, inicializa ele
 	if(estados == null) {
-		estados = new Array();
-		var n = document.getElementById("status").innerHTML;
+		estados = new Array();	// instancia um array
+		var n = document.getElementById("status").innerHTML; // status tem o numero de estados 
 		for(var i = 0; i < n; i++) {
-			var valor = document.getElementById("status" + i).innerHTML;
+			var valor = document.getElementById("status" + i).innerHTML; // recupera as informacoes de cada estado
 
+			// cada estado tem processos prontos e bloqueados
 			processos_prontos = new Array();
 			processos_bloqueados = new Array();
 
 			// quebra a string na virgula
 			var texto = valor.split(/,/);
-			var myRegex = /(\w):(\d):(\d)/;
+			var myRegex = /(\w):(\d+):(\d+)/;
 		
 			for(var k = 0; k < texto.length; k++) {
 				// quebra os processos prontos pelo espaco em branco
@@ -70,23 +73,29 @@ function run() {
 		}
 	} 
 
+	inicializa_tabela('myTable', new Array('Nome', 'Tempo Restante', 'Tipo Processo'));
+	inicializa_tabela('myTable2', new Array('Nome', 'Tempo Restante', 'Tipo Processo', 'Tempo ate acabar I/O'));
+    
+    reset();
+}
+
+function inicializa_tabela(nome, headers) {
 	// inicializa a tabela
-	var tabela = document.getElementById("myTable");
+	var tabela = document.getElementById(nome);
 
 	// novo cabecalho
 	var row = tabela.insertRow(0);
 	
-	// cabecalho padrao de todos
-	var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
+	for(var i = 0; i < headers.length; i++) {
+		// cabecalho padrao de todos
+		var cell = row.insertCell(i);
 
-    // Add some text to the new cells:
-    cell1.innerHTML = 'Nome';
-    cell2.innerHTML = 'Tempo Restante';
-    cell3.innerHTML = 'Estado';
-    
-    reset();
+		// Add some text to the new cells:
+		cell.innerHTML = headers[i];
+
+		// alinha todas as colunas
+		cell.style = "text-align:center";
+	}
 }
 
 function home() {
@@ -106,15 +115,29 @@ function atualiza() {
 	for(var i = 0; i < processos_prontos.length; i++) {
 		var row = tabela.insertRow(tabela.rows.length);
 				
-		// cabecalho padrao de todos
-		var cell1 = row.insertCell(0);
-	    var cell2 = row.insertCell(1);
-	    var cell3 = row.insertCell(2);
+		for(var j = 0; j < processos_prontos[i].length; j++) {
+			var cell = row.insertCell(j);
+			cell.innerHTML = processos_prontos[i][j];
+			cell.style = "text-align:center";
 			
-	    // Add some text to the new cells:
-	    cell1.innerHTML = processos_prontos[i][0];
-	    cell2.innerHTML = processos_prontos[i][1];
-	    cell3.innerHTML = processos_prontos[i][2];
+		}
+	}
+
+	// atualiza a tabela
+	var tabela = document.getElementById("myTable2");
+	clearTable(tabela);
+		
+	// processos prontos
+	var processos_bloqueados = estados[step][1];
+	for(var i = 0; i < processos_bloqueados.length; i++) {
+		var row = tabela.insertRow(tabela.rows.length);
+				
+		for(var j = 0; j < processos_bloqueados[i].length; j++) {
+			var cell = row.insertCell(j);
+			cell.innerHTML = processos_bloqueados[i][j];
+			cell.style = "text-align:center";
+			
+		}
 	}
 }
 

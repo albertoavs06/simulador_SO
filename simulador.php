@@ -136,30 +136,30 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	
 	<!-- Titulo da primeira secao -->
    	<div class="row">
-       	<div class="col-md-12" style="background-color:lightblue">
+       	<div class="col-md-12" style="background-color:#ffaf4b">
        		<h2 id="current_algorithm"><?php echo $algoritimos[0];?></h2>
    		</div>
        </div>
 
     <div class="row">
-       	<div class="col-md-3" style="background-color:lightblue">
+       	<div class="col-md-3" style="background-color:#ffaf4b">
                <p id="campo_quantum" style="display:inline;"></p>
-               <?php echo $quantum; ?>
+               <?php echo str_replace('"', "", $quantum); ?>
         </div>
 
-       	<div class="col-md-3" style="background-color:lightblue">
+       	<div class="col-md-3" style="background-color:#ffaf4b">
                <p id="campo_switch_cost" style="display:inline;"></p>
-               <?php echo $switch; ?>
+               <?php echo str_replace('"', "", $switch); ?>
         </div>
 
-       	<div class="col-md-3" style="background-color:lightblue">
+       	<div class="col-md-3" style="background-color:#ffaf4b">
                <p id="campo_io_time" style="display:inline;"></p>
-               <?php echo $io_time; ?>
+               <?php echo str_replace('"', "", $io_time); ?>
         </div>
 
-       	<div class="col-md-3" style="background-color:lightblue">
+       	<div class="col-md-3" style="background-color:#ffaf4b">
                <p id="campo_processing_until_io" style="display:inline;"></p>
-               <?php echo $until_io; ?>
+               <?php echo str_replace('"', "", $until_io); ?>
         </div>
     </div>
 	
@@ -171,7 +171,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%"></textarea>
 			</div>
 		
-            <div class="col-md-6" style="background-color:lightgreen">
+            <div class="col-md-6" style="background-color:lightblue">
              	<h3>CPU</h3>
                	<canvas id="canvas_cpu" class="col-md-12"> </canvas>
             </div>
@@ -207,9 +207,21 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		</div>
 	</div>		
 
-    <div class="row" style="background-color:gray">		
-		<div class="col-md-12">
-			<table style="width:100%" id="myTable"> </table>
+    <div class="row" style="background-color:khaki">		
+		<div class="col-md-6">
+			<center>
+				<h3>Processos Prontos</h3>
+			</center>
+
+			<table class="table table-condensed" style="width:100%" id="myTable"> </table>
+		</div>
+
+		<div class="col-md-6">
+			<center>
+				<h3>Processos Bloqueados</h3>
+			<center>
+
+			<table class="table table-condensed" style="width:100%" id="myTable2"> </table>
 		</div>
 	</div>	
 	
