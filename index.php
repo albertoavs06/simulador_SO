@@ -70,7 +70,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				} else {
 					$pt = 'style="text-decoration: underline"';
 				}
-				echo '<p><a href="index.php?lang=pt"'. $pt . '>Portugues</a>
+				echo '<p><a href="index.php?lang=pt"'. $pt . '>Português</a>
 						 <a href="index.php?lang=en"'. $en . '>English</a>
 					</p>';
 			?>

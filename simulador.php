@@ -210,7 +210,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
     <div class="row" style="background-color:khaki">		
 		<div class="col-md-6">
 			<center>
-				<h3>Processos Prontos</h3>
+				<h3> <?php echo $xml->table_header[5]->value; ?> </h3>
 			</center>
 
 			<table class="table table-condensed" style="width:100%" id="myTable"> </table>
@@ -218,7 +218,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 
 		<div class="col-md-6">
 			<center>
-				<h3>Processos Bloqueados</h3>
+				<h3> <?php echo $xml->table_header[6]->value; ?> </h3>
 			<center>
 
 			<table class="table table-condensed" style="width:100%" id="myTable2"> </table>
