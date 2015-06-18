@@ -4,55 +4,55 @@
 
 <root>
 	<item name="pros">
-		<value>Vantagens</value>
+		<value>Advantages</value>
 	</item>
 
 	<item name="cons">
-		<value>Desvantagens</value>
+		<value>Disadvantages</value>
 	</item>
 
 	<item name="cpu_bound">
-		<value>CPU bound</value>
+		<value>CPU-bound</value>
 	</item>
 
 	<item name="io_bound">
-		<value>I/O bound</value>
+		<value>I/O-bound</value>
 	</item>
 	
 	<item name="add">
-		<value>Adicionar</value>
+		<value>Add</value>
 	</item>
 
 	<item name="remove">
-		<value>Remover</value>
+		<value>Remove</value>
 	</item>
 
 	<item name="simular">
-		<value>Executar Simulacao</value>
+		<value>Run simulation</value>
 	</item>
 	
 	<item name="outputarea">
-		<value>Descricao</value>
+		<value>Description</value>
 	</item>
 
 	<item name="options">
-		<value>Opcoes</value>
+		<value>Options</value>
 	</item>
 
 	<item name="next">
-		<value>Avancar</value>
+		<value>Forward</value>
 	</item>
 
 	<item name="previous">
-		<value>Voltar</value>
+		<value>Back</value>
 	</item>
 
 	<item name="auto">
-		<value>Automatico</value>
+		<value>Automatic</value>
 	</item>
 
 	<item name="reset">
-		<value>Resetar</value>
+		<value>Reset</value>
 	</item>
 
 	<item name="home">
@@ -61,69 +61,69 @@
 
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
-		<title>Round Robin</title>
+		<title>Round-robin scheduling</title>
 		<value>round_robin</value>	
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<description>Round-robin is an algorithm in which the operating system uses a timer, called quantum, where all processes gain the same amount of quantum to rotate in the CPU.</description>
+		<pros>Simplicity; easy to implement; generates time slot for each process, making the process queue does not stand still in a single process.</pros>
+		<cons>Very large processes can stay a long time running on the CPU, degrading the system; no process finishes running before everyone has run a little.</cons>
 	</algorithm>
 	
 	<algorithm name="queues">
-		<title>Multiple Queues</title>
+		<title>Multiple queues</title>
 		<value>queues</value>		
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<description>Multiple queues is an algorithm in which processes queues are used. Each queue has a certain priority level, and the operating system initially meets the highest priority queues, then only when a queue is emptied the scheduler moves to the next one.</description>
+		<pros>Increased CPU utilization; maximize throughput; minimize turnaround; minimize waiting time; minimize response time; decreased use of resources; prioritize processes that hold key resources; no system degradation.</pros>
+		<cons>Behavior difficult to predict; processes never change queue.</cons>
 	</algorithm>
 	
 	<algorithm name="priority">
-		<title>Priority</title>
+		<title>Priority scheduling</title>
 		<value>priority</value>		
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<description>Priority scheduling is an algorithm in which a priority is assigned to each process, and the executable process with the highest priority is allowed to run. It is implemented by a clock interruption generated at certain time intervals in order to reassess the priorities of the processes in the ready queue.</description>
+		<pros>Differentiation of processes according to their importance; no high-priority process can run for an extended period; I/O-bound processes have higher priority to access the CPU.</pros>
+		<cons>Starvation.</cons>
 	</algorithm>
 	
 	<algorithm name="shortest">
-		<title>Shortest First</title>
+		<title>Shortest process next or Shortest Job First (SJF)</title>
 		<value>shortest</value>		
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<description>SJF is an algorithm in which the lower processes have priority, that is, the lower process gain CPU and, behind it, a queue of processes is formed in ascending order of execution time.</description>
+		<pros>Simplicity; maximize process runtime; minimize the average amount of time each process has to wait until the execution is complete.</pros>
+		<cons>Blocking indefinitely; we can not prioritize the execution of a larger process.</cons>
 	</algorithm>
 
 	<algorithm name="lotery">
-		<title>Lotery</title>
+		<title>Lottery scheduling</title>
 		<value>lotery</value>	
-		<description>your description here</description>
-		<pros>pros?</pros>
-		<cons>cons?</cons>
+		<description>Lottery is an algorithm in which the operating system distributes numbered tokens among processes. A random number is raffled to occur scheduling and the process gain CPU utilization. Therefore, processes that have more tokens are more likely to receive the CPU.</description>
+		<pros>Highly responsive (concerning the number of tokens distributed); ideal for cooperative processes (tokens donation).</pros>
+		<cons>Process with the highest priority can get few tokens and take a long time to run.</cons>
 	</algorithm>
 
 	<!-- ########## Second Section ########## -->
 
 	<second_section name="execution_time">
-		<title>Tempo de Execucao</title>
+		<title>Execution time</title>
 		<description>your description here</description>
 	</second_section>
 
 	<second_section name="process_type">
-		<title>Tipo do Processo</title>
+		<title>Process type</title>
 		<description>none</description>
 	</second_section>
 	
 	<second_section name="cpu_bound">
-		<title>CPU bound</title>
+		<title>CPU-bound</title>
 		<description>your description here</description>
 	</second_section>
 
 	<second_section name="io_bound">
-		<title>I/O bound</title>
+		<title>I/O-bound</title>
 		<description>your description here</description>
 	</second_section>
 
 	<second_section name="lotery_value">
-		<title>Lotery</title>
+		<title>Lottery</title>
 		<description>your description here</description>
 	</second_section>
 
@@ -160,15 +160,15 @@
 
 	<!-- ########## Inputs ########## -->
 	<input name="execution_time">
-		<value>Execution Time between 1 and 100</value>
+		<value>Execution time (between 1 and 100)</value>
 	</input>
 
 	<input name="optional_field_tickets">
-		<value>Number of Tickets between 1 and 100</value>
+		<value>Number of tickets (between 1 and 100)</value>
 	</input>
 
 	<input name="optional_field_priority">
-		<value>Priority Level between 1 and 3</value>
+		<value>Priority level (between 1 and 3)</value>
 	</input>
 
 	<input name="quantum">
@@ -189,32 +189,32 @@
 
 	<!-- ########## Section Title ########## -->
 	<title name="header">
-		<value>Simulador: Escalonamento em Sistemas Interativos</value>
+		<value>Simulator: Interactive Systems Scheduling</value>
 	</title>
 
 	<title name="section1">
-		<value>1 - Escolha o Algoritimo de Escalonamento</value>
+		<value>1 - Choose the scheduling algorithm</value>
 	</title>
 	
 	<title name="section2">
-		<value>2 - Adicione Processos para Serem Escalonados</value>
+		<value>2 - Add processes to be scheduled</value>
 	</title>
 
 	<title name="section3">
-		<value>3 - Parametros Globais de Simulacao (opcional)</value>
+		<value>3 - Global parameters for simulation (optional)</value>
 	</title>
 
 	<title name="section4">
-		<value>4 - Simulacao</value>
+		<value>4 - Simulation</value>
 	</title>
 
 	<!-- ########## Error messages ########## -->
 	<error name="execution_time_error">
-		<value>Execution Time must be between 1 and 100</value>
+		<value>Execution time must be between 1 and 100</value>
 	</error>
 
 	<error name="missing_tickets">
-		<value>Number of Tickets must be between 1 and 100</value>
+		<value>Number of tickets must be between 1 and 100</value>
 	</error>
 
 	<error name="missing_priority">
@@ -239,7 +239,7 @@
 	</table_header>
 
 	<table_header name="tickets">
-		<value>Number of Tickets</value>
+		<value>Number of tickets</value>
 	</table_header>
 
 	<table_header name="priority">
@@ -248,18 +248,18 @@
 	
 	<!-- Simulador.php -->
 	<table_header name="ready_process">
-		<value>Processos Prontos</value>
+		<value>Ready processes</value>
 	</table_header>
 	
 	<table_header name="blocked_process">
-		<value>Processos Bloqueados</value>
-	</table_header>_
+		<value>Blocked processes</value>
+	</table_header>
 
 	<table_header name="remaining_time">
-		<value>Tempo Restante</value>
-	</table_header>_
+		<value>Remaining time</value>
+	</table_header>
 
 	<table_header name="io_remaining_time">
-		<value>Tempo Restante de I/O</value>
-	</table_header>_
+		<value>I/O Remaining time</value>
+	</table_header>
 </root>
