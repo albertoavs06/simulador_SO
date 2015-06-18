@@ -155,7 +155,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			</div>	
 			
 			<div class="col-md-7">
-				<h4 id="titulo_secao2">Titulo</h4>
+				<h4 id="titulo_secao2"></h4>
 				<p id="descricao_secao2"></p>				
 			</div>	
 		</div>

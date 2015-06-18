@@ -72,9 +72,16 @@ function run() {
 			estados.push([processos_prontos, processos_bloqueados]);
 		}
 	} 
+	
+	var ready_process_value = document.getElementById('ready_process').innerHTML;
+	var blocked_process 	= document.getElementById('blocked_process').innerHTML;
+	var name_value 			= document.getElementById('name').innerHTML;
+	var remaining_time_value = document.getElementById('remaining_time').innerHTML;
+	var io_remaining_time_value = document.getElementById('io_remaining_time').innerHTML;
+	var process_type_value 	= document.getElementById('type').innerHTML;
 
-	inicializa_tabela('myTable', new Array('Nome', 'Tempo Restante', 'Tipo Processo'));
-	inicializa_tabela('myTable2', new Array('Nome', 'Tempo Restante', 'Tipo Processo', 'Tempo ate acabar I/O'));
+	inicializa_tabela('myTable', new Array(name_value, remaining_time_value, process_type_value));
+	inicializa_tabela('myTable2', new Array(name_value, remaining_time_value, process_type_value, io_remaining_time_value));
     
     reset();
 }

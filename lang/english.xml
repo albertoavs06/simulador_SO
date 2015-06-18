@@ -246,4 +246,20 @@
 		<value>Priority</value>
 	</table_header>
 	
+	<!-- Simulador.php -->
+	<table_header name="ready_process">
+		<value>Processos Prontos</value>
+	</table_header>
+	
+	<table_header name="blocked_process">
+		<value>Processos Bloqueados</value>
+	</table_header>_
+
+	<table_header name="remaining_time">
+		<value>Tempo Restante</value>
+	</table_header>_
+
+	<table_header name="io_remaining_time">
+		<value>Tempo Restante de I/O</value>
+	</table_header>_
 </root>

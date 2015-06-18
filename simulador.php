@@ -285,7 +285,17 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	echo "<div hidden=true id=\"" . $campo . "\">";
 	echo $titulo;
 	echo "</div>";
-	endforeach
+	endforeach;
+
+	// ################### cabecalho das tabelas ###################
+	foreach($xml->table_header as $item):
+	$campo = $item['name'];
+	$titulo = $item->value;
+	 
+	echo "<div hidden=true id=\"" . $campo . "\">";
+	echo $titulo;
+	echo "</div>";
+	endforeach;
 	?>
 </body>
 
