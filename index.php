@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 
 <?php
+// bug no lang do windows
+// bug do style no javascript no chrome
+// colocar um botao para lista de processos sugerida
+
+
 // verifica a lingua da pagina
 $lang_file;
-$lingua = $_GET['lang'];
+$lingua = null;
+
+if(array_key_exists('lang', $_GET)) {
+	$lingua = $_GET['lang'];
+}
 
 if($lingua == null || !strcmp($lingua, "")) {
 	$lang_file = "lang/english.xml";	// padrao

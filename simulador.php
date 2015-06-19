@@ -1,7 +1,7 @@
 <?php 
 // mostra os erros de abrir arquivo
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 $array_algoritimos = array('round_robin', 'lotery', 'priority', 'queues', 'shortest');
 
@@ -52,7 +52,11 @@ if($quantum == null || $switch == null || $io_time == null || $until_io == null)
 <?php
 // verifica a lingua da pagina
 $lang_file;
-$lingua = $_GET['lang'];
+$lingua = null;
+
+if(array_key_exists('lang', $_GET)) {
+	$lingua = $_GET['lang'];
+}
 
 if($lingua == null || !strcmp($lingua, "")) {
 	$lang_file = "lang/english.xml";	// padrao
@@ -179,29 +183,19 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3><?php echo $xml->item[8]->value; ?></h3>
 				<div class="row">
-					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="next()"><?php echo $xml->item[9]->value; ?></button>
-					</div>
+                    <button class="form-control" type="button" onclick="next()"><?php echo $xml->item[9]->value; ?></button>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
-                   		<button class="form-control" type="button" onclick="previous()"><?php echo $xml->item[10]->value; ?></button>
-					</div>
+                	<button class="form-control" type="button" onclick="previous()"><?php echo $xml->item[10]->value; ?></button>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="auto()"><?php echo $xml->item[11]->value; ?></button>
-					</div>
+                    <button class="form-control" type="button" onclick="auto()"><?php echo $xml->item[11]->value; ?></button>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="reset()"><?php echo $xml->item[12]->value; ?></button>
-					</div>
+                	<button class="form-control" type="button" onclick="reset()"><?php echo $xml->item[12]->value; ?></button>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
-                        <button class="form-control" type="button" onclick="home()"><?php echo $xml->item[13]->value; ?></button>
-					</div>
+                    <button class="form-control" type="button" onclick="home()"><?php echo $xml->item[13]->value; ?></button>
 				</div>
 			</div>
 		</div>
@@ -235,31 +229,36 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		exec($command, $retorno);
 		echo '<p>' . $command . '</p>';
 		
-		$mensagens = array();
-		$estados = array();
+		$arrays = array();
+		
+		$arrays['msg'] = array();
+		$arrays['status'] = array();
+		$arrays['cpu'] = array();
+		$arrays['tte'] = array();
+		$arrays['switches'] = array();
 		
 		foreach($retorno as $line) {
+			$flag = 1;
 			parse_str($line);	
-	        if(!strcmp($id, "status")) {
-	        	array_push($estados, $value);
-	        } else if(!strcmp($id, "msg")){
-		        array_push($mensagens, $value);
-				echo '<p>aqui ' . $line . ' </p>';	
-	        } else {
-				echo '<p>la ' . $line . ' </p>';	
-	        }
+			foreach($arrays as $key => $valor) {
+				if(!strcmp($id, $key)) {
+					array_push($arrays[$key], $value);
+					$flag = 0;
+					break;
+				}
+			}
+			
+			if($flag) {
+				echo '<p>nao deu match ' . $line . ' </p>';	
+			}
 		}
 		
-		$arrlength = count($mensagens);
-		echo '<p id="msg">' . $arrlength . '</p>';
-		for($i = 0; $i < $arrlength; $i++) {
-			echo '<p id="msg' . $i . '">' . $mensagens[$i] . '<p>';
-		}
-
-		$arrlength = count($estados);
-		echo '<p id="status">' . $arrlength . '</p>';
-		for($i = 0; $i < $arrlength; $i++) {
-			echo '<p id="status' . $i . '">' . $estados[$i] . '<p>';
+		foreach($arrays as $key => $value) {
+			$arrlength = count($value);
+			echo '<p id="' . $key . '">' . $arrlength . '<p>';
+			for($i = 0; $i < $arrlength; $i++) {
+				echo '<p id="' . $key . $i . '">' . $value[$i] . '<p>';
+			}
 		}
 	} 
 	// senao, tem que comparar os algoritimos

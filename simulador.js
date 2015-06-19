@@ -2,6 +2,9 @@ window.onload = run;
 
 var mensagens = null;
 var estados = null;
+var cpu = null;
+var tempo_execucao = null;
+var switches = null;
 var step = 0;
 
 function clearTable(tabela) {
@@ -10,6 +13,17 @@ function clearTable(tabela) {
 	for(i = 1; i < nrows; i++) {
         tabela.deleteRow(1);
 	}
+}
+
+function load(id) {
+	array = new Array();
+	array.push("");
+	var n = document.getElementById(id).innerHTML;
+	for(var i = 0; i < n; i++) {
+		var valor = document.getElementById(id + i).innerHTML;
+		array.push(valor);
+	}
+	return array;
 }
 
 function run() {
@@ -28,15 +42,21 @@ function run() {
 	}
 
 	if(mensagens == null) {
-		mensagens = new Array();
-		mensagens.push("");
-		var n = document.getElementById("msg").innerHTML;
-		for(var i = 0; i < n; i++) {
-			var valor = document.getElementById("msg" + i).innerHTML;
-			mensagens.push(valor);
-		}
+		mensagens = load('msg');
 	}
-
+	
+	if(switches == null) {
+		switches = load('switches');
+	}
+	
+	if(cpu == null) {
+		cpu = load('cpu');
+	}
+	
+	if(tempo_execucao == null) {
+		tempo_execucao = load('tte');
+	}
+	
 	// se array de estados nao esta inicializado, inicializa ele
 	if(estados == null) {
 		estados = new Array();	// instancia um array
@@ -111,7 +131,11 @@ function home() {
 
 function atualiza() {
 	// atualiza a mensagem
-	document.getElementById("descricao_algoritimo").innerHTML = mensagens[step];
+	var mensagem = 'Uso da CPU: ' + cpu[step] + '\n';
+	mensagem = mensagem + 'Trocas de Contexto: ' + switches[step] + '\n';
+	mensagem = mensagem + 'Acao executada: ' + mensagens[step];
+	
+	document.getElementById("descricao_algoritimo").innerHTML = mensagem;
 
 	// atualiza a tabela
 	var tabela = document.getElementById("myTable");

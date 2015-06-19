@@ -53,7 +53,6 @@ def main():
     global io_operation_time
     global processing_time_until_io
 
-
     parser = optparse.OptionParser('usage%prog -d <dictionary> -j <json data> -q <quantum> -s <switch_cost> -i <io_time> -p <processing_time>')
     parser.add_option('-j', dest='jname', type='string', help='json data')
     parser.add_option('-d', dest='dname', type='string', help='specify dictionary file')
@@ -103,6 +102,9 @@ def main():
         p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'])
         processos.append(p)
 
+    numero_switches = 0
+    tempo_cpu = 0
+
     # algoritimo do round robin, enquanto ainda ha' processos na lista
     while len(processos) > 0 or len(lista_bloqueados) > 0:
 
@@ -115,6 +117,19 @@ def main():
             msg = msg + processo.to_string() + " "
         print(msg)
 
+        # imprime o tempo total de execucao
+        print('id=tte&value=' + str(current_time))
+
+        # imprime numero de switches
+        print('id=switches&value=' + str(numero_switches))
+
+        # imprime o uso da CPU
+        tmp = 0.0
+        if current_time > 0:
+            tmp = float(tempo_cpu*100) / current_time
+        print('id=cpu&value=' + str(int(tmp)) + '%')
+
+        # ta todo mundo bloqueado e nao tem ninguem pronto, espera alguem desbloquear
         if(len(processos) == 0 and len(lista_bloqueados) > 0):
             p = lista_bloqueados[0]
             current_time = current_time + p.io_time
@@ -156,6 +171,9 @@ def main():
         # para cada processo, eu preciso atualizar o tempo de I/O deles
         atualiza_lista_bloqueados(tempo_utilizado)
 
+        # salva tempo usado da CPU
+        tempo_cpu = tempo_cpu + tempo_utilizado
+
         # se o processo acabou, remove ele da lista
         if(p.tempo == 0):
             processos.remove(p)
@@ -172,9 +190,11 @@ def main():
                 processos.remove(p)
                 print('id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
 
+        numero_switches = numero_switches + 1
+
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
-    print('Tempo total de execucao: ' + str(current_time))
+    print('id=tte&value=' + str(current_time))
 
 if __name__ == '__main__':
     main()
