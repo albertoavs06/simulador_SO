@@ -6,6 +6,7 @@ var cpu = null;
 var tempo_execucao = null;
 var switches = null;
 var step = 0;
+var algoritmo = null;
 
 function clearTable(tabela) {
 	// para cada linha na tabela, exceto a primeira que e' o header
@@ -31,8 +32,8 @@ function run() {
 	var aux = ['quantum', 'switch_cost', 'io_time', 'processing_until_io'];
 	
 	// inicializa o titulo
-	var tmp = document.getElementById('current_algorithm').innerHTML;
-	var valor = document.getElementById(tmp).innerHTML;
+	algoritmo = document.getElementById('current_algorithm').innerHTML;
+	var valor = document.getElementById(algoritmo).innerHTML;
 	document.getElementById('current_algorithm').innerHTML = valor;
 
 	// e inicializa os parametros de simulacao
@@ -70,7 +71,7 @@ function run() {
 
 			// quebra a string na virgula
 			var texto = valor.split(/,/);
-			var myRegex = /(\w):(\d+):(\d+)/;
+			var myRegex = /(\w+):(\w+):(\d+):(\d+):(\d+)/;
 		
 			for(var k = 0; k < texto.length; k++) {
 				// quebra os processos prontos pelo espaco em branco
@@ -79,7 +80,7 @@ function run() {
 				for(var j = 0; j < tmp.length; j++) {
 					if(tmp[j] != "") {
 						var match = myRegex.exec(tmp[j]);
-						var processo = new Array(match[1], match[2], match[3]);
+						var processo = new Array(match[1], match[2], match[3], match[4], match[5]);
 						
 						if(k == 0) {
 							processos_prontos.push(processo);
@@ -90,8 +91,12 @@ function run() {
 				}
 			}
 			estados.push([processos_prontos, processos_bloqueados]);
-		}
+		} 
+		// adiciona um estado a mais para compensar a mensagem atrasada
+		estados.push([new Array(), new Array()]);
 	} 
+	console.log('estados ' + estados.length);
+	console.log('mensagens ' + mensagens.length);
 	
 	var ready_process_value = document.getElementById('ready_process').innerHTML;
 	var blocked_process 	= document.getElementById('blocked_process').innerHTML;
@@ -100,8 +105,18 @@ function run() {
 	var io_remaining_time_value = document.getElementById('io_remaining_time').innerHTML;
 	var process_type_value 	= document.getElementById('type').innerHTML;
 
-	inicializa_tabela('myTable', new Array(name_value, remaining_time_value, process_type_value));
-	inicializa_tabela('myTable2', new Array(name_value, remaining_time_value, process_type_value, io_remaining_time_value));
+	var tickets_value = document.getElementById('tickets').innerHTML;
+	
+	var campos_tabela = new Array(name_value, process_type_value, remaining_time_value);
+	var campos_bloqueados = new Array(name_value, process_type_value, remaining_time_value, io_remaining_time_value);
+	
+	if(algoritmo == 'lotery') {
+		campos_tabela.push(tickets_value);
+		campos_bloqueados.push(tickets_value);
+	}
+
+	inicializa_tabela('myTable', campos_tabela);
+	inicializa_tabela('myTable2', campos_bloqueados);
     
     reset();
 }
@@ -126,7 +141,8 @@ function inicializa_tabela(nome, headers) {
 }
 
 function home() {
-	window.history.back();	
+	//window.history.back();	
+	window.location.href = "simulador.php";
 }
 
 function atualiza() {
@@ -145,12 +161,19 @@ function atualiza() {
 	var processos_prontos = estados[step][0];
 	for(var i = 0; i < processos_prontos.length; i++) {
 		var row = tabela.insertRow(tabela.rows.length);
+		var tamanho = processos_prontos[i].length;
 				
-		for(var j = 0; j < processos_prontos[i].length; j++) {
-			var cell = row.insertCell(j);
-			cell.innerHTML = processos_prontos[i][j];
-			cell.style = "text-align:center";
-			
+		// se for o round robin ou o mais curto nao tem a ultima coluna
+		if(algoritmo == 'round_robin' || algoritmo == 'shortest') {
+			tamanho = tamanho - 1;
+		}
+
+		for(var j = 0; j < tamanho; j++) {
+			if(j != 3) {
+				var cell = row.insertCell(row.cells.length);
+				cell.innerHTML = processos_prontos[i][j];
+				cell.style = "text-align:center";
+			}
 		}
 	}
 
@@ -158,12 +181,18 @@ function atualiza() {
 	var tabela = document.getElementById("myTable2");
 	clearTable(tabela);
 		
-	// processos prontos
+	// processos bloquedos
 	var processos_bloqueados = estados[step][1];
 	for(var i = 0; i < processos_bloqueados.length; i++) {
 		var row = tabela.insertRow(tabela.rows.length);
+		var tamanho = processos_bloqueados[i].length;
 				
-		for(var j = 0; j < processos_bloqueados[i].length; j++) {
+		// se for o round robin ou o mais curto nao tem a ultima coluna
+		if(algoritmo == 'round_robin' || algoritmo == 'shortest') {
+			tamanho = tamanho - 1;
+		}
+				
+		for(var j = 0; j < tamanho; j++) {
 			var cell = row.insertCell(j);
 			cell.innerHTML = processos_bloqueados[i][j];
 			cell.style = "text-align:center";
@@ -187,6 +216,8 @@ function previous() {
 }
 
 function auto() {
+	step = estados.length - 1;
+	atualiza();
 }
 
 function reset() {

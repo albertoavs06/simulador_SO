@@ -34,7 +34,7 @@ class Processo:
         self.base = base
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tempo) + ":" + str(self.io_time) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(self.tickets) + "]"
 
 def atualiza_lista_bloqueados(tempo_utilizado):
     # para cada processo, eu preciso atualizar o tempo de I/O deles
@@ -113,6 +113,9 @@ def main():
         processos.append(p)
         ntickets = ntickets + p.tickets
 
+    numero_switches = 0
+    tempo_cpu = 0
+
     # algoritimo do round robin, enquanto ainda ha' processos na lista
     while len(processos) > 0 or len(lista_bloqueados) > 0:
 
@@ -124,6 +127,18 @@ def main():
         for processo in lista_bloqueados:
             msg = msg + processo.to_string() + " "
         print(msg)
+
+        # imprime o tempo total de execucao
+        print('id=tte&value=' + str(current_time))
+
+        # imprime numero de switches
+        print('id=switches&value=' + str(numero_switches))
+
+        # imprime o uso da CPU
+        tmp = 0.0
+        if current_time > 0:
+            tmp = float(tempo_cpu*100) / current_time
+        print('id=cpu&value=' + str(int(tmp)) + '%')
 
         # se ta todo mundo bloqueado, nao precisa sortear
         if(len(processos) == 0 and len(lista_bloqueados) > 0):
@@ -197,11 +212,14 @@ def main():
                 processos.remove(p)
                 print('id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
 
+        numero_switches = numero_switches + 1
+
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
-    print('Tempo total de execucao: ' + str(current_time))
+    print('id=tte&value=' + str(current_time))
 
 if __name__ == '__main__':
     main()
+
 
 

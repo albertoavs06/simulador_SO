@@ -31,7 +31,7 @@ class Processo:
         self.io_time = 0
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tempo) + ":" + str(self.io_time) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(0) + "]"
 
 def atualiza_lista_bloqueados(tempo_utilizado):
     # para cada processo, eu preciso atualizar o tempo de I/O deles

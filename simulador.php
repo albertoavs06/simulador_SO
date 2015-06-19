@@ -108,7 +108,10 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	<!-- Colocar uma cor de background-->
 	<div class="row" style="background-color:lightgreen">
 		<div class="col-md-2">
-			<img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
+			<!--  
+<img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
+			-->
+			<img src="img/logo_icmc.png" class="img-responsive">
 		</div>
 		
 		<div class="col-md-10">
@@ -172,12 +175,12 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3><?php echo $xml->item[7]->value; ?></h3>
-				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%"></textarea>
+				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:50%"></textarea>
 			</div>
 		
             <div class="col-md-6" style="background-color:lightblue">
              	<h3>CPU</h3>
-               	<canvas id="canvas_cpu" class="col-md-12"> </canvas>
+               	<canvas id="canvas_cpu" class="col-md-12" style="height:60%"> </canvas>
             </div>
 
 			<div class="col-md-3" style="background-color:lightblue">			
@@ -219,13 +222,39 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		</div>
 	</div>	
 	
+    <div class="row" style="background-color:khaki">		
+		<div class="col-md-4">
+			<center>
+				<h3> <?php echo $xml->table_header[5]->value; ?> </h3>
+			</center>
+
+			<table class="table table-condensed" style="width:100%" id="myTable3"> </table>
+		</div>
+
+		<div class="col-md-4">
+			<center>
+				<h3> <?php echo $xml->table_header[6]->value; ?> </h3>
+			<center>
+
+			<table class="table table-condensed" style="width:100%" id="myTable4"> </table>
+		</div>
+
+		<div class="col-md-4">
+			<center>
+				<h3> <?php echo $xml->table_header[6]->value; ?> </h3>
+			<center>
+
+			<table class="table table-condensed" style="width:100%" id="myTable5"> </table>
+		</div>
+	</div>	
+
 	</div><!-- Fim div container -->
 
 	<?php 
 
 	// executa o round robin, guardando o stdout em $retorno
 	if(count($algoritimos) == 1) {
-		$command = "engine/round_robin/main.py -d engine/". $algoritimos[0] ."/en.xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+		$command = "engine/" . $algoritimos[0] . "/main.py -d engine/". $algoritimos[0] ."/en.xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
 		exec($command, $retorno);
 		echo '<p>' . $command . '</p>';
 		

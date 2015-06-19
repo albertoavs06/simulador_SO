@@ -31,7 +31,7 @@ class Processo:
         self.io_time = 0
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tempo) + ":" + str(self.io_time) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(0) + "]"
 
 def getKey(processo):
     return processo.tempo
@@ -105,6 +105,9 @@ def main():
         p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'])
         processos.append(p)
 
+    numero_switches = 0
+    tempo_cpu = 0
+
     # algoritimo do round robin, enquanto ainda ha' processos na lista
     while len(processos) > 0 or len(lista_bloqueados) > 0:
 
@@ -116,6 +119,18 @@ def main():
         for processo in lista_bloqueados:
             msg = msg + processo.to_string() + " "
         print(msg)
+
+        # imprime o tempo total de execucao
+        print('id=tte&value=' + str(current_time))
+
+        # imprime numero de switches
+        print('id=switches&value=' + str(numero_switches))
+
+        # imprime o uso da CPU
+        tmp = 0.0
+        if current_time > 0:
+            tmp = float(tempo_cpu*100) / current_time
+        print('id=cpu&value=' + str(int(tmp)) + '%')
 
         if(len(processos) == 0 and len(lista_bloqueados) > 0):
             p = lista_bloqueados[0]
@@ -179,9 +194,10 @@ def main():
 
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
-    print('Tempo total de execucao: ' + str(current_time))
+    print('id=tte&value=' + str(current_time))
 
 if __name__ == '__main__':
     main()
+
 
 
