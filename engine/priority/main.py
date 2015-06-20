@@ -140,8 +140,9 @@ def main():
 
         # imprime a lista de processos
         msg = 'id=status&value='
-        for processo in processos:
-            msg = msg + processo.to_string() + " "
+        for lista_aux in lista_prioridade:
+            for processo in lista_aux:
+                msg = msg + processo.to_string() + " "
 
         msg = msg + ","
         for processo in lista_bloqueados:

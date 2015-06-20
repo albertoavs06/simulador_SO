@@ -28,6 +28,8 @@ function load(id) {
 }
 
 function run() {
+	var offset = $('#ponto_alinhamento').offset().top;
+	$('html, body').scrollTop(offset);
 	
 	var aux = ['quantum', 'switch_cost', 'io_time', 'processing_until_io'];
 	
@@ -117,6 +119,33 @@ function run() {
 
 	inicializa_tabela('myTable', campos_tabela);
 	inicializa_tabela('myTable2', campos_bloqueados);
+	
+	// tabelas extras
+	var tabelas_extras = document.getElementById('tabelas_extras');
+	if(algoritmo == 'priority' || algoritmo == 'queues') {
+		inicializa_tabela('myTable3', campos_tabela)
+		inicializa_tabela('myTable4', campos_tabela)
+		inicializa_tabela('myTable5', campos_tabela)
+		
+		tmp = document.getElementById("myHeader1").innerHTML;
+		document.getElementById("myHeader1").innerHTML = tmp + " [1]";
+
+		var tmp = document.getElementById("myHeader3").innerHTML;
+		document.getElementById("myHeader3").innerHTML = tmp + " [2]";
+
+		tmp = document.getElementById("myHeader4").innerHTML;
+		document.getElementById("myHeader4").innerHTML = tmp + " [3]";
+
+		tmp = document.getElementById("myHeader5").innerHTML;
+		document.getElementById("myHeader5").innerHTML = tmp + " [4]";
+		
+		document.getElementById('coluna1').className = "col-md-2";
+		document.getElementById('coluna2').className = "col-md-4";
+	} else {
+		tabelas_extras.style = 'display:none';
+		document.getElementById('coluna1').className = "col-md-6";
+		document.getElementById('coluna2').className = "col-md-6";
+	}
     
     reset();
 }
@@ -153,26 +182,58 @@ function atualiza() {
 	
 	document.getElementById("descricao_algoritimo").innerHTML = mensagem;
 
-	// atualiza a tabela
-	var tabela = document.getElementById("myTable");
-	clearTable(tabela);
+	if(algoritmo == 'priority' || algoritmo == 'queues') {
+		var tabelas = new Array(document.getElementById('myTable'),
+								document.getElementById('myTable3'),
+								document.getElementById('myTable4'),
+								document.getElementById('myTable5')
+								);
 		
-	// processos prontos
-	var processos_prontos = estados[step][0];
-	for(var i = 0; i < processos_prontos.length; i++) {
-		var row = tabela.insertRow(tabela.rows.length);
-		var tamanho = processos_prontos[i].length;
-				
-		// se for o round robin ou o mais curto nao tem a ultima coluna
-		if(algoritmo == 'round_robin' || algoritmo == 'shortest') {
-			tamanho = tamanho - 1;
+		// limpa as tabelas antes de inserir
+		for(var i = 0; i < tabelas.length; i++) {
+			clearTable(tabelas[i]);
 		}
+		
+		// processos prontos
+		var processos_prontos = estados[step][0];
+		for(var i = 0; i < processos_prontos.length; i++) {
+			var processo = processos_prontos[i];
+			var tamanho = processo.length - 1;
 
-		for(var j = 0; j < tamanho; j++) {
-			if(j != 3) {
-				var cell = row.insertCell(row.cells.length);
-				cell.innerHTML = processos_prontos[i][j];
-				cell.style = "text-align:center";
+			var tabela = tabelas[processo[4]];
+			var row = tabela.insertRow(tabela.rows.length);
+
+			for(var j = 0; j < tamanho; j++) {
+				if(j != 3) {
+					var cell = row.insertCell(row.cells.length);
+					cell.innerHTML = processos_prontos[i][j];
+					cell.style = "text-align:center";
+				}
+			}
+		}
+		
+	} else {
+		// atualiza a tabela
+		var tabela = document.getElementById("myTable");
+		clearTable(tabela);
+				
+		// processos prontos
+		var processos_prontos = estados[step][0];
+		for(var i = 0; i < processos_prontos.length; i++) {
+			var row = tabela.insertRow(tabela.rows.length);
+			var tamanho = processos_prontos[i].length;
+						
+			// se for o round robin ou o mais curto nao tem a ultima coluna
+			if(algoritmo == 'round_robin' || algoritmo == 'shortest') {
+				tamanho = tamanho - 1;
+			}
+		
+			for(var j = 0; j < tamanho; j++) {
+				if(j != 3) {
+					var cell = row.insertCell(row.cells.length);
+					cell.innerHTML = processos_prontos[i][j];
+					cell.style = "text-align:center";
+				}
 			}
 		}
 	}
@@ -196,7 +257,6 @@ function atualiza() {
 			var cell = row.insertCell(j);
 			cell.innerHTML = processos_bloqueados[i][j];
 			cell.style = "text-align:center";
-			
 		}
 	}
 }

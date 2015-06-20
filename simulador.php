@@ -72,7 +72,6 @@ if($lingua == null || !strcmp($lingua, "")) {
 // carrega o arquivo de configuracoes xml
 $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 ?>
-
 <html>
 
 <head>
@@ -148,7 +147,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
    		</div>
        </div>
 
-    <div class="row">
+    <div class="row" id="ponto_alinhamento">
        	<div class="col-md-3" style="background-color:#ffaf4b">
                <p id="campo_quantum" style="display:inline;"></p>
                <?php echo str_replace('"', "", $quantum); ?>
@@ -205,46 +204,41 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	</div>		
 
     <div class="row" style="background-color:khaki">		
-		<div class="col-md-6">
+		<div id="coluna1">
 			<center>
-				<h3> <?php echo $xml->table_header[5]->value; ?> </h3>
+				<h3 id="myHeader1"> <?php echo $xml->table_header[5]->value; ?> </h3>
 			</center>
-
 			<table class="table table-condensed" style="width:100%" id="myTable"> </table>
 		</div>
 
-		<div class="col-md-6">
-			<center>
-				<h3> <?php echo $xml->table_header[6]->value; ?> </h3>
-			<center>
-
-			<table class="table table-condensed" style="width:100%" id="myTable2"> </table>
-		</div>
-	</div>	
+	    <div id="tabelas_extras">		
+			<div class="col-md-2">
+				<center>
+					<h3 id="myHeader3"> <?php echo $xml->table_header[5]->value; ?> </h3>
+				</center>
+				<table class="table table-condensed" style="width:100%" id="myTable3"> </table>
+			</div>
 	
-    <div class="row" style="background-color:khaki">		
-		<div class="col-md-4">
-			<center>
-				<h3> <?php echo $xml->table_header[5]->value; ?> </h3>
-			</center>
+			<div class="col-md-2">
+				<center>
+					<h3 id="myHeader4"> <?php echo $xml->table_header[5]->value; ?> </h3>
+				<center>
+				<table class="table table-condensed" style="width:100%" id="myTable4"> </table>
+			</div>
+	
+			<div class="col-md-2">
+				<center>
+					<h3 id="myHeader5"> <?php echo $xml->table_header[5]->value; ?> </h3>
+				<center>
+				<table class="table table-condensed" style="width:100%" id="myTable5"> </table>
+			</div>
+		</div>	
 
-			<table class="table table-condensed" style="width:100%" id="myTable3"> </table>
-		</div>
-
-		<div class="col-md-4">
+		<div id="coluna2">
 			<center>
-				<h3> <?php echo $xml->table_header[6]->value; ?> </h3>
+				<h3 id="myHeader2"> <?php echo $xml->table_header[6]->value; ?> </h3>
 			<center>
-
-			<table class="table table-condensed" style="width:100%" id="myTable4"> </table>
-		</div>
-
-		<div class="col-md-4">
-			<center>
-				<h3> <?php echo $xml->table_header[6]->value; ?> </h3>
-			<center>
-
-			<table class="table table-condensed" style="width:100%" id="myTable5"> </table>
+			<table class="table table-condensed" style="width:100%" id="myTable2"> </table>
 		</div>
 	</div>	
 

@@ -33,9 +33,10 @@ class Processo:
         self.tipo = tipo
         self.io_time = 0
         self.remaining_time_until_io = int(remaining_time_until_io)
+        self.fila = 0
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(0) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(self.fila) + "]"
 
 def atualiza_lista_bloqueados(tempo_utilizado):
     # para cada processo, eu preciso atualizar o tempo de I/O deles
@@ -95,7 +96,7 @@ def main():
 
     # ########## inicializa as filas multiplas ##########
     for i in range(0, nqueues):
-        queues.append([i, []])
+        queues.append([i, []])      # queues tem o formato [# da fila, lista de processos]
 
     # ########## itera pelo json, adicionando processos na lista ##########
     json_string = options.jname[1:-1]
@@ -137,8 +138,9 @@ def main():
 
         # imprime a lista de processos
         msg = 'id=status&value='
-        for processo in processos:
-            msg = msg + processo.to_string() + " "
+        for fila_aux in queues:
+            for processo in fila_aux[1]:
+                msg = msg + processo.to_string() + " "
         msg = msg + ","
         for processo in lista_bloqueados:
             msg = msg + processo.to_string() + " "
@@ -223,6 +225,7 @@ def main():
 
                 if(quantum_da_fila+1 < nqueues):
                     queues[quantum_da_fila+1][1].append(p)
+                    p.fila = p.fila + 1
                 else:
                     queues[quantum_da_fila][1].append(p)
 
@@ -237,6 +240,7 @@ def main():
                     processos.remove(p)
                     if(quantum_da_fila+1 < nqueues):
                         queues[quantum_da_fila+1][1].append(p)
+                        p.fila = p.fila + 1
                     else:
                         queues[quantum_da_fila][1].append(p)
                 # se tem I/O
@@ -244,6 +248,7 @@ def main():
                 else:
                     lista_bloqueados.append(p)
                     processos.remove(p)
+                    p.fila = 0
                     print('id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
 
         numero_switches = numero_switches + 1
