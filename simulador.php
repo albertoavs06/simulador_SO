@@ -174,12 +174,12 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3><?php echo $xml->item[7]->value; ?></h3>
-				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:50%"></textarea>
+				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%"></textarea>
 			</div>
 		
             <div class="col-md-6" style="background-color:lightblue">
              	<h3>CPU</h3>
-               	<canvas id="canvas_cpu" class="col-md-12" style="height:60%"> </canvas>
+               	<canvas id="canvas_cpu" class="col-md-12" height="100"> </canvas>
             </div>
 
 			<div class="col-md-3" style="background-color:lightblue">			

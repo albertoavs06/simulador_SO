@@ -299,7 +299,7 @@ function selecionaAlgoritimo() {
    		cell3.innerHTML = processo.tipo;
 	
    		// se for algum desses tres algoritimos, tem uma coluna a mais
-   		if(selecionado == loteria || selecionado == prioridade || selecionado == filas) {
+   		if(selecionado == loteria || selecionado == prioridade) {
    			var cell4 = row.insertCell(3);
    			cell4.innerHTML = processo.valor_opcional;
    		}
@@ -457,3 +457,75 @@ function simular() {
 	}
 }
 
+function listaSugerida() {
+	// verifica qual algoritmo selecionado
+	var algoritimo = $('input[name="algoritimo"]:checked').val();
+	var tabela = document.getElementById("myTable");
+
+	// limpa tabela de processos
+	// limpa array de processos
+	while(processos[algoritimo].length > 0) {
+        processos[algoritimo].pop();
+        tabela.deleteRow(1);
+	}
+
+	// instancia um array para a lista sugerida
+	var lista_sugerida = new Array();
+
+	// insere na lista sugerida
+	if(algoritimo == 'round_robin' || algoritimo == 'shortest' || algoritimo == 'queues') {
+		lista_sugerida.push(new Array("A", "10", "cpu", ""));
+		lista_sugerida.push(new Array("B", "15", "cpu", ""));
+		lista_sugerida.push(new Array("C", "13", "io", ""));
+		lista_sugerida.push(new Array("D", "12", "cpu", ""));
+		lista_sugerida.push(new Array("E", "8", "io", ""));
+		lista_sugerida.push(new Array("F", "2", "cpu", ""));
+	} 
+	// loteria ou prioridades
+	else if(algoritimo == 'priority'){
+		lista_sugerida.push(new Array("A", "10", "cpu", "2"));
+		lista_sugerida.push(new Array("B", "15", "cpu", "1"));
+		lista_sugerida.push(new Array("C", "13", "io", "0"));
+		lista_sugerida.push(new Array("D", "12", "cpu", "3"));
+		lista_sugerida.push(new Array("E", "8", "io", "2"));
+		lista_sugerida.push(new Array("F", "2", "cpu", "1"));
+	} else {
+		lista_sugerida.push(new Array("A", "10", "cpu", "2"));
+		lista_sugerida.push(new Array("B", "15", "cpu", "1"));
+		lista_sugerida.push(new Array("C", "13", "io", "0"));
+		lista_sugerida.push(new Array("D", "12", "cpu", "3"));
+		lista_sugerida.push(new Array("E", "8", "io", "2"));
+		lista_sugerida.push(new Array("F", "2", "cpu", "1"));
+	}
+
+	for(var i = 0; i < lista_sugerida.length; i++) {
+		var dados = lista_sugerida[i];
+		
+		// insere no array
+		var processo = {
+			nome 	: dados[0],
+			tempo 	: dados[1],
+			tipo 	: dados[2],
+			valor 	: dados[3]		// pode ser o tempo de execucao, prioridade
+		};
+			
+		processos[algoritimo].push(processo);
+		
+		// insere na tabela
+		var insert_point = tabela.rows.length;
+		var row = tabela.insertRow(insert_point);
+		
+		var tamanho = dados.length - 1;
+
+   		// se for algum desses tres algoritimos, tem uma coluna a mais
+   		if(algoritimo == loteria || algoritimo == prioridade || algoritimo == filas) {
+   			tamanho = tamanho + 1;
+   		}
+
+		for(var j = 0; j < tamanho; j++) {
+			var cell = row.insertCell(j);
+			cell.innerHTML = dados[j];
+   			cell.style = "text-align:center";
+		}
+	}
+}

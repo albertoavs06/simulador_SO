@@ -59,6 +59,10 @@
 		<value>Home</value>
 	</item>
 
+	<item name="suggested_list">
+		<value>Usar Lista Sugerida</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round-robin scheduling</title>

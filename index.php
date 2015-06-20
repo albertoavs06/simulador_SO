@@ -160,6 +160,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 				<form class="form-inline">
 					<button class="btn btn-success" type="button" onclick="addProcesso()"><?php echo $xml->item[4]->value; ?></button>
 					<button class="btn btn-danger" type="button" onclick="rmProcesso()"><?php echo $xml->item[5]->value; ?></button>
+					<button class="btn btn-warning" type="button" onclick="listaSugerida()"><?php echo $xml->item[14]->value; ?></button>
 				</form>
 			</div>	
 			

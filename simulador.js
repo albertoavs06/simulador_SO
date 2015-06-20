@@ -176,9 +176,10 @@ function home() {
 
 function atualiza() {
 	// atualiza a mensagem
-	var mensagem = 'Uso da CPU: ' + cpu[step] + '\n';
+	var mensagem = 'Tempo Total de Exeucao: ' + tempo_execucao[step] + '\n';
+	mensagem = mensagem + 'Uso da CPU: ' + cpu[step] + '\n';
 	mensagem = mensagem + 'Trocas de Contexto: ' + switches[step] + '\n';
-	mensagem = mensagem + 'Acao executada: ' + mensagens[step];
+	mensagem = mensagem + 'Acao executada: ' + mensagens[step] + '\n';
 	
 	document.getElementById("descricao_algoritimo").innerHTML = mensagem;
 
