@@ -34,7 +34,7 @@ class Processo:
         self.base = base
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(self.tickets) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(self.base) + "-" + str(self.base + self.tickets - 1) + "]"
 
 def atualiza_lista_bloqueados(tempo_utilizado):
     # para cada processo, eu preciso atualizar o tempo de I/O deles
@@ -156,9 +156,9 @@ def main():
             for processo in processos:
                 # ve se o processo foi sorteado, e pega o vencedor
                 if(processo.base <= ticket_sorteado and ticket_sorteado < processo.base + processo.tickets):
-                    print('id=msg&value=' + dicionario['process_wins_lotery'] % (p.nome, str(ticket_sorteado)))
                     flag = False
                     p = processo
+                    print('id=msg&value=' + dicionario['process_wins_lotery'] % (p.nome, str(ticket_sorteado)))
                     break
                 # senao, o sorteado esta dentre os bloqueados, entao sorteia outro numero
 

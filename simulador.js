@@ -73,7 +73,7 @@ function run() {
 
 			// quebra a string na virgula
 			var texto = valor.split(/,/);
-			var myRegex = /(\w+):(\w+):(\d+):(\d+):(\d+)/;
+			var myRegex = /(\w+):(\w+):(\d+):(\d+):(\S+)]/;
 		
 			for(var k = 0; k < texto.length; k++) {
 				// quebra os processos prontos pelo espaco em branco
