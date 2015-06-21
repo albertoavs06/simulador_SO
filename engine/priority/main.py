@@ -1,6 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Copyright 2015 Marcelo Koti Kamada, Maria Lydia Fioravanti
+#
+# This file is part of SESI (Simulador de Escalonamento para Sistemas Interativos).
+#
+# SESI is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# SESI is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with SESI.  If not, see <http://www.gnu.org/licenses/>.
+
 # esse escalonamento por prioridade esta feito da seguinte forma:
 # round robin comecando da prioridade 0 (maior) ate 3 (menor)
 # se nao tiver nenhum processo de 0 pronto, os de 1 executam pelo seu quantum
@@ -226,6 +243,7 @@ def main():
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
     print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
+    print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(float(tempo_cpu*100) / current_time)) + '%')
 
 if __name__ == '__main__':
     main()

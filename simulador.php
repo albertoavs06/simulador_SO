@@ -159,12 +159,19 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		?>
 	</div>
 	
+
 	<!-- Titulo da primeira secao -->
    	<div class="row">
        	<div class="col-md-12" style="background-color:#ffaf4b">
-       		<h2 id="current_algorithm"><?php echo $algoritimos[0];?></h2>
+       		<h2 id="current_algorithm"><?php 
+       			if(count($algoritimos) == 1) {
+       				echo $algoritimos[0];
+       			} else {
+       				echo 'Parametros Globais de Simulacao';
+       			}
+       		?></h2>
    		</div>
-       </div>
+    </div>
 
     <div class="row" id="ponto_alinhamento">
        	<div class="col-md-3" style="background-color:#ffaf4b">
@@ -188,12 +195,19 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
         </div>
     </div>
 	
+	<?php 
+	if(count($algoritimos) == 1) {
+		echo '<div>';
+	} else {
+		echo '<div style="display:none">';
+	}
+	?>
 	<!-- Tres colunas, uma para a descricao do que ocorreu, a do meio para mostrar a CPU, e a ultima para o menu de opcoes -->
 	<div class="row">
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3><?php echo $xml->item[7]->value; ?></h3>
-				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%"></textarea>
+				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%" style="resize:none;"></textarea>
 			</div>
 		
             <div class="col-md-6" style="background-color:lightblue">
@@ -259,7 +273,82 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			<center>
 			<table class="table table-condensed" style="width:100%" id="myTable2"> </table>
 		</div>
-	</div>	
+	</div>
+		
+	</div> <!-- Fim do div que esconde a simulacao -->
+	
+	<?php 
+		if(count($algoritimos) == 1) {
+			echo '<div style="display:none">';
+		} else {
+			echo '<div>';
+		}
+	?>
+
+    <!-- comparacao -->
+    <?php 
+    	$cores = array('lightblue', 'khaki', '#ffaf4b', '', '');
+    
+    	for($i = 0; $i < count($algoritimos); $i++) {
+			$command = "engine/" . $algoritimos[$i] . "/main.py -d engine/". $algoritimos[$i] ."/en.xml -j '" . $_GET[$algoritimos[$i]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+			exec($command, $retorno);
+    		
+			// imprime header
+			echo '<div class="row">';
+			echo '<div class="col-md-12" style="background-color:'. $cores[$i] .'">';
+       		echo '<h2 id="">' . $algoritimos[$i] . '</h2>'; // javascript tem que olhar no dicionario e traduzir
+			echo '</div>';
+			echo '</div>';
+			
+			// imprime estatisticas e tabela de processos
+			echo '<div class="row">';
+
+			echo '<div class="col-md-4" style="background-color:'. $cores[$i] .'">';
+			echo '<h3>Estatisticas</h3>';
+			echo '<textarea id="" class="form-control" rows="3" style="height:80%" style="resize:none;"></textarea>';
+			echo '</div>';
+			
+			echo '<div class="col-md-8" style="background-color:'. $cores[$i] .'">';
+			echo '<h3>Processos</h3>';
+			echo '<table class="table table-condensed" style="width:100%" id="tabela' . $i . '">';
+			echo '<thead>';
+			
+			echo '<tr>';
+			echo '<th style="text-align:center">Nome</th>';
+			echo '<th style="text-align:center">Tempo</th>';
+			echo '<th style="text-align:center">Tipo</th>';
+			
+			if(!strcmp($algoritimos[$i], "lotery")) {
+				echo '<th style="text-align:center">Tickets</th>';
+			} else if(!strcmp($algoritimos[$i], "priority")) {
+				echo '<th style="text-align:center">Prioridade</th>';
+			}
+			
+			echo '</tr>';
+			echo '</thead>';
+			
+			echo '<tbody>';
+			echo '</tbody>';
+			
+			echo '</table>';
+			
+			echo '</div>';
+
+			echo '</div>';
+			
+			echo '<p id="resultado'.$i.'">'. $_GET[$algoritimos[$i]] . '</p>';
+    	}
+    ?>
+	<div class="row" style="background-color:#b0d4e3">	
+		<div class="col-md-12">
+			<!-- Executar Simulacao -->
+			<center>
+				<button type="button" class="btn btn-primary btn-lg" onclick="home()" style="width:50%"><?php echo $xml->item[13]->value; ?></button>
+			</center>
+		</div>
+	</div>
+
+	</div> <!-- Fim do div que esconde a comparacao -->
 
 	</div><!-- Fim div container -->
 
@@ -304,10 +393,6 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			echo '<p id="' . $key . '">' . $value[$arrlength-1][0] . '<p>';
 		}
 	} 
-	// senao, tem que comparar os algoritimos
-	else {
-		echo '<p>Compara</p>';
-	}
 	
 	// ################### Descricoes dos algoritimos ###################
 	foreach($xml->algorithm as $algoritimo):

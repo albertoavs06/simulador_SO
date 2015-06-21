@@ -50,18 +50,75 @@ function run() {
 	var offset = $('#ponto_alinhamento').offset().top;
 	$('html, body').scrollTop(offset);
 	
+	// inicializa os parametros de simulacao
 	var aux = ['quantum', 'switch_cost', 'io_time', 'processing_until_io'];
-	
-	// inicializa o titulo
-	algoritmo = document.getElementById('current_algorithm').innerHTML;
-	var valor = document.getElementById(algoritmo).innerHTML;
-	document.getElementById('current_algorithm').innerHTML = valor;
-
-	// e inicializa os parametros de simulacao
 	for(var i = 0; i < aux.length; i++) {
 		var tmp = document.getElementById(aux[i]).innerHTML;
 		document.getElementById('campo_' + aux[i]).innerHTML = tmp;
 	}
+	
+	// inicializa o titulo
+	algoritmo = document.getElementById('current_algorithm').innerHTML;
+	
+	if(document.getElementById(algoritmo) == null) {
+	
+		var i = 0;
+		while(true) {
+			var tab = document.getElementById('tabela' + i);
+			if(tab == null) {
+				break;
+			}
+
+			var dados = document.getElementById('resultado' + i).innerHTML;
+			dados = dados.substring(1, dados.length - 1);
+
+			var tmp = dados.split(/},{/);
+
+			for(var j = 0; j < tmp.length; j++) {
+				// primeiro elemento falta um }
+				if(tmp.length == 1) {
+					// tudo certo
+				}
+				else if(j == 0) {
+					tmp[j] = tmp[j] + "}";
+				} 
+				// ultimo falta um {
+				else if(j == tmp.length-1) {
+					tmp[j] = "{" + tmp[j];
+				} 
+				// os outros faltam { e }
+				else {
+					tmp[j] = "{" + tmp[j] + "}";
+				}
+
+				var object = jQuery.parseJSON(tmp[j]);
+				var row = tab.insertRow(tab.rows.length);
+	
+				var cell = row.insertCell(0);
+				cell.innerHTML = object.nome;
+				cell.style = "text-align:center";
+
+				cell = row.insertCell(1);
+				cell.innerHTML = object.tempo;
+				cell.style = "text-align:center";
+
+				cell = row.insertCell(2);
+				cell.innerHTML = object.tipo;
+				cell.style = "text-align:center";
+				
+				if(object.valor != "") {
+					cell = row.insertCell(3);
+					cell.innerHTML = object.valor;
+					cell.style = "text-align:center";
+				}
+			}
+			i = i + 1;
+		}
+		return;
+	}
+
+	var valor = document.getElementById(algoritmo).innerHTML;
+	document.getElementById('current_algorithm').innerHTML = valor;
 
 	if(mensagens == null) {
 		//mensagens = load('msg');
