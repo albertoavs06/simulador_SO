@@ -287,29 +287,65 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 
     <!-- comparacao -->
     <?php 
-    	$cores = array('lightblue', 'khaki', '#ffaf4b', '', '');
+    	$cores = array('lightblue', 'khaki', '#ffaf4b', '#8AE68A', '#CCCC52');
     
     	for($i = 0; $i < count($algoritimos); $i++) {
 			$command = "engine/" . $algoritimos[$i] . "/main.py -d engine/". $algoritimos[$i] ."/en.xml -j '" . $_GET[$algoritimos[$i]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
 			exec($command, $retorno);
+
+			$arrays = array();
+		
+			$arrays['msg'] = array();
+			$arrays['status'] = array();
+			$arrays['cpu'] = array();
+			$arrays['tte'] = array();
+			$arrays['switches'] = array();
+		
+			foreach($retorno as $line) {
+				$flag = 1;
+				parse_str($line);	
+				foreach($arrays as $key => $valor) {
+					if(!strcmp($id, $key)) {
+						array_push($arrays[$key], array($time_stamp, $value));
+						$flag = 0;
+						break;
+					}
+				}
+				
+				if($flag) {
+					echo '<p>nao deu match ' . $line . ' </p>';	
+				}
+			}
     		
 			// imprime header
 			echo '<div class="row">';
 			echo '<div class="col-md-12" style="background-color:'. $cores[$i] .'">';
-       		echo '<h2 id="">' . $algoritimos[$i] . '</h2>'; // javascript tem que olhar no dicionario e traduzir
+       		echo '<h2 id="alg'.$i.'">' . $algoritimos[$i] . '</h2>'; // javascript tem que olhar no dicionario e traduzir
 			echo '</div>';
 			echo '</div>';
 			
 			// imprime estatisticas e tabela de processos
 			echo '<div class="row">';
+			echo '<div class="row-eq-height">';
 
 			echo '<div class="col-md-4" style="background-color:'. $cores[$i] .'">';
-			echo '<h3>Estatisticas</h3>';
-			echo '<textarea id="" class="form-control" rows="3" style="height:80%" style="resize:none;"></textarea>';
+			echo '<h3>'. $xml->item[15]->value.'</h3>';
+			echo '<textarea id="" class="form-control" rows="3" style="height:60%" style="resize:none;">';
+
+			$tamanho = count($arrays['tte']) - 1;
+			echo 'Tempo Total de Execucao: ' . $arrays['tte'][$tamanho][1] . "\n";
+
+			$tamanho = count($arrays['cpu']) - 1;
+			echo 'Uso da CPU: ' . $arrays['cpu'][$tamanho][1] . "\n";
+
+			$tamanho = count($arrays['switches']) - 1;
+			echo 'Trocas de Contexto: ' . $arrays['switches'][$tamanho][1] . "\n";
+
+			echo '</textarea>';
 			echo '</div>';
 			
 			echo '<div class="col-md-8" style="background-color:'. $cores[$i] .'">';
-			echo '<h3>Processos</h3>';
+			echo '<h3>'. $xml->item[16]->value .'</h3>';
 			echo '<table class="table table-condensed" style="width:100%" id="tabela' . $i . '">';
 			echo '<thead>';
 			
@@ -333,10 +369,11 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			echo '</table>';
 			
 			echo '</div>';
+			echo '</div>';
 
 			echo '</div>';
 			
-			echo '<p id="resultado'.$i.'">'. $_GET[$algoritimos[$i]] . '</p>';
+			echo '<p id="resultado'.$i.'" hidden="true">'. $_GET[$algoritimos[$i]] . '</p>';
     	}
     ?>
 	<div class="row" style="background-color:#b0d4e3">	

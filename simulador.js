@@ -68,6 +68,10 @@ function run() {
 			if(tab == null) {
 				break;
 			}
+			
+			var valor = document.getElementById('alg' + i).innerHTML;
+			valor = document.getElementById(valor).innerHTML;
+			document.getElementById('alg' + i).innerHTML = valor;
 
 			var dados = document.getElementById('resultado' + i).innerHTML;
 			dados = dados.substring(1, dados.length - 1);

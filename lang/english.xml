@@ -63,6 +63,14 @@
 		<value>Usar Lista Sugerida</value>
 	</item>
 
+	<item name="process">
+		<value>Processos</value>
+	</item>
+
+	<item name="statistics">
+		<value>Estatisticas</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round-robin scheduling</title>
