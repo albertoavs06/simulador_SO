@@ -71,6 +71,7 @@ function run() {
 	
 	if(tempo_execucao == null) {
 		tempo_execucao = load('tte');
+		tempo_execucao.shift();		// pq tem um elemento a mais no tempo de execucao
 	}
 	
 	// se array de estados nao esta inicializado, inicializa ele

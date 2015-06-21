@@ -140,7 +140,7 @@ def main():
             break
 
         # imprime a lista de processos
-        msg = 'id=status&value='
+        msg = 'time_stamp=' + str(time_stamp) + '&id=status&value='
         for fila_aux in queues:
             for processo in fila_aux[1]:
                 msg = msg + processo.to_string() + " "
@@ -179,9 +179,9 @@ def main():
         if(p.tipo == "io"):
             # se o quantum da fila e' menor do que falta para o processo sofre I/O
             # executa o quantum da fila, e decrementa o quanto que falta para o I/O do processo
-            if(2^quantum_da_fila < p.remaining_time_until_io):
-                aux_quantum = 2^quantum_da_fila
-                p.remaining_time_until_io = p.remaining_time_until_io - 2^quantum_da_fila
+            if(2**quantum_da_fila < p.remaining_time_until_io):
+                aux_quantum = 2**quantum_da_fila
+                p.remaining_time_until_io = p.remaining_time_until_io - 2**quantum_da_fila
                 aux_io = 0 # sem I/O porque ainda nao deu o tempo
                 # para a proxima classe
             # senao, o processo vai receber I/O antes de acabar o quantum da fila
@@ -194,10 +194,10 @@ def main():
 
         # se o processo for do tipo CPU bound
         else:
-            if(quantum <= 2^quantum_da_fila):
-                aux_quantum = quantum   # ele vai executar o quantum inteiro
-            else:
-                aux_quantum = 2^quantum_da_fila
+#            if(quantum <= 2**quantum_da_fila):
+#                aux_quantum = quantum   # ele vai executar o quantum inteiro
+#            else:
+            aux_quantum = 2**quantum_da_fila
             aux_io = 0              # o tempo de I/O dele e' nenhum
 
         # se falta menos do que o ele vai executar
@@ -260,6 +260,7 @@ def main():
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
     print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
+    print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(float(tempo_cpu*100) / current_time)) + '%')
 
 if __name__ == '__main__':
     main()
