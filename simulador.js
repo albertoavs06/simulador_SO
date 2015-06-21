@@ -45,7 +45,20 @@ function run() {
 	}
 
 	if(mensagens == null) {
-		mensagens = load('msg');
+		//mensagens = load('msg');
+		mensagens = new Array();
+		mensagens.push("");
+		var n = document.getElementById('msg').innerHTML;
+		for(var i = 0; i < n; i++) {
+			var node_list = document.getElementsByName('msg' + i);
+			var array = new Array();
+			
+			for(var j = 0; j < node_list.length; j++) {
+				var valor = node_list[j].innerHTML;
+				array.push(valor);
+			}
+			mensagens.push(array);
+		}
 	}
 	
 	if(switches == null) {
@@ -99,6 +112,9 @@ function run() {
 	} 
 	console.log('estados ' + estados.length);
 	console.log('mensagens ' + mensagens.length);
+	console.log('cpu ' + cpu.length);
+	console.log('tempo execucao ' + tempo_execucao.length);
+	console.log('switches ' + switches.length);
 	
 	var ready_process_value = document.getElementById('ready_process').innerHTML;
 	var blocked_process 	= document.getElementById('blocked_process').innerHTML;
@@ -179,7 +195,11 @@ function atualiza() {
 	var mensagem = 'Tempo Total de Exeucao: ' + tempo_execucao[step] + '\n';
 	mensagem = mensagem + 'Uso da CPU: ' + cpu[step] + '\n';
 	mensagem = mensagem + 'Trocas de Contexto: ' + switches[step] + '\n';
-	mensagem = mensagem + 'Acao executada: ' + mensagens[step] + '\n';
+	
+	mensagem = mensagem + 'Acao executada: ';
+	for(var i = 0; i < mensagens[step].length; i++) {
+		mensagem = mensagem + mensagens[step][i] + '\n';
+	}
 	
 	document.getElementById("descricao_algoritimo").innerHTML = mensagem;
 

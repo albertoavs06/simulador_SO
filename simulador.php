@@ -265,7 +265,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			parse_str($line);	
 			foreach($arrays as $key => $valor) {
 				if(!strcmp($id, $key)) {
-					array_push($arrays[$key], $value);
+					array_push($arrays[$key], array($time_stamp, $value));
 					$flag = 0;
 					break;
 				}
@@ -278,10 +278,11 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		
 		foreach($arrays as $key => $value) {
 			$arrlength = count($value);
-			echo '<p id="' . $key . '">' . $arrlength . '<p>';
 			for($i = 0; $i < $arrlength; $i++) {
-				echo '<p id="' . $key . $i . '">' . $value[$i] . '<p>';
+//				echo '<p id="' . $key . $value[$i][0] . '">' . $value[$i][0] . ' ' . $value[$i][1] . '<p>';
+				echo '<p id="' . $key . $i . '" name="' . $key . $value[$i][0] . '">' . $value[$i][1] . '<p>';
 			}
+			echo '<p id="' . $key . '">' . $value[$arrlength-1][0] . '<p>';
 		}
 	} 
 	// senao, tem que comparar os algoritimos

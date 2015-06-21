@@ -6,6 +6,8 @@ import json
 import optparse
 from xml.dom import minidom
 
+time_stamp = 0
+
 # ########## dicionario, suporte a linguas ##########
 dicionario = {}
 
@@ -47,9 +49,10 @@ def atualiza_lista_bloqueados(tempo_utilizado):
             processo.io_time = 0
             lista_bloqueados.remove(processo)
             queues[0][1].append(processo)
-            print('id=msg&value=' + dicionario['process_goes_to_ready_list'] % (processo.nome))
+            print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_ready_list'] % (processo.nome))
 
 def main():
+    global time_stamp
     global processos
     global lista_bloqueados
     global current_time
@@ -147,16 +150,16 @@ def main():
         print(msg)
 
         # imprime o tempo total de execucao
-        print('id=tte&value=' + str(current_time))
+        print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
 
         # imprime numero de switches
-        print('id=switches&value=' + str(numero_switches))
+        print('time_stamp=' + str(time_stamp) + '&id=switches&value=' + str(numero_switches))
 
         # imprime o uso da CPU
         tmp = 0.0
         if current_time > 0:
             tmp = float(tempo_cpu*100) / current_time
-        print('id=cpu&value=' + str(int(tmp)) + '%')
+        print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(tmp)) + '%')
 
         if(len(processos) == 0 and len(lista_bloqueados) > 0):
             p = lista_bloqueados[0]
@@ -217,7 +220,7 @@ def main():
         # se o processo acabou, remove ele da lista
         if(p.tempo == 0):
             processos.remove(p)
-            print('id=msg&value=' + dicionario['process_finishes'] % (p.nome, str(tempo_utilizado)))
+            print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_finishes'] % (p.nome, str(tempo_utilizado)))
         # senao coloca ele no fim da lista
         else:
             if(p.tipo == "cpu"):    # vai para o fim da lista
@@ -230,7 +233,7 @@ def main():
                     queues[quantum_da_fila][1].append(p)
 
                 #print(dicionario['process_goes_to_end_of_ready_list'])
-                print('id=msg&value=' + dicionario['process_goes_to_end_of_ready_list'] % (p.nome, str(tempo_utilizado)))
+                print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_end_of_ready_list'] % (p.nome, str(tempo_utilizado)))
 
             # se for I/O bound
             else:                   # vai para a lista de bloqueados
@@ -249,13 +252,14 @@ def main():
                     lista_bloqueados.append(p)
                     processos.remove(p)
                     p.fila = 0
-                    print('id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
+                    print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
 
         numero_switches = numero_switches + 1
+        time_stamp = time_stamp + 1
 
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
-    print('id=tte&value=' + str(current_time))
+    print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
 
 if __name__ == '__main__':
     main()
