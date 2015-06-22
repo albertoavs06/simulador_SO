@@ -272,12 +272,18 @@ function home() {
 }
 
 function atualiza() {
-	// atualiza a mensagem
-	var mensagem = 'Tempo Total de Exeucao: ' + tempo_execucao[step] + '\n';
-	mensagem = mensagem + 'Uso da CPU: ' + cpu[step] + '\n';
-	mensagem = mensagem + 'Trocas de Contexto: ' + switches[step] + '\n';
 	
-	mensagem = mensagem + 'Acao executada: ';
+	var tte = document.getElementById('execution_total_time').innerHTML;
+	var chaveamentos = document.getElementById('context_switches').innerHTML;
+	var cpu_usage = document.getElementById('cpu_usage').innerHTML;
+	var action = document.getElementById('action').innerHTML;
+	
+	// atualiza a mensagem
+	var mensagem = tte + ': ' + tempo_execucao[step] + '\n';
+	mensagem = mensagem + cpu_usage + ': ' + cpu[step] + '\n';
+	mensagem = mensagem + chaveamentos + ': ' + switches[step] + '\n';
+	
+	mensagem = mensagem + action + ': ';
 	for(var i = 0; i < mensagens[step].length; i++) {
 		mensagem = mensagem + mensagens[step][i] + '\n';
 	}

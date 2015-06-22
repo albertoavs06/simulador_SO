@@ -207,7 +207,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3><?php echo $xml->item[7]->value; ?></h3>
-				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%" style="resize:none;"></textarea>
+				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%; resize:none;" readonly></textarea>
 			</div>
 		
             <div class="col-md-6" style="background-color:lightblue">
@@ -276,17 +276,14 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	</div>
 		
 	</div> <!-- Fim do div que esconde a simulacao -->
-	
-	<?php 
+
+    <!-- comparacao -->
+    <?php 
 		if(count($algoritimos) == 1) {
 			echo '<div style="display:none">';
 		} else {
 			echo '<div>';
-		}
-	?>
 
-    <!-- comparacao -->
-    <?php 
     	$cores = array('lightblue', 'khaki', '#ffaf4b', '#8AE68A', '#CCCC52');
     
     	for($i = 0; $i < count($algoritimos); $i++) {
@@ -329,23 +326,23 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			echo '<div class="row-eq-height">';
 
 			echo '<div class="col-md-4" style="background-color:'. $cores[$i] .'">';
-			echo '<h3>'. $xml->item[15]->value.'</h3>';
-			echo '<textarea id="" class="form-control" rows="3" style="height:60%" style="resize:none;">';
+			echo '<h3>'. $xml->item[16]->value.'</h3>';
+			echo '<textarea id="" class="form-control" rows="3" style="height:60%; resize: none;" readonly>';
 
 			$tamanho = count($arrays['tte']) - 1;
-			echo 'Tempo Total de Execucao: ' . $arrays['tte'][$tamanho][1] . "\n";
+			echo $xml->item[17]->value . ': ' . $arrays['tte'][$tamanho][1] . "\n";
 
 			$tamanho = count($arrays['cpu']) - 1;
-			echo 'Uso da CPU: ' . $arrays['cpu'][$tamanho][1] . "\n";
+			echo $xml->item[18]->value . ': ' . $arrays['cpu'][$tamanho][1] . "\n";
 
 			$tamanho = count($arrays['switches']) - 1;
-			echo 'Trocas de Contexto: ' . $arrays['switches'][$tamanho][1] . "\n";
+			echo $xml->item[19]->value . ': ' . $arrays['switches'][$tamanho][1] . "\n";
 
 			echo '</textarea>';
 			echo '</div>';
 			
 			echo '<div class="col-md-8" style="background-color:'. $cores[$i] .'">';
-			echo '<h3>'. $xml->item[16]->value .'</h3>';
+			echo '<h3>'. $xml->item[15]->value .'</h3>';
 			echo '<table class="table table-condensed" style="width:100%" id="tabela' . $i . '">';
 			echo '<thead>';
 			
@@ -374,6 +371,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			echo '</div>';
 			
 			echo '<p id="resultado'.$i.'" hidden="true">'. $_GET[$algoritimos[$i]] . '</p>';
+    	}
     	}
     ?>
 	<div class="row" style="background-color:#b0d4e3">	
@@ -460,6 +458,12 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	echo $titulo;
 	echo "</div>";
 	endforeach;
+	
+	// ################### itens ###################
+	echo '<div hidden=true id="execution_total_time">' . $xml->item[17]->value . '</div>';
+	echo '<div hidden=true id="cpu_usage">' . $xml->item[18]->value . '</div>';
+	echo '<div hidden=true id="context_switches">' . $xml->item[19]->value . '</div>';
+	echo '<div hidden=true id="action">' . $xml->item[20]->value . '</div>';
 	?>
 </body>
 

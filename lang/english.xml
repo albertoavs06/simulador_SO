@@ -71,6 +71,22 @@
 		<value>Estatisticas</value>
 	</item>
 
+	<item name="execution_total_time">
+		<value>Tempo Total de Execucao</value>
+	</item>
+
+	<item name="cpu_usage">
+		<value>Utilizacao da CPU</value>
+	</item>
+
+	<item name="context_switches">
+		<value>Trocas de Contexto</value>
+	</item>
+
+	<item name="action">
+		<value>Acao Executada</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round-robin scheduling</title>
