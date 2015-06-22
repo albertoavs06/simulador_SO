@@ -472,7 +472,9 @@ function simular() {
 	} else {
 		// para mandar coisas pela url como JSON
 		mensagem = mensagem.substring(0, mensagem.length-1);
-		window.location.href = "simulador.php?" + mensagem;
+		
+		var lang = document.getElementById('lang').innerHTML;
+		window.location.href = "simulador.php?" + mensagem + '&lang=' + lang;
 	}
 }
 

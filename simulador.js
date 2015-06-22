@@ -268,7 +268,8 @@ function inicializa_tabela(nome, headers) {
 
 function home() {
 	//window.history.back();	
-	window.location.href = "simulador.php";
+	var lang = document.getElementById('lang').innerHTML;
+	window.location.href = "index.php?lang=" + lang;
 }
 
 function atualiza() {

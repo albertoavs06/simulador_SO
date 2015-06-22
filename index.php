@@ -251,6 +251,14 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			
 		</div><!-- Fim div container -->
 		
+		<?php 
+			if($lingua == null) {
+				echo '<p id="lang" hidden="true">en</p>';
+			} else {
+				echo '<p id="lang" hidden="true">' . $lingua .'</p>';
+			}
+		?>
+		
     	<?php
             // ################### Descricoes dos algoritimos ###################
     	    foreach($xml->algorithm as $algoritimo):
