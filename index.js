@@ -378,7 +378,7 @@ function valorOpcionalSelecionado() {
 	var nextDescricao = null;
 	
 	var selecionado = $('input[name="algoritimo"]:checked').val();
-	if(selecionado == 'loteria') {
+	if(selecionado == 'lotery') {
 		nextTitulo = document.getElementById('titulo_lotery_value').innerHTML;
 		nextDescricao = document.getElementById('descricao_lotery_value').innerHTML;
 	} else {
