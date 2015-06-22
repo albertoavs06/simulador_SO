@@ -164,7 +164,7 @@ function addProcesso() {
 
 	// alinha todas as colunas
 	for(i = 0; i < row.cells.length; i++) {
-		row.cells[i].style = "text-align:center";
+		row.cells[i].style.textAlign = "center";
 	}
 }
 
@@ -206,7 +206,7 @@ function selecionaAlgoritimo() {
 	var nextTitulo_opcional = "titulo opcional";
 	
 	if(selecionado == round_robin) {
-		segundo_campo_input.style = "display:none";
+		segundo_campo_input.style.display = "none";
 		titulo_opcional.hidden = true;
 		
 		nextTitulo = document.getElementById('titulo_round_robin').innerHTML;
@@ -215,7 +215,7 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_round_robin').innerHTML;
 		
 	} else if(selecionado == proximo_mais_curto) {
-		segundo_campo_input.style = "display:none";
+		segundo_campo_input.style.display = "none";
 		//segundo_campo_input.hidden = true;
 		titulo_opcional.hidden = true;		
 		
@@ -225,7 +225,7 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_shortest').innerHTML;	
 		
 	} else if (selecionado == loteria) {
-		segundo_campo_input.style = "display:block";
+		segundo_campo_input.style.display = "block";
 		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;		
 		
@@ -238,7 +238,7 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_lotery').innerHTML;		
 		
 	} else if(selecionado == filas) {
-		segundo_campo_input.style = "display:none";
+		segundo_campo_input.style.display = "none";
 		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = true;				
 		
@@ -248,7 +248,7 @@ function selecionaAlgoritimo() {
 		nextDesvantagens = document.getElementById('desvantagens_queues').innerHTML;
 		
 	} else if(selecionado == prioridade) {
-		segundo_campo_input.style = "display:block";
+		segundo_campo_input.style.display = "block";
 		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;				
 		
@@ -300,7 +300,7 @@ function selecionaAlgoritimo() {
 	}
 	
 	for(i = 0; i < row.cells.length; i++) {
-		row.cells[i].style = "text-align:center";
+		row.cells[i].style.textAlign = "center";
 	}
 
 	// agora insere de volta os processos desse algoritimo
@@ -325,7 +325,7 @@ function selecionaAlgoritimo() {
 
    		// alinha todas as colunas
    		for(var j = 0; j < row.cells.length; j++) {
-   			row.cells[j].style = "text-align:center";
+   			row.cells[j].style.textAlign = "center";
    		}
 	}
 	old_selecionado = selecionado;
@@ -546,7 +546,7 @@ function listaSugerida() {
 		for(var j = 0; j < tamanho; j++) {
 			var cell = row.insertCell(j);
 			cell.innerHTML = dados[j];
-   			cell.style = "text-align:center";
+   			cell.style.textAlign = "center";
 		}
 	}
 }

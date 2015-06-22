@@ -100,20 +100,20 @@ function run() {
 	
 				var cell = row.insertCell(0);
 				cell.innerHTML = object.nome;
-				cell.style = "text-align:center";
+				cell.style.textAlign = "center";
 
 				cell = row.insertCell(1);
 				cell.innerHTML = object.tempo;
-				cell.style = "text-align:center";
+				cell.style.textAlign = "center";
 
 				cell = row.insertCell(2);
 				cell.innerHTML = object.tipo;
-				cell.style = "text-align:center";
+				cell.style.textAlign = "center";
 				
 				if(object.valor != "") {
 					cell = row.insertCell(3);
 					cell.innerHTML = object.valor;
-					cell.style = "text-align:center";
+					cell.style.textAlign = "center";
 				}
 			}
 			i = i + 1;
@@ -239,7 +239,7 @@ function run() {
 		document.getElementById('coluna1').className = "col-md-2";
 		document.getElementById('coluna2').className = "col-md-4";
 	} else {
-		tabelas_extras.style = 'display:none';
+		tabelas_extras.style.display = 'none';
 		document.getElementById('coluna1').className = "col-md-6";
 		document.getElementById('coluna2').className = "col-md-6";
 	}
@@ -262,7 +262,7 @@ function inicializa_tabela(nome, headers) {
 		cell.innerHTML = headers[i];
 
 		// alinha todas as colunas
-		cell.style = "text-align:center";
+		cell.style.textAlign = "center";
 	}
 }
 
@@ -316,7 +316,7 @@ function atualiza() {
 				if(j != 3) {
 					var cell = row.insertCell(row.cells.length);
 					cell.innerHTML = processos_prontos[i][j];
-					cell.style = "text-align:center";
+					cell.style.textAlign = "center";
 				}
 			}
 		}
@@ -341,7 +341,7 @@ function atualiza() {
 				if(j != 3) {
 					var cell = row.insertCell(row.cells.length);
 					cell.innerHTML = processos_prontos[i][j];
-					cell.style = "text-align:center";
+					cell.style.textAlign = "center";
 				}
 			}
 		}
@@ -365,7 +365,7 @@ function atualiza() {
 		for(var j = 0; j < tamanho; j++) {
 			var cell = row.insertCell(j);
 			cell.innerHTML = processos_bloqueados[i][j];
-			cell.style = "text-align:center";
+			cell.style.textAlign = "center";
 		}
 	}
 }
