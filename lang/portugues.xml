@@ -59,6 +59,34 @@
 		<value>Página Inicial</value>
 	</item>
 
+	<item name="suggested_list">
+		<value>Usar Lista Sugerida</value>
+	</item>
+
+	<item name="process">
+		<value>Processos</value>
+	</item>
+
+	<item name="statistics">
+		<value>Estatisticas</value>
+	</item>
+
+	<item name="execution_total_time">
+		<value>Tempo Total de Execucao</value>
+	</item>
+
+	<item name="cpu_usage">
+		<value>Utilizacao da CPU</value>
+	</item>
+
+	<item name="context_switches">
+		<value>Trocas de Contexto</value>
+	</item>
+
+	<item name="action">
+		<value>Acao Executada</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round-robin</title>
@@ -104,22 +132,22 @@
 
 	<second_section name="execution_time">
 		<title>Tempo de execução</title>
-		<description>your description here</description>
+		<description>Tempo de processamento na CPU que o processo necessita para terminar</description>
 	</second_section>
 
 	<second_section name="process_type">
 		<title>Tipo do processo</title>
-		<description>none</description>
+		<description>Tipo do processo, orientado a entrada e saida ou a CPU</description>
 	</second_section>
 	
 	<second_section name="cpu_bound">
 		<title>Orientado a CPU</title>
-		<description>your description here</description>
+		<description>Processos orientados a CPU ocupam a CPU por longos periodos (CPU burst) entre requisicoes de entrada e saida. Neste simulador, os processos orientados a CPU nao requisitam entrada e saida</description>
 	</second_section>
 
 	<second_section name="io_bound">
 		<title>Orientado a E/S</title>
-		<description>your description here</description>
+		<description>Processos orientados a Entrada e Saida (E/S) processam pouco entre as suas requisicoes. A medida que o poder de processamento dos processadores aumenta, processos classificados como orientados a CPU podem passar a ser de E/S porque o tempo entre as requisicoes diminui. Neste simulador, os processos orientados a E/S sempre requisitam E/S em intervalos de tempo determinados pelo parametros de simulacao "Tempo medio de processamento antes da E/S"</description>
 	</second_section>
 
 	<second_section name="lotery_value">
@@ -135,27 +163,27 @@
 	<!-- ########## Third Section ########## -->
 	<third_section name="quantum">
 		<title>Quantum</title>
-		<description>your description here</description>
+		<description>Periodo de tempo que os processos tem direito de executar na CPU cada vez que forem escalonados</description>
 	</third_section>
 
 	<third_section name="switch_cost">
 		<title>Tempo para troca</title>
-		<description>your description here</description>
+		<description>Tempo necessario para trocar o processo executando na CPU pelo processo escolhido pelo algoritmo de escalonamento</description>
 	</third_section>
 
 	<third_section name="io_time">
 		<title>Tempo de uma operação de E/S</title>
-		<description>your description here</description>
+		<description>Tempo para terminar uma operacao de E/S. Processos que requisitarem E/S ficarao bloqueados durante este periodo</description>
 	</third_section>
 
 	<third_section name="processing_until_io">
 		<title>Tempo médio de processamento antes da E/S</title>
-		<description>your description here</description>
+		<description>Tempo medio que os processos orientados a E/S processam antes de requisitar E/S</description>
 	</third_section>
 
 	<third_section name="simulation_description">
 		<title></title>
-		<description>your description here</description>
+		<description>Clique no botao abaixo para realizar a simulacao. Se mais de um algoritmo possuir processos na sua lista, o botao abaixo compara estes algoritmos.</description>
 	</third_section>
 
 	<!-- ########## Inputs ########## -->

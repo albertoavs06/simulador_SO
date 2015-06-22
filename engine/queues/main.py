@@ -192,6 +192,9 @@ def main():
         aux_quantum = 0
         aux_io = 0
 
+        # salva tempo usado da CPU
+        tempo_cpu = tempo_cpu + tempo_utilizado
+
         # se o processo for do tipo IO bound
         if(p.tipo == "io"):
             # se o quantum da fila e' menor do que falta para o processo sofre I/O

@@ -196,6 +196,9 @@ def main():
         # para cada processo, eu preciso atualizar o tempo de I/O deles
         atualiza_lista_bloqueados(tempo_utilizado)
 
+        # salva tempo usado da CPU
+        tempo_cpu = tempo_cpu + tempo_utilizado
+
         # se o processo acabou, remove ele da lista
         if(p.tempo == 0):
             processos.remove(p)

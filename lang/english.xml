@@ -64,27 +64,27 @@
 	</item>
 
 	<item name="process">
-		<value>Processos</value>
+		<value>Process List</value>
 	</item>
 
 	<item name="statistics">
-		<value>Estatisticas</value>
+		<value>Statistics</value>
 	</item>
 
 	<item name="execution_total_time">
-		<value>Tempo Total de Execucao</value>
+		<value>Execution Total Time</value>
 	</item>
 
 	<item name="cpu_usage">
-		<value>Utilizacao da CPU</value>
+		<value>CPU Usage</value>
 	</item>
 
 	<item name="context_switches">
-		<value>Trocas de Contexto</value>
+		<value>Context Switches</value>
 	</item>
 
 	<item name="action">
-		<value>Acao Executada</value>
+		<value>Action Performed</value>
 	</item>
 
 	<!-- ########## Algorithms ########## -->

@@ -347,14 +347,14 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			echo '<thead>';
 			
 			echo '<tr>';
-			echo '<th style="text-align:center">Nome</th>';
-			echo '<th style="text-align:center">Tempo</th>';
-			echo '<th style="text-align:center">Tipo</th>';
+			echo '<th style="text-align:center">'. $xml->table_header[0]->value .'</th>';
+			echo '<th style="text-align:center">'. $xml->table_header[2]->value .'</th>';
+			echo '<th style="text-align:center">'. $xml->table_header[1]->value .'</th>';
 			
 			if(!strcmp($algoritimos[$i], "lotery")) {
-				echo '<th style="text-align:center">Tickets</th>';
+				echo '<th style="text-align:center">' . $xml->table_header[3]->value .'</th>';
 			} else if(!strcmp($algoritimos[$i], "priority")) {
-				echo '<th style="text-align:center">Prioridade</th>';
+				echo '<th style="text-align:center">' . $xml->table_header[4]->value .'</th>';
 			}
 			
 			echo '</tr>';

@@ -195,6 +195,9 @@ def main():
         aux_quantum = 0
         aux_io = 0
 
+        # salva tempo usado da CPU
+        tempo_cpu = tempo_cpu + tempo_utilizado
+
         # se o processo for do tipo IO bound
         if(p.tipo == "io"):
             aux_quantum = processing_time_until_io  # o quantum dele e' o tempo ate ele fazer I/O
