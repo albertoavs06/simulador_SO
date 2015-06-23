@@ -195,13 +195,8 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
         </div>
     </div>
 	
-	<?php 
-	if(count($algoritimos) == 1) {
-		echo '<div>';
-	} else {
-		echo '<div style="display:none">';
-	}
-	?>
+	<div <?php if(count($algoritimos) != 1) echo 'style="display:none"'; ?>>
+
 	<!-- Tres colunas, uma para a descricao do que ocorreu, a do meio para mostrar a CPU, e a ultima para o menu de opcoes -->
 	<div class="row">
 		<div class="row-eq-height">
@@ -255,14 +250,14 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			<div class="col-md-2">
 				<center>
 					<h3 id="myHeader4"> <?php echo $xml->table_header[5]->value; ?> </h3>
-				<center>
+				</center>
 				<table class="table table-condensed" style="width:100%" id="myTable4"> </table>
 			</div>
 	
 			<div class="col-md-2">
 				<center>
 					<h3 id="myHeader5"> <?php echo $xml->table_header[5]->value; ?> </h3>
-				<center>
+				</center>
 				<table class="table table-condensed" style="width:100%" id="myTable5"> </table>
 			</div>
 		</div>	
@@ -270,7 +265,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div id="coluna2">
 			<center>
 				<h3 id="myHeader2"> <?php echo $xml->table_header[6]->value; ?> </h3>
-			<center>
+			</center>
 			<table class="table table-condensed" style="width:100%" id="myTable2"> </table>
 		</div>
 	</div>
@@ -278,12 +273,10 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	</div> <!-- Fim do div que esconde a simulacao -->
 
     <!-- comparacao -->
-    <?php 
-		if(count($algoritimos) == 1) {
-			echo '<div style="display:none">';
-		} else {
-			echo '<div>';
+    <div <?php if(count($algoritimos) == 1) echo 'style="display:none"'; ?>>
 
+    <?php 
+    	if(count($algoritimos) > 1) {
     	$cores = array('lightblue', 'khaki', '#ffaf4b', '#8AE68A', '#CCCC52');
     
     	for($i = 0; $i < count($algoritimos); $i++) {
@@ -432,7 +425,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 //				echo '<p id="' . $key . $value[$i][0] . '">' . $value[$i][0] . ' ' . $value[$i][1] . '<p>';
 				echo '<p id="' . $key . $i . '" name="' . $key . $value[$i][0] . '">' . $value[$i][1] . '<p>';
 			}
-			echo '<p id="' . $key . '">' . $value[$arrlength-1][0] . '<p>';
+			echo '<p id="' . $key . '">' . count($value) . '<p>';
 		}
 	} 
 	
