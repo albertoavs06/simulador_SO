@@ -196,7 +196,7 @@
 	</input>
 
 	<input name="optional_field_priority">
-		<value>Nível de prioridade (entre 1 e 3)</value>
+		<value>Nível de prioridade (entre 0 e 3)</value>
 	</input>
 
 	<input name="quantum">

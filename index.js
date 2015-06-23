@@ -121,11 +121,13 @@ function addProcesso() {
 				if(!isNumber(valor_opcional) || valor_opcional <= 0 || valor_opcional > 100) {
 					var msg = document.getElementById('missing_tickets').innerHTML;
 					alert(msg);
+					return;
 				}
 			} else {
-				if(!isNumber(valor_opcional) || valor_opcional <= 0 || valor_opcional > 4) {
+				if(!isNumber(valor_opcional) || valor_opcional < 0 || valor_opcional > 4) {
 					var msg = document.getElementById('missing_priority').innerHTML;
 					alert(msg);
+					return;
                 }
 			}
 		}
@@ -497,10 +499,10 @@ function listaSugerida() {
 	if(algoritimo == 'round_robin' || algoritimo == 'shortest' || algoritimo == 'queues') {
 		lista_sugerida.push(new Array("A", "10", "cpu", ""));
 		lista_sugerida.push(new Array("B", "15", "cpu", ""));
-		lista_sugerida.push(new Array("C", "13", "io", ""));
-		lista_sugerida.push(new Array("D", "12", "cpu", ""));
-		lista_sugerida.push(new Array("E", "8", "io", ""));
-		lista_sugerida.push(new Array("F", "2", "cpu", ""));
+		lista_sugerida.push(new Array("C", "17", "io", ""));
+		lista_sugerida.push(new Array("D", "13", "cpu", ""));
+		lista_sugerida.push(new Array("E", "10", "io", ""));
+		lista_sugerida.push(new Array("F", "25", "cpu", ""));
 	} 
 	// loteria ou prioridades
 	else if(algoritimo == 'priority'){
