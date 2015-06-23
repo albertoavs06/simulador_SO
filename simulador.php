@@ -280,7 +280,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
     	$cores = array('lightblue', 'khaki', '#ffaf4b', '#8AE68A', '#CCCC52');
     
     	for($i = 0; $i < count($algoritimos); $i++) {
-			$command = "engine/" . $algoritimos[$i] . "/main.py -d engine/". $algoritimos[$i] ."/en.xml -j '" . $_GET[$algoritimos[$i]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+			$command = "python engine/" . $algoritimos[$i] . "/main.py -d engine/". $algoritimos[$i] ."/en.xml -j '" . $_GET[$algoritimos[$i]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
 			exec($command, $retorno);
 
 			$arrays = array();
@@ -391,7 +391,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	<?php 
 	// executa o round robin, guardando o stdout em $retorno
 	if(count($algoritimos) == 1) {
-		$command = "engine/" . $algoritimos[0] . "/main.py -d engine/". $algoritimos[0] ."/".$lingua.".xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+		$command = "python engine/" . $algoritimos[0] . "/main.py -d engine/". $algoritimos[0] ."/".$lingua.".xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
 		exec($command, $retorno);
 		echo '<p>' . $command . '</p>';
 		

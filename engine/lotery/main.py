@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with SESI.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import re
 import json
 import random
@@ -122,9 +123,18 @@ def main():
     json_string = options.jname[1:-1]
     json_list = []
 
+    regex = re.compile('{(?P<a>\w+):(?P<b>\w+),(?P<c>\w+):(?P<d>\w+),(?P<e>\w+):(?P<f>\w+),(?P<g>\w+):(?P<h>\w+)?}')
     result = re.findall('{.*?}', json_string)
     for item in result:
-        json_list.append(item)
+        aux2 = item
+        if(os.name == 'nt'):
+            aux = regex.search(item)
+            aux2 = '{"' + aux.group('a') + '":"' + aux.group('b') + '","' + aux.group('c') + '":"' + aux.group('d') + '","' + aux.group('e') + '":"' + aux.group('f') + '","' + aux.group('g') + '":"'
+            if(aux.group('h') != None):
+                aux2 = aux2  + aux.group('h') + '"}'
+            else:
+                aux2 = aux2 + '"}'
+        json_list.append(aux2)
 
     ntickets = 0
     for s in json_list:
