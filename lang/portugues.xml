@@ -147,7 +147,7 @@
 
 	<second_section name="io_bound">
 		<title>Orientado a E/S</title>
-		<description>Processos orientados a Entrada e Saída (E/S) processam pouco entre as suas requisições. A medida que o poder de processamento dos processadores aumenta, processos classificados como orientados a CPU podem passar a ser de E/S porque o tempo entre as requisições diminui. Neste simulador, os processos orientados a E/S sempre requisitam E/S em intervalos de tempo determinados pelo parâmetros de simulação "Tempo médio de processamento antes da E/S".</description>
+		<description>Processos orientados a Entrada e Saída (E/S) processam pouco entre as suas requisições. À medida que o poder de processamento dos processadores aumenta, processos classificados como orientados a CPU podem passar a ser de E/S porque o tempo entre as requisições diminui. Neste simulador, os processos orientados a E/S sempre requisitam E/S em intervalos de tempo determinados pelo parâmetros de simulação "Tempo médio de processamento antes da E/S".</description>
 	</second_section>
 
 	<second_section name="lotery_value">
