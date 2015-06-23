@@ -506,19 +506,19 @@ function listaSugerida() {
 	} 
 	// loteria ou prioridades
 	else if(algoritimo == 'priority'){
-		lista_sugerida.push(new Array("A", "10", "cpu", "2"));
-		lista_sugerida.push(new Array("B", "15", "cpu", "1"));
-		lista_sugerida.push(new Array("C", "13", "io", "0"));
-		lista_sugerida.push(new Array("D", "12", "cpu", "3"));
-		lista_sugerida.push(new Array("E", "8", "io", "2"));
-		lista_sugerida.push(new Array("F", "2", "cpu", "1"));
+		lista_sugerida.push(new Array("A", "50", "cpu", "0"));
+		lista_sugerida.push(new Array("B", "1", "cpu", "3"));
+		lista_sugerida.push(new Array("C", "10", "io", "1"));
+		lista_sugerida.push(new Array("D", "5", "cpu", "3"));
+		lista_sugerida.push(new Array("E", "5", "io", "1"));
+		lista_sugerida.push(new Array("F", "10", "cpu", "2"));
 	} else {
-		lista_sugerida.push(new Array("A", "10", "cpu", "2"));
-		lista_sugerida.push(new Array("B", "15", "cpu", "1"));
-		lista_sugerida.push(new Array("C", "13", "io", "0"));
-		lista_sugerida.push(new Array("D", "12", "cpu", "3"));
-		lista_sugerida.push(new Array("E", "8", "io", "2"));
-		lista_sugerida.push(new Array("F", "2", "cpu", "1"));
+		lista_sugerida.push(new Array("A", "3", "io", "10"));
+		lista_sugerida.push(new Array("B", "15", "cpu", "20"));
+		lista_sugerida.push(new Array("C", "50", "cpu", "5"));
+		lista_sugerida.push(new Array("D", "12", "cpu", "15"));
+		lista_sugerida.push(new Array("E", "20", "cpu", "8"));
+		lista_sugerida.push(new Array("F", "12", "cpu", "80"));
 	}
 
 	for(var i = 0; i < lista_sugerida.length; i++) {
