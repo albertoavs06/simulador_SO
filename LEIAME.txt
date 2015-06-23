@@ -1,0 +1,77 @@
+Simulador de Algoritmos para Escalonamento de Processos em Sistemas Interativos
+
+Autores:
+	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
+	Maria Lydia Fioravanti  (mlfioravanti@usp.br)
+	
+################ Organização do Projeto ###############
+
+raiz:
+	| - > bootstrap (Arquivos de css e js para a aparência das páginas)
+	|
+	| - > engine (Motores da simulação: cada algoritmo tem o seu próprio diretório)
+	|
+	| - > img (Imagens e logos do projeto)
+	|
+	| - > lang (Arquivos xml para suporte a diferentes idiomas)
+	|
+	| - > util (Arquivos css e jquery para alinhamento das colunas)
+	|
+	| - > index.php (Página principal, recebe os parâmetros de simulação do usuário)
+	|
+	| - > index.js (Interatividade da página principal)
+	|
+	| - > simulador.php (Página de simulação)
+	|
+	| - > simulador.js (Interpreta os parâmetros de simulação, executa o motor apropriado e exibe os resultados em simulador.php)
+	
+
+################ Instruções para Instalação e execução ###############
+
+Linux:
+	1- Instale o servidor Apache
+		sudo apt-get install apache2
+	
+	2- Instale o PHP 
+		sudo apt-get install php5 php5-mysql libapache2-mod-php5
+		
+	3- Reinicie o Apache
+		Ubuntu 15.04 -> sudo systemctl restart apache2
+		Ubuntu anterior ao 15.04 -> sudo service apache2 restart
+	
+	4- Baixe a última versão do simulador em
+		https://github.com/marcelokk/simulador_SO
+		
+	5- (Opcional) Altere o diretorio www do apache para não precisar ser administrador na hora de disponibilizar o simulador
+		no arquivo de configuracao /etc/apache2/sites-available/000-default.conf
+		Modifique o valor de DocumentRoot com o caminho do diretório desejado
+	
+	6- Extraia o conteudo do .zip baixado no github para o diretório www do Apache
+		Se o passo 5 não foi realizado, deve ser /var/www/html
+		
+	7- Mude o nome da pasta extraída de simulador_SO-master para simulador_SO
+	
+	8- Acesse localmente pela URL: localhost/simulador_SO/index.php 
+
+
+Instruções para instalação do Apache e PHP retiradas de: http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/
+
+
+Windows:
+	1- Instale o WAMP
+		http://www.wampserver.com/en/
+		
+	2- Execute o WAMP, deve aparecer um ícone do lado esquerdo do relógio na barra de tarefas
+	
+	3- Clique com o botão esquerdo no ícone do WAMP
+	
+	4- Selecione o diretório www dentre as opções
+	
+	5- Baixe a ultima versao do simulador em
+		https://github.com/marcelokk/simulador_SO
+
+	6- Extraia o conteudo do .zip baixado no github para o diretório www do WAMP
+		
+	7- Mude o nome da pasta extraída de simulador_SO-master para simulador_SO
+	
+	8- Acesse localmente pela URL: localhost/simulador_SO/index.php 

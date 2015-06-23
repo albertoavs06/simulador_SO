@@ -1,77 +1,77 @@
-Simulador de Algoritimos para Escalonamento de Processos em Sistemas Interativos.
+SSimulator of Interactive Systems Process Scheduling
 
-Autores:
+Authors:
 	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
-	Maria Lydia Fioravanti  (mlfioravanti@gmail.com)
+	Maria Lydia Fioravanti  (mlfioravanti@usp.br)
 	
-# ############### Organizacao do Projeto ###############
+################ Project Organization ###############
 
-raiz:
-	| - > bootstrap (arquivos de css e js para a aparencia das paginas)
+root:
+	| - > bootstrap (Css and js files to customize the page presentation)
 	|
-	| - > engine (motores da simulacao. Cada algoritimo tem o seu proprio diretorio
+	| - > engine (Simulation engines: each algorithm has its own directory)
 	|
-	| - > img (imagens e logos do projeto)
+	| - > img (Images and logos of the project)
 	|
-	| - > lang (arquivos xml para suporte a diferentes idiomas)
+	| - > lang (Xml files to support different languages)
 	|
-	| - > util (arquivos css e jquery para alinhamento das colunas)
+	| - > util (Css and jquery files to align columns)
 	|
-	| - > index.php (pagina principal, recebe os parametros de simulacao do usuario)
+	| - > index.php (Homepage, receives the user simulation parameters)
 	|
-	| - > index.js (iteratividade da pagina principal)
+	| - > index.js (Interactivity of homepage)
 	|
-	| - > simulador.php (pagina de simulacao)
+	| - > simulador.php (Simulation page)
 	|
-	| - > simulador.js (interpreta os parametros de simulacao, executa o motor apropriado e exibe os resultados em simulador.php)
+	| - > simulador.js (Interprets the simulation parameters, runs the appropriate engine and displays the results in simulador.php)
 	
 
-# ############### Instrucoes para Instalacao ###############
+################ Instructions to Install and Run  ###############
 
 Linux:
-	1- instale o servidor Apache
+	1- Install Apache server
 		sudo apt-get install apache2
 	
-	2- instale o PHP 
+	2- Install PHP 
 		sudo apt-get install php5 php5-mysql libapache2-mod-php5
 		
-	3- reinicie o Apache
+	3- Restart Apache
 		Ubuntu 15.04 -> sudo systemctl restart apache2
-		Ubuntu anterior ao 15.04 -> sudo service apache2 restart
+		Ubuntu prior to 15.04 -> sudo service apache2 restart
 	
-	4- baixe a ultima versao do simulador em
-		https://github.com/simoesusp/Processador-ICMC
+	4- Download the latest version of simulator
+		https://github.com/marcelokk/simulador_SO
 		
-	5- (Opcional) altere o diretorio www do apache para nao precisar ser administrador na hora de disponibilizar o simulador
-		no arquivo de configuracao /etc/apache2/sites-available/000-default.conf
-		modifique o valor de DocumentRoot com o caminho do diretorio desejado
+	5- (Optional) Change the www apache directory  to eliminate the need to be an administrator when deploying the simulator 
+	    in the configuration file /etc/apache2/sites-available/000-default.conf
+		Modify the DocumentRoot value with the path of the desired directory
 	
-	6- extraia o conteudo do .zip baixado no github para o diretorio www do Apache
-		se voce nao fez o passo 5 deve ser /var/www/html
+	6- Extract the contents of the downloaded .zip to Apache www directory
+		If step 5 was not carried out, it should be /var/www/html
 		
-	7- mude o nome da pasta extraida de simulador_SO-master para simulador_SO
+	7- Rename the extracted folder simulador_SO-master for simulador_SO
 	
-	8- acesse localmente pela URL: localhost/simulador_SO/index.php 
+	8- Visit locally by URL: localhost/simulador_SO/index.php 
 
 
-Instrucoes para instalacao do Apache e PHP retiradas de: http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/
+Instructions on how to install Apache and PHP taken from: http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/
 
 
 Windows:
-	1- instale o WAMP
+	1- Install WAMP
 		http://www.wampserver.com/en/
 		
-	2- execute o WAMP, deve aparecer um icone do lado esquerdo do relogio na barra de tarefas
+	2- Run the WAMP, and icon should appear one on the left side of the clock on the taskbar
 	
-	3- clique com o botao esquerdo no icone do WAMP
+	3- Left-click WAMP icon
 	
-	4- selecione o diretorio www dentre as opcoes
+	4- Select the www directory from the options
 	
-	5- baixe a ultima versao do simulador em
-		https://github.com/simoesusp/Processador-ICMC
+	5- Download the latest version of simulator
+		https://github.com/marcelokk/simulador_SO
 
-	6- extraia o conteudo do .zip baixado no github para o diretorio www do WAMP
+	6- Extract the contents of the downloaded .zip to Wamp www directory
 		
-	7- mude o nome da pasta extraida de simulador_SO-master para simulador_SO
+	7- Rename the extracted folder simulador_SO-master for simulador_SO
 	
-	8- acesse localmente pela URL: localhost/simulador_SO/index.php 
+	8- Visit locally by URL: localhost/simulador_SO/index.php 
