@@ -132,58 +132,58 @@
 
 	<second_section name="execution_time">
 		<title>Execution time</title>
-		<description>your description here</description>
+		<description>CPU time needed by the process to finish</description>
 	</second_section>
 
 	<second_section name="process_type">
 		<title>Process type</title>
-		<description>none</description>
+		<description>Type of the process, CPU or I/O bound</description>
 	</second_section>
 	
 	<second_section name="cpu_bound">
 		<title>CPU-bound</title>
-		<description>your description here</description>
+		<description>Processes with long periods of processing (CPU burst) between I/O requests. This simulator assumes CPU bound processes with no I/O requests</description>
 	</second_section>
 
 	<second_section name="io_bound">
 		<title>I/O-bound</title>
-		<description>your description here</description>
+		<description>Process with short periods of processing between I/O requests. Processes classified as CPU bound can be classified as I/O bound when the processing power of the processor reduces the CPU burst to short intervals of time. This simulator assumes I/O bound process requesting I/O operations every "Average processing time until I/O" periods</description>
 	</second_section>
 
 	<second_section name="lotery_value">
 		<title>Lottery</title>
-		<description>your description here</description>
+		<description>Number of tickets given to a process, processes with more tickets are more likely to win the lottery and execute in the CPU</description>
 	</second_section>
 
 	<second_section name="priority_value">
 		<title>Priority</title>
-		<description>your description here</description>
+		<description>Priority of a process, processes with higher priority execute first than others with lower priority. This simulator assumes zero as the highest priority and three as the lowest one</description>
 	</second_section>
 
 	<!-- ########## Third Section ########## -->
 	<third_section name="quantum">
 		<title>Quantum</title>
-		<description>your description here</description>
+		<description>Maximum period of time which the process can execute in the CPU each time it is chosen by the scheduler</description>
 	</third_section>
 
 	<third_section name="switch_cost">
 		<title>Switch Cost</title>
-		<description>your description here</description>
+		<description>Time needed in order to switch the current executing process by the one chosen by the scheduler</description>
 	</third_section>
 
 	<third_section name="io_time">
 		<title>Time of one I/O operation</title>
-		<description>your description here</description>
+		<description>Time to finish one I/O operation. Processes are blocked until by this amount of time when they request an I/O operation</description>
 	</third_section>
 
 	<third_section name="processing_until_io">
 		<title>Average processing time until I/O</title>
-		<description>your description here</description>
+		<description>Average processing time until an I/O bound process requests an I/O operations and blocks</description>
 	</third_section>
 
 	<third_section name="simulation_description">
 		<title></title>
-		<description>your description here</description>
+		<description>Click in the button below to start the simulation. If more than one scheduling algorithm has processes then a comparison will be made</description>
 	</third_section>
 
 	<!-- ########## Inputs ########## -->

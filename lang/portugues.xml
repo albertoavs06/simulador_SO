@@ -152,12 +152,12 @@
 
 	<second_section name="lotery_value">
 		<title>Loteria</title>
-		<description>your description here</description>
+		<description>Numero de tickets atribuido ao processo. Quanto mais tickets, maior sera a chance do processo vencer a loteria e ganhar a CPU</description>
 	</second_section>
 
 	<second_section name="priority_value">
 		<title>Prioridade</title>
-		<description>your description here</description>
+		<description>Prioridade do processo em relacao aos outros. Neste simulador, numeros menores representam uma prioridade maior</description>
 	</second_section>
 
 	<!-- ########## Third Section ########## -->
