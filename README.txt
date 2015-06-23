@@ -1,4 +1,4 @@
-SSimulator of Interactive Systems Process Scheduling
+Simulator of Interactive Systems Process Scheduling
 
 Authors:
 	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
