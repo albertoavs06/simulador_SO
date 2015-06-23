@@ -231,8 +231,10 @@ function selecionaAlgoritimo() {
 		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;		
 		
-		nextTitulo_opcional = "Numero de Tickets";
-		segundo_campo_input.placeholder = "Numero de Tickets";
+		nextTitulo_opcional = document.getElementById('tickets').innerHTML;
+		//nextTitulo_opcional = "Numero de Tickets";
+		//segundo_campo_input.placeholder = "Numero de Tickets";
+		segundo_campo_input.placeholder = document.getElementById('tickets').innerHTML;
 		
 		nextTitulo = document.getElementById('titulo_lotery').innerHTML;
 		nextDescricao = document.getElementById('descricao_lotery').innerHTML;
@@ -254,8 +256,10 @@ function selecionaAlgoritimo() {
 		//segundo_campo_input.hidden = false;
 		titulo_opcional.hidden = false;				
 		
-		nextTitulo_opcional = "Prioridade na Fila";		
-		segundo_campo_input.placeholder = "Prioridade na Fila";
+		nextTitulo_opcional = document.getElementById('priority').innerHTML;
+		//nextTitulo_opcional = "Prioridade na Fila";		
+		//segundo_campo_input.placeholder = "Prioridade na Fila";
+		segundo_campo_input.placeholder = document.getElementById('priority').innerHTML;
 		
 		nextTitulo = document.getElementById('titulo_priority').innerHTML;
 		nextDescricao = document.getElementById('descricao_priority').innerHTML;
