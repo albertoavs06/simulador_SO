@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+	<message name="process_goes_to_blocked_list">
+		<value>executa processo %s por %s e vai para a lista de bloqueado por %s unidades de tempo</value>
+	</message>
+
+	<message name="process_goes_to_end_of_ready_list">
+		<value>executa processo %s por %s e vai para o fim da lista de pronto</value>
+	</message>
+
+	<message name="process_finishes">
+		<value>executa processo %s por %s e ele termina</value>
+	</message>
+
+	<message name="process_goes_to_ready_list">
+		<value>processo %s volta para a lista de pronto</value>
+	</message>
+
+</root>

@@ -398,7 +398,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	<?php 
 	// executa o round robin, guardando o stdout em $retorno
 	if(count($algoritimos) == 1) {
-		$command = "engine/" . $algoritimos[0] . "/main.py -d engine/". $algoritimos[0] ."/en.xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
+		$command = "engine/" . $algoritimos[0] . "/main.py -d engine/". $algoritimos[0] ."/".$lingua.".xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
 		exec($command, $retorno);
 		echo '<p>' . $command . '</p>';
 		

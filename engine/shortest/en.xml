@@ -2,18 +2,18 @@
 
 <root>
 	<message name="process_goes_to_blocked_list">
-		<value>executa processo %s por %s e vai para a lista de bloqueado por %s unidades de tempo</value>
+		<value>process %s executes for %s and blocks for %s units of time</value>
 	</message>
 
 	<message name="process_goes_to_end_of_ready_list">
-		<value>executa processo %s por %s e vai para o fim da lista de pronto</value>
+		<value>process %s executes for %s and goes to the end of the ready list</value>
 	</message>
 
 	<message name="process_finishes">
-		<value>executa processo %s por %s e ele termina</value>
+		<value>process %s executes for %s and finishes</value>
 	</message>
 
 	<message name="process_goes_to_ready_list">
-		<value>processo %s volta para a lista de pronto</value>
+		<value>process %s goes back to the ready list</value>
 	</message>
 </root>
