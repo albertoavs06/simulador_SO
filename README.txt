@@ -1,7 +1,7 @@
 I3S: Interactive Systems Scheduling Simulator
 
 Authors:
-	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
+	Marcelo Koti Kamada	(marcelokkamada@gmail.com)
 	Maria Lydia Fioravanti  (mlfioravanti@usp.br)
 	
 ################ Project Organization ###############
@@ -61,7 +61,7 @@ Windows:
 	1- Install WAMP
 		http://www.wampserver.com/en/
 		
-	2- Run the WAMP, and icon should appear one on the left side of the clock on the taskbar
+	2- Run WAMP, an icon should appear one on the left side of the clock on the taskbar
 	
 	3- Left-click WAMP icon
 	
