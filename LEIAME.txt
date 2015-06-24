@@ -51,10 +51,15 @@ Linux:
 		
 	7- Mude o nome da pasta extraída de simulador_SO-master para i3s
 	
-	8- Acesse localmente pela URL: localhost/i3s/index.php 
+	8 - Instale o Python, na linha de comando digite (Ubuntu, Debian, Xubuntu, Lubuntu)
+		sudo apt-get install python
+	
+	9- Acesse localmente pela URL: localhost/i3s/index.php 
 
 
 Instruções para instalação do Apache e PHP retiradas de: http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/
+
+Se na página de simulação não aparecer o passo a passo, verifique se o Apache tem permissão de executar os scripts Python do diretório engine.
 
 
 Windows:
@@ -74,4 +79,11 @@ Windows:
 		
 	7- Mude o nome da pasta extraída de simulador_SO-master para i3s
 	
-	8- Acesse localmente pela URL: localhost/i3s/index.php  
+	8- Baixe e instale o Python versão 2.7 
+		https://www.python.org/downloads/release/python-2710/
+		
+	9- Coloque o Python no PATH do sistema (colocar apenas no de usuário não resolve, pois o WAMP não tem acesso a essas variáveis)
+		iniciar -> painel de controle -> Sistema e Segurança -> Sistema -> Configurações Avançadas do Sistema -> Variáveis de Ambiente
+		em variáveis do sistema edite o valor do Path, incluindo no fim o caminho para o Python instalado. Ex: C:\Python27
+	
+	10- Acesse localmente pela URL: localhost/i3s/index.php  
