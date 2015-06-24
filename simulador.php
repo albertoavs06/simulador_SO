@@ -129,7 +129,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			<!--  
 <img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
 			-->
-			<img src="img/logo_icmc.png" class="img-responsive">
+			<img src="img/logo_icmc.png" height="100%" width="100%" style="padding-top:15%; padding-bottom:11%">
 		</div>
 		
 		<div class="col-md-10">
