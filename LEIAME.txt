@@ -1,4 +1,4 @@
-Simulador de Algoritmos para Escalonamento de Processos em Sistemas Interativos
+I3S: Simulador de Escalonamento em Sistemas Interativos
 
 Autores:
 	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
@@ -49,9 +49,9 @@ Linux:
 	6- Extraia o conteudo do .zip baixado no github para o diretório www do Apache
 		Se o passo 5 não foi realizado, deve ser /var/www/html
 		
-	7- Mude o nome da pasta extraída de simulador_SO-master para simulador_SO
+	7- Mude o nome da pasta extraída de simulador_SO-master para i3s
 	
-	8- Acesse localmente pela URL: localhost/simulador_SO/index.php 
+	8- Acesse localmente pela URL: localhost/i3s/index.php 
 
 
 Instruções para instalação do Apache e PHP retiradas de: http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/
@@ -72,6 +72,6 @@ Windows:
 
 	6- Extraia o conteudo do .zip baixado no github para o diretório www do WAMP
 		
-	7- Mude o nome da pasta extraída de simulador_SO-master para simulador_SO
+	7- Mude o nome da pasta extraída de simulador_SO-master para i3s
 	
-	8- Acesse localmente pela URL: localhost/simulador_SO/index.php 
+	8- Acesse localmente pela URL: localhost/i3s/index.php  
