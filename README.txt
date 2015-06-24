@@ -1,4 +1,4 @@
-Simulator of Interactive Systems Process Scheduling
+I3S: Interactive Systems Scheduling Simulator
 
 Authors:
 	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
