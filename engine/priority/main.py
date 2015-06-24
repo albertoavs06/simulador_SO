@@ -3,20 +3,20 @@
 
 # Copyright 2015 Marcelo Koti Kamada, Maria Lydia Fioravanti
 #
-# This file is part of SESI (Simulador de Escalonamento para Sistemas Interativos).
+# This file is part of I3S (Interactive Systems Scheduling Simulator)
 #
-# SESI is free software: you can redistribute it and/or modify
+# I3S is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# SESI is distributed in the hope that it will be useful,
+# I3S is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with SESI.  If not, see <http://www.gnu.org/licenses/>.
+# along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 
 # esse escalonamento por prioridade esta feito da seguinte forma:
 # round robin comecando da prioridade 0 (maior) ate 3 (menor)
