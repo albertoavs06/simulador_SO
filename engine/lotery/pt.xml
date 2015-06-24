@@ -18,6 +18,6 @@
 	</message>
 
 	<message name="process_wins_lotery">
-		<value>processo %s venceu a loteria com ticket numero %s</value>
+		<value>processo %s venceu a loteria com ticket número %s</value>
 	</message>
 </root>
