@@ -1,7 +1,7 @@
 I3S: Interactive Systems Scheduling Simulator
 
 Authors:
-	Marcelo Koti Kamada	(marcelokkamada@gmail.com)
+	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
 	Maria Lydia Fioravanti  (mlfioravanti@usp.br)
 	
 ################ Project Organization ###############
@@ -49,9 +49,9 @@ Linux:
 	6- Extract the contents of the downloaded .zip to Apache www directory
 		If step 5 was not carried out, it should be /var/www/html
 		
-	7- Rename the extracted folder simulador_SO-master for simulador_SO
+	7- Rename the extracted folder simulador_SO-master for i3s
 	
-	8- Visit locally by URL: localhost/simulador_SO/index.php 
+	8- Visit locally by URL: localhost/i3s/index.php 
 
 
 Instructions on how to install Apache and PHP taken from: http://www.unixmen.com/how-to-install-lamp-stack-on-ubuntu-15-04/
@@ -72,6 +72,6 @@ Windows:
 
 	6- Extract the contents of the downloaded .zip to Wamp www directory
 		
-	7- Rename the extracted folder simulador_SO-master for simulador_SO
+	7- Rename the extracted folder simulador_SO-master for i3s
 	
-	8- Visit locally by URL: localhost/simulador_SO/index.php 
+	8- Visit locally by URL: localhost/i3s/index.php 
