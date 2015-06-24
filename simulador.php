@@ -393,7 +393,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 	if(count($algoritimos) == 1) {
 		$command = "python engine/" . $algoritimos[0] . "/main.py -d engine/". $algoritimos[0] ."/".$lingua.".xml -j '" . $_GET[$algoritimos[0]] . "' -q ". $quantum . " -s ". $switch ." -i ". $io_time . " -p " . $until_io;
 		exec($command, $retorno);
-		echo '<p>' . $command . '</p>';
+		echo '<p hidden="true">' . $command . '</p>';
 		
 		$arrays = array();
 		
@@ -415,7 +415,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			}
 			
 			if($flag) {
-				echo '<p>nao deu match ' . $line . ' </p>';	
+				echo '<p hidden="true">nao deu match ' . $line . ' </p>';	
 			}
 		}
 		
@@ -423,9 +423,9 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 			$arrlength = count($value);
 			for($i = 0; $i < $arrlength; $i++) {
 //				echo '<p id="' . $key . $value[$i][0] . '">' . $value[$i][0] . ' ' . $value[$i][1] . '<p>';
-				echo '<p id="' . $key . $i . '" name="' . $key . $value[$i][0] . '">' . $value[$i][1] . '<p>';
+				echo '<p id="' . $key . $i . '" name="' . $key . $value[$i][0] . '" hidden="true">' . $value[$i][1] . '<p>';
 			}
-			echo '<p id="' . $key . '">' . count($value) . '<p>';
+			echo '<p id="' . $key . '" hidden="true">' . count($value) . '<p>';
 		}
 	} 
 	
