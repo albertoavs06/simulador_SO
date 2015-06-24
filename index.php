@@ -112,9 +112,9 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		</div>
 			
 		<!-- Duas colunas, uma para escolher o algoritimo e a outra para a descricao -->
-		<div class="row">
+		<div class="row" style="background-color:lightblue">
 			<div class="row-eq-height">
-				<div class="col-md-5" style="background-color:lightblue">			
+				<div class="col-md-5" >			
 					<?php 
 					$first = 0;
 

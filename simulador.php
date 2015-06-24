@@ -202,7 +202,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 		<div class="row-eq-height">
 			<div class="col-md-3" style="background-color:lightblue">			
 				<h3><?php echo $xml->item[7]->value; ?></h3>
-				<textarea id="descricao_algoritimo" class="form-control" rows="3" style="height:80%; resize:none;" readonly></textarea>
+				<textarea id="descricao_algoritimo" class="form-control" rows="9" style="resize:none;" readonly></textarea>
 			</div>
 		
             <div class="col-md-6" style="background-color:lightblue">
@@ -320,7 +320,7 @@ $xml = simplexml_load_file($lang_file) or die("Error: Cannot create object");
 
 			echo '<div class="col-md-4" style="background-color:'. $cores[$i] .'">';
 			echo '<h3>'. $xml->item[16]->value.'</h3>';
-			echo '<textarea id="" class="form-control" rows="3" style="height:60%; resize: none;" readonly>';
+			echo '<textarea id="" class="form-control" rows="9" style="resize: none;" readonly>';
 
 			$tamanho = count($arrays['tte']) - 1;
 			echo $xml->item[17]->value . ': ' . $arrays['tte'][$tamanho][1] . "\n";

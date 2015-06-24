@@ -177,7 +177,7 @@
 	</third_section>
 
 	<third_section name="processing_until_io">
-		<title>Tempo médio de processamento antes da E/S</title>
+		<title>Tempo de processamento até E/S</title>
 		<description>Tempo médio que os processos orientados a E/S processam antes de requisitar E/S.</description>
 	</third_section>
 
