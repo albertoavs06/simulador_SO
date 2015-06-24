@@ -1,7 +1,7 @@
-Simulador de Algoritmos para Escalonamento de Processos em Sistemas Interativos
+I3S: Simulador de Escalonamento em Sistemas Interativos
 
 Autores:
-	Marcelo Koti Kamada	    (marcelokkamada@gmail.com)
+	Marcelo Koti Kamada	(marcelokkamada@gmail.com)
 	Maria Lydia Fioravanti  (mlfioravanti@usp.br)
 	
 ################ Organização do Projeto ###############
