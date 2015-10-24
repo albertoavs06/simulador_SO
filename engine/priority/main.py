@@ -18,11 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 
-# esse escalonamento por prioridade esta feito da seguinte forma:
-# round robin comecando da prioridade 0 (maior) ate 3 (menor)
-# se nao tiver nenhum processo de 0 pronto, os de 1 executam pelo seu quantum
-# mesmo se tiver processo 0 bloqueado, esses bloqueados so' vao executar
-# quando os de 1 sair
+# python engine/round_robin/main.py -d engine/round_robin/en.xml -j '[{"nome":"A","tempo":"10","tipo":"cpu","valor":""},{"nome":"B","tempo":"15","tipo":"cpu","valor":""},{"nome":"C","tempo":"17","tipo":"io","valor":""},{"nome":"D","tempo":"13","tipo":"cpu","valor":""},{"nome":"E","tempo":"10","tipo":"io","valor":""},{"nome":"F","tempo":"25","tipo":"cpu","valor":""}]' -q "5" -s "1" -i "5" -p "1"
 
 import os
 import re
@@ -30,14 +26,15 @@ import json
 import optparse
 from xml.dom import minidom
 
-time_stamp = 0
-
 # ########## dicionario, suporte a linguas ##########
 dicionario = {}
 
 # ########## round robin ##########
 # comeca o tempo em 0
 current_time = 0
+time_stamp = 0
+numero_switches = 0
+tempo_cpu = 0
 
 # arranjar um jeito de pegar o quantum
 quantum = -1
@@ -46,42 +43,105 @@ io_operation_time = -1
 processing_time_until_io = -1
 
 # lista de processos
+processos = []
 lista_bloqueados = []
+
+ocorreu_evento = False
+viewport = 0
+viewport_process = None
 
 nprioridades = 4
 lista_prioridade = []
 
 class Processo:
-    def __init__(self, nome, tempo, tipo, prioridade):
-        self.nome = nome
-        self.tempo = int(tempo)
-        self.tipo = tipo
-        self.io_time = 0
+    def __init__(self, nome, tempo, tipo, prioridade, quantum):
+        self.nome = nome                    # nome do processo
+        self.remaining_time = int(tempo)    # tempo ate terminar
+        self.tipo = tipo                    # tipo, io ou cpu
+        self.io_remaining_time = 0          # tempo para terminar o I/O 
+        self.remaining_quantum = quantum    # tempo de quantum remanescente
         self.prioridade = int(prioridade)
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(self.prioridade) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.remaining_time) + ":" + str(self.io_remaining_time) + ":" + str(self.prioridade) + "]"
 
-def atualiza_lista_bloqueados(tempo_utilizado):
+def atualiza_lista_bloqueados():
+    global processos
+    global ocorreu_evento
+    global lista_bloqueados
+
+    j = 0
     # para cada processo, eu preciso atualizar o tempo de I/O deles
-    for processo in lista_bloqueados:
-        processo.io_time = processo.io_time - (tempo_utilizado + switch_cost)
+    for i in range(len(lista_bloqueados)):
+        processo = lista_bloqueados[j]
+        processo.io_remaining_time = processo.io_remaining_time - 1
 
-        if(processo.io_time < 0):
-            processo.io_time = 0
+        if(processo.io_remaining_time <= 0):
+            processo.io_remaining_time = 0
             lista_bloqueados.remove(processo)
             lista_prioridade[processo.prioridade].append(processo)
+            processo.remaining_quantum = processing_time_until_io
             print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_ready_list'] % (processo.nome))
+            ocorreu_evento = True
+            j = j - 1
+        j = j + 1
+
+def output():
+    global tempo_cpu
+    global current_time
+    global time_stamp
+    global numero_switches
+    global processos
+    global lista_bloqueados
+    global viewport
+    global viewport_process
+
+    # imprime a lista de processos
+    msg = 'time_stamp=' + str(time_stamp) + '&id=status&value='
+    for lista_aux in lista_prioridade:
+        for processo in lista_aux:
+            msg = msg + processo.to_string() + " "
+
+    msg = msg + ","
+    for processo in lista_bloqueados:
+        msg = msg + processo.to_string() + " "
+    print(msg)
+
+    # imprime o tempo total de execucao
+    print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
+
+    # imprime numero de switches
+    print('time_stamp=' + str(time_stamp) + '&id=switches&value=' + str(numero_switches))
+
+    # imprime o uso da CPU
+    tmp = 0.0
+    if current_time > 0:
+        tmp = float(tempo_cpu*100) / current_time
+    print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(tmp)) + '%')
+
+    if(viewport_process != None):
+        print('time_stamp=' + str(time_stamp) + '&id=viewport&value=' + str(viewport) + ',' + viewport_process.nome)
+    else:
+        print('time_stamp=' + str(time_stamp) + '&id=viewport&value=' + str(viewport) + ',-')
+
+    time_stamp = time_stamp + 1
 
 def main():
-    global time_stamp
-    global lista_prioridade
+    global processos
     global lista_bloqueados
-    global current_time
     global quantum
     global switch_cost
     global io_operation_time
     global processing_time_until_io
+    global lista_prioridade
+
+    global tempo_cpu
+    global current_time
+    global time_stamp
+    global numero_switches
+    global ocorreu_evento
+    global viewport
+    global viewport_process
 
     parser = optparse.OptionParser('usage%prog -d <dictionary> -j <json data> -q <quantum> -s <switch_cost> -i <io_time> -p <processing_time>')
     parser.add_option('-j', dest='jname', type='string', help='json data')
@@ -142,116 +202,112 @@ def main():
 
     for s in json_list:
         parsed_json = json.loads(s)
-        p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'], parsed_json['valor'])
+        if(parsed_json['tipo'] == "cpu"):
+            p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'], parsed_json['valor'], quantum)
+        else:
+            p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'], parsed_json['valor'], processing_time_until_io)
 
         # coloca o processo na lista de prioridade
         lista_prioridade[p.prioridade].append(p)
 
-    numero_switches = 0
-    tempo_cpu = 0
+    flag_to_be_blocked = False
+    to_be_blocked = None
+    switch_timer = 0
+    viewport = 0
+    output()
+
+    ultima_lista = None
+    escolhido_terminou = True
 
     # algoritimo do round robin, enquanto ainda ha' processos na lista
     while True:
+        #print('escolhido terminou eh ' + str(escolhido_terminou))
+        viewport = 0
 
         nprocessos = 0
-        processos = []
+        processos = None
         for lista in lista_prioridade:
             nprocessos = nprocessos + len(lista)
 
+            if(escolhido_terminou == False):
+                processos = ultima_lista
+
             # escolha de qual lista de processos atender
-            if(len(lista) != 0 and len(processos) == 0):
+            elif(len(lista) > 0 and processos == None):
                 processos = lista
+                escolhido_terminou = False
+                ultima_lista = processos
 
         # se nao tem mais nenhum processo para ser escalonado e ninguem esta bloqueado
         if(nprocessos == 0 and len(lista_bloqueados) == 0):
             break
 
-        # daqui para baixo e' o round robin
+        if(switch_timer <= 0):          # quando nao estiver em uma troca de contexto
+            if(processos != None and len(processos) > 0):     # se tem processos prontos
+                ready = processos[0]
+                viewport_process = ready
+                ready.remaining_time = ready.remaining_time - 1
+                ready.remaining_quantum = ready.remaining_quantum - 1
+                tempo_cpu = tempo_cpu + 1
+                viewport = 3
 
-        # imprime a lista de processos
-        msg = 'time_stamp=' + str(time_stamp) + '&id=status&value='
-        for lista_aux in lista_prioridade:
-            for processo in lista_aux:
-                msg = msg + processo.to_string() + " "
+                if(ready.remaining_time <= 0):      # se o processo terminou
+                    processos.remove(ready)         # remove o processo da lista
+                    switch_timer = switch_cost + 1  # tem troca de contexto
+                    numero_switches = numero_switches + 1
+                    print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_finishes'] % (ready.nome, str(quantum - ready.remaining_quantum)))
+                    ocorreu_evento = True
+                    escolhido_terminou = True
+                    ultimo_escolhido = None
+                    viewport = 2
 
-        msg = msg + ","
-        for processo in lista_bloqueados:
-            msg = msg + processo.to_string() + " "
-        print(msg)
+                elif(ready.remaining_quantum <= 0):     # se o quantum dele acabou
+                    switch_timer = switch_cost + 1      # tem troca de contexto
+                    numero_switches = numero_switches + 1
 
-        # imprime o tempo total de execucao
-        print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
+                    if(ready.tipo == "cpu"):            # se for cpu bound
+                        processos.remove(ready)         # remove ele da lista
+                        processos.append(ready)         # vai para o fim da lista
+                        print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_end_of_ready_list'] % (ready.nome, str(quantum - ready.remaining_quantum)))
+                        ocorreu_evento = True
+                        ready.remaining_quantum = quantum   # reseta o quantum
+                        escolhido_terminou = True
+                        ultimo_escolhido = None
 
-        # imprime numero de switches
-        print('time_stamp=' + str(time_stamp) + '&id=switches&value=' + str(numero_switches))
-
-        # imprime o uso da CPU
-        tmp = 0.0
-        if current_time > 0:
-            tmp = float(tempo_cpu*100) / current_time
-        print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(tmp)) + '%')
-
-        if(len(processos) == 0 and len(lista_bloqueados) > 0):
-            p = lista_bloqueados[0]
-            current_time = current_time + p.io_time
-            atualiza_lista_bloqueados(p.io_time)
-            continue
-
-        # pega o primeiro da lista
-        p = processos[0]
-
-        # o processo esta pronto
-        tempo_utilizado = 0
-        aux_quantum = 0
-        aux_io = 0
-
-        # salva tempo usado da CPU
-        tempo_cpu = tempo_cpu + tempo_utilizado
-
-        # se o processo for do tipo IO bound
-        if(p.tipo == "io"):
-            aux_quantum = processing_time_until_io  # o quantum dele e' o tempo ate ele fazer I/O
-            aux_io = io_operation_time              # o tempo de I/O dele e' o tempo de um I/O
-
-        # se o processo for do tipo CPU bound
-        else:
-            aux_quantum = quantum   # ele vai executar o quantum inteiro
-            aux_io = 0              # o tempo de I/O dele e' nenhum
-
-        # se falta menos do que o ele vai executar
-        if(p.tempo < aux_quantum):
-            tempo_utilizado = p.tempo   # ele so' usa o que precisa
-            p.tempo = 0                 # o tempo que ele precisa acaba
-
-        # senao, ele vai precisar mais do que vai executar
-        else:
-            tempo_utilizado = aux_quantum   # executa o quantum dele
-            p.tempo = p.tempo - aux_quantum # e decrementa quanto de tempo ele precisa
-            p.io_time = aux_io              # acerta o tempo de I/O, tem que somar a mais pq eu vou tirar em baixo
-
-        # soma o tempo que o processo usou mais o tempo de chavear
-        current_time = current_time + tempo_utilizado + switch_cost
+                    else:                                                       # se for io bound
+                        flag_to_be_blocked = True
+                        to_be_blocked = ready
+                        ocorreu_evento = True
+                        print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_executes_partially'] % (ready.nome, str(processing_time_until_io - ready.remaining_quantum)))
 
         # para cada processo, eu preciso atualizar o tempo de I/O deles
-        atualiza_lista_bloqueados(tempo_utilizado)
+        atualiza_lista_bloqueados()
 
-        # se o processo acabou, remove ele da lista
-        if(p.tempo == 0):
-            processos.remove(p)
-            print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_finishes'] % (p.nome, str(tempo_utilizado)))
-        # senao coloca ele no fim da lista
-        else:
-            if(p.tipo == "cpu"):    # vai para o fim da lista
-                processos.remove(p)
-                processos.append(p)
-                print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_end_of_ready_list'] % (p.nome, str(tempo_utilizado)))
-            else:                   # vai para a lista de bloqueados
-                lista_bloqueados.append(p)
-                processos.remove(p)
-                print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
+        if(switch_timer > 0):               # se esta em um troca de contexto
+            switch_timer = switch_timer - 1 # decrementa o timer
 
-        numero_switches = numero_switches + 1
-        time_stamp = time_stamp + 1
+            if(switch_timer == 0):          # se terminou a troca de contexto
+                ocorreu_evento = True
+                escolhido_terminou = True
+                ultimo_escolhido = None
+                viewport = 1
+                print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['context_switch'] % (switch_cost))
+
+                if(flag_to_be_blocked):     # tem algum processo esperando para ser bloqueado
+                    ready = to_be_blocked                   
+                    lista_prioridade[ready.prioridade].remove(ready) # remove ele da lista
+                    lista_bloqueados.append(ready)              # coloca ele na lista de bloqueados
+                    ready.io_remaining_time = io_operation_time # o tempo de I/O dele e' o tempo de um I/O
+
+                    flag_to_be_blocked = False          # nao tem ninguem para ser bloqueado
+                    print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (ready.nome, str(ready.io_remaining_time)))
+                    ready.remaining_quantum = processing_time_until_io      # reseta o quantum
+
+        current_time = current_time + 1
+        if(ocorreu_evento):
+            output()
+
+        ocorreu_evento = False
 
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
@@ -260,6 +316,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 

@@ -77,6 +77,38 @@ function run() {
 			lista_inputs[i].value = valor_inputs[i];
 		}
 	}
+	tempoExecucaoSelecionado();
+	terceiraSecaoSelecionada(document.getElementById('quantum'));
+}
+
+function tab_simulation() {
+	var list = document.getElementById('filled_algorithms');
+
+	// reseta a lista, apagando os itens existentes
+	list.innerHTML = "";
+	
+	// gambiara para funcionar, pq nao sabia que os arrays nao funcionavam bem com strings nos indices
+	processos_list = [round_robin, filas, prioridade, proximo_mais_curto, loteria];
+	
+	var flag = 1;
+	// insere novos itens
+	for(var i = 0; i < processos_list.length; i++) {
+		if(processos[processos_list[i]].length > 0) {
+			// gambiara para pegar os nomes dos algoritmos traduzidos
+			var titulo = document.getElementById('titulo_' + processos_list[i]).innerHTML;
+
+			var newItem = document.createElement("li");		// cria um novo item
+			newItem.appendChild(document.createTextNode(titulo));// coloca um texto no item
+			list.appendChild(newItem);						// insere o item na lista
+			flag = 0;
+		}
+	}
+	var warning = document.getElementById('simulation_warning');
+	if(flag == 0) {
+		warning.style.display = "block";
+	} else {
+		warning.style.display = "none";
+	}
 }
 
 // adicionar um novo processo na lista

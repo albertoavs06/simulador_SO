@@ -26,6 +26,7 @@ var tempo_execucao = null;
 var switches = null;
 var step = 0;
 var algoritmo = null;
+var viewport = null;
 
 function clearTable(tabela) {
 	// para cada linha na tabela, exceto a primeira que e' o header
@@ -37,7 +38,7 @@ function clearTable(tabela) {
 
 function load(id) {
 	array = new Array();
-	array.push("");
+	//array.push("");
 	var n = document.getElementById(id).innerHTML;
 	for(var i = 0; i < n; i++) {
 		var valor = document.getElementById(id + i).innerHTML;
@@ -47,8 +48,8 @@ function load(id) {
 }
 
 function run() {
-	var offset = $('#ponto_alinhamento').offset().top;
-	$('html, body').scrollTop(offset);
+	//var offset = $('#ponto_alinhamento').offset().top;
+	//$('html, body').scrollTop(offset);
 	
 	// inicializa os parametros de simulacao
 	var aux = ['quantum', 'switch_cost', 'io_time', 'processing_until_io'];
@@ -127,7 +128,7 @@ function run() {
 	if(mensagens == null) {
 		//mensagens = load('msg');
 		mensagens = new Array();
-		mensagens.push("");
+		//mensagens.push("");
 		var n = document.getElementById('msg').innerHTML;
 		for(var i = 0; i < n; i++) {
 			var node_list = document.getElementsByName('msg' + i);
@@ -151,7 +152,17 @@ function run() {
 	
 	if(tempo_execucao == null) {
 		tempo_execucao = load('tte');
-		tempo_execucao.shift();		// pq tem um elemento a mais no tempo de execucao
+		//tempo_execucao.shift();		// pq tem um elemento a mais no tempo de execucao
+	}
+	
+	if(viewport == null) {
+		viewport = new Array();
+		var n = document.getElementById('viewport').innerHTML;
+		for(var i = 0; i < n; i++) {
+			var valor = document.getElementById('viewport' + i).innerHTML;
+			var texto = valor.split(/,/);
+			viewport.push(new Array(texto[0], texto[1]));
+		}
 	}
 	
 	// se array de estados nao esta inicializado, inicializa ele
@@ -205,6 +216,7 @@ function run() {
 	var process_type_value 	= document.getElementById('type').innerHTML;
 
 	var tickets_value = document.getElementById('tickets').innerHTML;
+	var priority_value = document.getElementById('priority_header').innerHTML;
 	
 	var campos_tabela = new Array(name_value, process_type_value, remaining_time_value);
 	var campos_bloqueados = new Array(name_value, process_type_value, remaining_time_value, io_remaining_time_value);
@@ -212,6 +224,10 @@ function run() {
 	if(algoritmo == 'lotery') {
 		campos_tabela.push(tickets_value);
 		campos_bloqueados.push(tickets_value);
+	}
+	
+	if(algoritmo == 'priority') {
+		campos_bloqueados.push(priority_value);
 	}
 
 	inicializa_tabela('myTable', campos_tabela);
@@ -236,8 +252,8 @@ function run() {
 		tmp = document.getElementById("myHeader5").innerHTML;
 		document.getElementById("myHeader5").innerHTML = tmp + " [4]";
 		
-		document.getElementById('coluna1').className = "col-md-2";
-		document.getElementById('coluna2').className = "col-md-4";
+		document.getElementById('coluna1').className = "col-md-2 nopadding";
+		document.getElementById('coluna2').className = "col-md-4 nopadding";
 	} else {
 		tabelas_extras.style.display = 'none';
 		document.getElementById('coluna1').className = "col-md-6";
@@ -283,6 +299,9 @@ function atualiza() {
 	var mensagem = tte + ': ' + tempo_execucao[step] + '\n';
 	mensagem = mensagem + cpu_usage + ': ' + cpu[step] + '\n';
 	mensagem = mensagem + chaveamentos + ': ' + switches[step] + '\n';
+	
+	// debug
+	mensagem = mensagem + 'step = ' + step + '\n';
 	
 	mensagem = mensagem + action + ': ';
 	for(var i = 0; i < mensagens[step].length; i++) {
@@ -351,14 +370,14 @@ function atualiza() {
 	var tabela = document.getElementById("myTable2");
 	clearTable(tabela);
 		
-	// processos bloquedos
+	// processos bloqueados
 	var processos_bloqueados = estados[step][1];
 	for(var i = 0; i < processos_bloqueados.length; i++) {
 		var row = tabela.insertRow(tabela.rows.length);
 		var tamanho = processos_bloqueados[i].length;
 				
 		// se for o round robin ou o mais curto nao tem a ultima coluna
-		if(algoritmo == 'round_robin' || algoritmo == 'shortest') {
+		if(algoritmo == 'round_robin' || algoritmo == 'shortest' || algoritmo == 'queues') {
 			tamanho = tamanho - 1;
 		}
 				
@@ -368,6 +387,7 @@ function atualiza() {
 			cell.style.textAlign = "center";
 		}
 	}
+	fix_canvas();
 }
 
 function next() {
@@ -385,11 +405,129 @@ function previous() {
 }
 
 function auto() {
-	step = estados.length - 1;
+	step = mensagens.length - 1;
 	atualiza();
 }
 
 function reset() {
 	step = 0;
 	atualiza();
+}
+
+function roundedRect(ctx, x, y, width, height, radius){
+	ctx.beginPath();
+	ctx.moveTo(x,y+radius);
+	ctx.lineTo(x,y+height-radius);
+	ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+	ctx.lineTo(x+width-radius,y+height);
+	ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);
+	ctx.lineTo(x+width,y+radius);
+	ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+	ctx.lineTo(x+radius,y);
+	ctx.quadraticCurveTo(x,y,x,y+radius);
+	ctx.stroke();
+}
+
+$(document).ready(fix_canvas); 
+
+function fix_canvas() {
+	var height_reference = document.getElementById("descricao_algoritimo");
+	//var width_reference = document.getElementById("kamada7");
+
+    //Get the canvas & context 
+	var canvas = $('#canvas_cpu');
+    var context = canvas.get(0).getContext('2d');
+    var container = $(canvas).parent();
+
+    //Run function when browser resizes
+    $(window).resize(respondCanvas);
+
+    function respondCanvas(){ 
+    	var height = height_reference.offsetHeight;
+    	//var width = width_reference.offsetWidth;
+    	
+        canvas.attr('width', $(container).width() ); //max width
+        canvas.attr('height', height); //max height
+
+        //Call a function to redraw other content (texts, images etc)
+        if(viewport != null) {
+        	switch(parseInt(viewport[step][0])) {
+        		case 0:	// PAUSED
+           			drawLoop("PAUSED", "WAITING FOR PROCESS");
+           			break;
+           		case 1:	// LOADING
+        	       	drawLoop("LOADING...", "CHANGING CONTEXT")
+        	        break;
+        	    case 2:	// GAME OVER
+        	       	drawLoop("GAME OVER", "FOR PROCESS \"" + viewport[step][1] + "\"");
+        	       	break;
+        	    case 3:	// EXECUTING
+        	        drawLoop("EXECUTING", "PROCESS \"" + viewport[step][1] + "\"")
+        	        break;
+        	    default:
+        	        drawLoop("DEFAULT", "CODE \"" + viewport[step][0] + "\"")
+        	        break;
+        	}
+        	
+        }
+    }
+    //Initial call 
+    respondCanvas();
+}
+
+
+function drawLoop(header, message) {
+	var canvas = $('#canvas_cpu');
+    var context = canvas.get(0).getContext('2d');
+    
+    var width = $(canvas).width();
+    var height = $(canvas).height();
+
+    // preenche o canvas de preto
+    context.rect(0, 0, width, height);
+	context.fillStyle = "black";
+	context.fill();
+	
+	var wall_x_offset = 100;
+	var wall_height = 18;
+	var wall_width = 200;
+	
+    context.lineWidth = 5;
+    context.strokeStyle = "#0000FF";	// azul
+
+    /*
+    // muro de cima
+    roundedRect(context, 					// canvas context
+    			wall_x_offset, 				// x start
+    			0 - wall_height, 			// y start
+    			wall_x_offset + wall_width, 	// x end
+    			0 + wall_height, 	// y end
+    			15);							// radio
+
+    // muro de baixo
+    roundedRect(context, 					// canvas context
+    			wall_x_offset, 				// x start
+    			height - wall_height, 	// y start
+    			wall_x_offset + wall_width, 	// x end
+    			height + wall_height,  // y end
+    			15);							// radio
+    */
+
+    var font_size = width / 13;
+    var text_x_offset = width / 7;
+    var text_y_offset = height / 2.5;
+
+    context.font = font_size + "px ponderosa";
+    context.fillStyle = "#FFF";
+    //context.fillText("LOADING...", text_x_offset, text_y_offset);
+    //context.fillText("PAUSED", text_x_offset, text_y_offset);
+    //context.fillText("GAME OVER", text_x_offset, text_y_offset);
+    context.fillText(header, text_x_offset, text_y_offset);
+
+    var font_size2 = width / 20;
+    context.font = font_size2 + "px ponderosa";
+    //context.fillText("CHANGING CONTEXT", text_x_offset, text_y_offset + font_size);
+    //context.fillText("WAITING FOR PROCESS", text_x_offset, text_y_offset + font_size);
+    //context.fillText("FOR PROCESS X", text_x_offset, text_y_offset + font_size);
+    context.fillText(message, text_x_offset, text_y_offset + font_size);
 }

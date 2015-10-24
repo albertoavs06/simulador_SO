@@ -101,6 +101,26 @@ along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 		<value>Action Performed</value>
 	</item>
 
+	<item name="owner">
+		<value>by Marcelo Koti Kamada, Maria Lydia Fioravanti</value>
+	</item>
+	
+	<item name="nav_simulator">
+		<value>Simulator</value>
+	</item>
+	
+	<item name="nav_about">
+		<value>About</value>
+	</item>
+
+	<item name="panel_help">
+		<value>How to Use I3S: Choose an algorithm at this tab, add processes at the second tab and simulate at the forth.</value>
+	</item>
+	
+	<item name="comparison_header">
+		<value>Simulation Global Parameters</value>
+	</item>
+
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
 		<title>Round-robin scheduling</title>
@@ -197,7 +217,12 @@ along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 
 	<third_section name="simulation_description">
 		<title></title>
-		<description>Click in the button below to start the simulation. If more than one scheduling algorithm has processes then a comparison will be made.</description>
+		<description>Click on the button below to start the simulation. If more than one scheduling algorithm has processes then a comparison will be made.</description>
+	</third_section>
+	
+	<third_section name="simulation_warning">
+		<title></title>
+		<description>Currently, the following algorithms have processes:</description>
 	</third_section>
 
 	<!-- ########## Inputs ########## -->
@@ -284,7 +309,7 @@ along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 		<value>Number of tickets</value>
 	</table_header>
 
-	<table_header name="priority">
+	<table_header name="priority_header">
 		<value>Priority</value>
 	</table_header>
 	

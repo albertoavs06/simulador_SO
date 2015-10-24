@@ -18,13 +18,13 @@
 # You should have received a copy of the GNU General Public License
 # along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 
+# python engine/round_robin/main.py -d engine/round_robin/en.xml -j '[{"nome":"A","tempo":"10","tipo":"cpu","valor":""},{"nome":"B","tempo":"15","tipo":"cpu","valor":""},{"nome":"C","tempo":"17","tipo":"io","valor":""},{"nome":"D","tempo":"13","tipo":"cpu","valor":""},{"nome":"E","tempo":"10","tipo":"io","valor":""},{"nome":"F","tempo":"25","tipo":"cpu","valor":""}]' -q "5" -s "1" -i "5" -p "1"
+
 import os
 import re
 import json
 import optparse
 from xml.dom import minidom
-
-time_stamp = 0
 
 # ########## dicionario, suporte a linguas ##########
 dicionario = {}
@@ -32,6 +32,9 @@ dicionario = {}
 # ########## round robin ##########
 # comeca o tempo em 0
 current_time = 0
+time_stamp = 0
+numero_switches = 0
+tempo_cpu = 0
 
 # arranjar um jeito de pegar o quantum
 quantum = -1
@@ -40,44 +43,120 @@ io_operation_time = -1
 processing_time_until_io = -1
 
 # lista de processos
-nqueues = 4
-queues = []
-
 processos = []
 lista_bloqueados = []
 
+ocorreu_evento = False
+viewport = 0
+viewport_process = None
+
+# lista de processos
+nqueues = 4
+queues = []
+
 class Processo:
-    def __init__(self, nome, tempo, tipo, remaining_time_until_io):
-        self.nome = nome
-        self.tempo = int(tempo)
-        self.tipo = tipo
-        self.io_time = 0
-        self.remaining_time_until_io = int(remaining_time_until_io)
+    def __init__(self, nome, tempo, tipo, quantum):
+        self.nome = nome                    # nome do processo
+        self.remaining_time = int(tempo)    # tempo ate terminar
+        self.tipo = tipo                    # tipo, io ou cpu
+        self.io_remaining_time = 0          # tempo para terminar o I/O 
+        self.remaining_quantum = quantum    # tempo de quantum remanescente
         self.fila = 0
+        self.quantum_stacks = 0
+        self.quantum_helper = 0
 
     def to_string(self):
-        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.tempo) + ":" + str(self.io_time) + ":" + str(self.fila) + "]"
+        return "[" + self.nome + ":" + str(self.tipo) + ":" + str(self.remaining_time) + ":" + str(self.io_remaining_time) + ":" + str(self.fila) + "]"
 
-def atualiza_lista_bloqueados(tempo_utilizado):
+def atualiza_lista_bloqueados():
+    global processos
+    global ocorreu_evento
+    global lista_bloqueados
+    global queues
+
+    j = 0
     # para cada processo, eu preciso atualizar o tempo de I/O deles
-    for processo in lista_bloqueados:
-        processo.io_time = processo.io_time - (tempo_utilizado + switch_cost)
+    for i in range(len(lista_bloqueados)):
+        processo = lista_bloqueados[j]
+        processo.io_remaining_time = processo.io_remaining_time - 1
 
-        if(processo.io_time < 0):
-            processo.io_time = 0
+        if(processo.io_remaining_time <= 0):
+            processo.io_remaining_time = 0
             lista_bloqueados.remove(processo)
-            queues[0][1].append(processo)
-            print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_ready_list'] % (processo.nome))
+            queues[processo.fila].append(processo) # mudei aqui
 
-def main():
+            # o quantum que o processo tem e' sempre o menor
+            if(processing_time_until_io <= 2 ** processo.fila):
+                processo.remaining_quantum = processing_time_until_io
+            else:
+                processo.remaining_quantum = 2 ** processo.fila
+
+            if(processo.quantum_stacks != 0):   # se ele nao terminou o quantum da fila
+                if(2 ** processo.fila - processo.quantum_stacks < processo.remaining_quantum):
+                    processo.remaining_quantum = 2 ** processo.fila - processo.quantum_stacks
+
+            print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_ready_list'] % (processo.nome))
+            ocorreu_evento = True
+            j = j - 1
+        j = j + 1
+
+def output():
+    global tempo_cpu
+    global current_time
     global time_stamp
+    global numero_switches
     global processos
     global lista_bloqueados
-    global current_time
+    global queues
+    global viewport
+    global viewport_process
+
+    # imprime a lista de processos
+    msg = 'time_stamp=' + str(time_stamp) + '&id=status&value='
+    for fila_aux in queues:
+        for processo in fila_aux:
+            msg = msg + processo.to_string() + " "
+    msg = msg + ","
+    for processo in lista_bloqueados:
+        msg = msg + processo.to_string() + " "
+    print(msg)
+
+    # imprime o tempo total de execucao
+    print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
+
+    # imprime numero de switches
+    print('time_stamp=' + str(time_stamp) + '&id=switches&value=' + str(numero_switches))
+
+    # imprime o uso da CPU
+    tmp = 0.0
+    if current_time > 0:
+        tmp = float(tempo_cpu*100) / current_time
+    print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(tmp)) + '%')
+
+    if(viewport_process != None):
+        print('time_stamp=' + str(time_stamp) + '&id=viewport&value=' + str(viewport) + ',' + viewport_process.nome)
+    else:
+        print('time_stamp=' + str(time_stamp) + '&id=viewport&value=' + str(viewport) + ',-')
+
+    time_stamp = time_stamp + 1
+
+def main():
+    global processos
+    global lista_bloqueados
     global quantum
     global switch_cost
     global io_operation_time
     global processing_time_until_io
+
+    global tempo_cpu
+    global current_time
+    global time_stamp
+    global numero_switches
+    global ocorreu_evento
+    global queues
+    global nqueues
+    global viewport
+    global viewport_process
 
     parser = optparse.OptionParser('usage%prog -d <dictionary> -j <json data> -q <quantum> -s <switch_cost> -i <io_time> -p <processing_time>')
     parser.add_option('-j', dest='jname', type='string', help='json data')
@@ -116,8 +195,8 @@ def main():
         dicionario[name] = value
 
     # ########## inicializa as filas multiplas ##########
-    for i in range(0, nqueues):
-        queues.append([i, []])      # queues tem o formato [# da fila, lista de processos]
+    for i in range(nqueues):
+        queues.append([])      # queues tem o formato [ [], [], []. [] ]
 
     # ########## itera pelo json, adicionando processos na lista ##########
     json_string = options.jname[1:-1]
@@ -138,157 +217,127 @@ def main():
 
     for s in json_list:
         parsed_json = json.loads(s)
-        tmp = -1
-        if(parsed_json['tipo'] == 'io'):
-            tmp = processing_time_until_io
+        p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'], 1) # todos os processos com 1 de quantum
+        queues[0].append(p)  # append todos os processos na primeira lista
 
-        p = Processo(parsed_json['nome'], parsed_json['tempo'], parsed_json['tipo'], tmp)
-        queues[0][1].append(p)  # append todos os processos na primeira lista
+    flag_to_be_blocked = False
+    to_be_blocked = None
+    switch_timer = 0
+    viewport = 0
+    output()
 
-    numero_switches = 0
-    tempo_cpu = 0
+    ultima_lista = None
+    escolhido_terminou = True
 
     # algoritimo do round robin, enquanto ainda ha' processos na lista
     while True:
+        viewport = 0
 
-        quantum_da_fila = -1
         nprocessos = 0
         processos = []
         for fila in queues:
-            nprocessos = nprocessos + len(fila[1])
+            nprocessos = nprocessos + len(fila)        # calcula o numero de processos restantes
+
+            if(escolhido_terminou == False):
+                processos = ultima_lista
 
             # escolha de qual lista de processos atender
-            if(len(fila[1]) != 0 and len(processos) == 0):
-                processos = fila[1]
-                quantum_da_fila = fila[0]
+            if(len(fila) != 0 and len(processos) == 0):
+                processos = fila
+                escolhido_terminou = False
+                ultima_lista = processos
 
-        # se nao tem mais nenhum processo para ser escalonado e ninguem esta bloqueado
+        # se nao tem mais nenhum processo para ser escalonado e ninguem esta bloqueado termina
         if(nprocessos == 0 and len(lista_bloqueados) == 0):
             break
 
-        # imprime a lista de processos
-        msg = 'time_stamp=' + str(time_stamp) + '&id=status&value='
-        for fila_aux in queues:
-            for processo in fila_aux[1]:
-                msg = msg + processo.to_string() + " "
-        msg = msg + ","
-        for processo in lista_bloqueados:
-            msg = msg + processo.to_string() + " "
-        print(msg)
+        if(switch_timer <= 0):          # quando nao estiver em uma troca de contexto
+            if(len(processos) > 0):     # se tem processos prontos
+                ready = processos[0]
+                viewport_process = ready
+                ready.remaining_time = ready.remaining_time - 1
+                ready.remaining_quantum = ready.remaining_quantum - 1
+                ready.quantum_stacks = ready.quantum_stacks + 1
+                ready.quantum_helper = ready.quantum_helper + 1
+                tempo_cpu = tempo_cpu + 1
+                viewport = 3
 
-        # imprime o tempo total de execucao
-        print('time_stamp=' + str(time_stamp) + '&id=tte&value=' + str(current_time))
+                if(ready.remaining_time <= 0):      # se o processo terminou
+                    processos.remove(ready)         # remove o processo da lista
+                    switch_timer = switch_cost + 1  # tem troca de contexto
+                    numero_switches = numero_switches + 1
+                    viewport = 2
 
-        # imprime numero de switches
-        print('time_stamp=' + str(time_stamp) + '&id=switches&value=' + str(numero_switches))
+                    tmp = 2 ** ready.fila
+                    if(ready.tipo == "io" and processing_time_until_io < 2 ** ready.fila):
+                        tmp = processing_time_until_io
 
-        # imprime o uso da CPU
-        tmp = 0.0
-        if current_time > 0:
-            tmp = float(tempo_cpu*100) / current_time
-        print('time_stamp=' + str(time_stamp) + '&id=cpu&value=' + str(int(tmp)) + '%')
+                    print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_finishes'] % (ready.nome, str(tmp - ready.remaining_quantum)))
+                    ocorreu_evento = True
+                    escolhido_terminou = True
+                    ultimo_escolhido = None
 
-        if(len(processos) == 0 and len(lista_bloqueados) > 0):
-            p = lista_bloqueados[0]
-            current_time = current_time + p.io_time
-            atualiza_lista_bloqueados(p.io_time)
-            continue
+                elif(ready.remaining_quantum <= 0):     # se o quantum dele acabou
+                    switch_timer = switch_cost + 1      # tem troca de contexto
+                    numero_switches = numero_switches + 1
+                    escolhido_terminou = True
+                    ultimo_escolhido = None
 
-        # pega o primeiro da lista
-        p = processos[0]
+                    if(ready.tipo == "cpu"):            # se for cpu bound
+                        print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_end_of_ready_list'] % (ready.nome, str(2 ** ready.fila - ready.remaining_quantum)))
 
-        # o processo esta pronto
-        tempo_utilizado = 0
-        aux_quantum = 0
-        aux_io = 0
+                        if(ready.fila + 1 < nqueues):
+                            ready.fila = ready.fila + 1
 
-        # salva tempo usado da CPU
-        tempo_cpu = tempo_cpu + tempo_utilizado
+                        processos.remove(ready)         # remove ele da lista
+                        queues[ready.fila].append(ready) # vai para o fim da lista 
+                        ocorreu_evento = True
+                        ready.remaining_quantum = 2 ** ready.fila   # reseta o quantum
 
-        # se o processo for do tipo IO bound
-        if(p.tipo == "io"):
-            # se o quantum da fila e' menor do que falta para o processo sofre I/O
-            # executa o quantum da fila, e decrementa o quanto que falta para o I/O do processo
-            if(2**quantum_da_fila < p.remaining_time_until_io):
-                aux_quantum = 2**quantum_da_fila
-                p.remaining_time_until_io = p.remaining_time_until_io - 2**quantum_da_fila
-                aux_io = 0 # sem I/O porque ainda nao deu o tempo
-                # para a proxima classe
-            # senao, o processo vai receber I/O antes de acabar o quantum da fila
-            # executa o ate dar I/O, reseta o tempo para I/O para o valor global
-            else:
-                aux_quantum = p.remaining_time_until_io     # o quantum dele e' o tempo ate ele fazer I/O
-                p.remaining_time_until_io = processing_time_until_io
-                aux_io = io_operation_time                  # o tempo de I/O dele e' o tempo de um I/O
-                # volta para classe 1
+                    else: # se for io bound
+                        flag_to_be_blocked = True
+                        to_be_blocked = ready
+                        ocorreu_evento = True
 
-        # se o processo for do tipo CPU bound
-        else:
-#            if(quantum <= 2**quantum_da_fila):
-#                aux_quantum = quantum   # ele vai executar o quantum inteiro
-#            else:
-            aux_quantum = 2**quantum_da_fila
-            aux_io = 0              # o tempo de I/O dele e' nenhum
+                        # arrumar aqui para mostrar o tempo certo
+                        tmp = ready.quantum_helper
+                        #tmp = processing_time_until_io
+                        #if(processing_time_until_io > 2 ** ready.fila):
+                        #    tmp = 2 ** ready.fila
+                        print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_executes_partially'] % (ready.nome, str(tmp - ready.remaining_quantum)))
 
-        # se falta menos do que o ele vai executar
-        if(p.tempo < aux_quantum):
-            tempo_utilizado = p.tempo   # ele so' usa o que precisa
-            p.tempo = 0                 # o tempo que ele precisa acaba
-
-        # senao, ele vai precisar mais do que vai executar
-        else:
-            tempo_utilizado = aux_quantum   # executa o quantum dele
-            p.tempo = p.tempo - aux_quantum # e decrementa quanto de tempo ele precisa
-            p.io_time = aux_io              # acerta o tempo de I/O, tem que somar a mais pq eu vou tirar em baixo
-
-        # soma o tempo que o processo usou mais o tempo de chavear
-        current_time = current_time + tempo_utilizado + switch_cost
+                    ready.quantum_helper = 0
 
         # para cada processo, eu preciso atualizar o tempo de I/O deles
-        atualiza_lista_bloqueados(tempo_utilizado)
+        atualiza_lista_bloqueados()
 
-        # salva tempo usado da CPU
-        tempo_cpu = tempo_cpu + tempo_utilizado
+        if(switch_timer > 0):               # se esta em um troca de contexto
+            switch_timer = switch_timer - 1 # decrementa o timer
 
-        # se o processo acabou, remove ele da lista
-        if(p.tempo == 0):
-            processos.remove(p)
-            print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_finishes'] % (p.nome, str(tempo_utilizado)))
-        # senao coloca ele no fim da lista
-        else:
-            if(p.tipo == "cpu"):    # vai para o fim da lista
-                processos.remove(p)
+            if(switch_timer == 0):          # se terminou a troca de contexto
+                ocorreu_evento = True
+                viewport = 1
+                print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['context_switch'] % (switch_cost))
 
-                if(quantum_da_fila+1 < nqueues):
-                    queues[quantum_da_fila+1][1].append(p)
-                    p.fila = p.fila + 1
-                else:
-                    queues[quantum_da_fila][1].append(p)
+                if(flag_to_be_blocked):     # tem algum processo esperando para ser bloqueado
+                    ready = to_be_blocked
+                    queues[ready.fila].remove(ready) # remove ele da lista
 
-                #print(dicionario['process_goes_to_end_of_ready_list'])
-                print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_end_of_ready_list'] % (p.nome, str(tempo_utilizado)))
+                    if(ready.quantum_stacks >= 2 ** ready.fila and ready.fila + 1 < nqueues):
+                        ready.fila = ready.fila + 1
+                        ready.quantum_stacks = 0
 
-            # se for I/O bound
-            else:                   # vai para a lista de bloqueados
-                # se nao tem I/O
-                # passa o processo para a proxima classe
-                if(aux_io == 0):
-                    processos.remove(p)
-                    if(quantum_da_fila+1 < nqueues):
-                        queues[quantum_da_fila+1][1].append(p)
-                        p.fila = p.fila + 1
-                    else:
-                        queues[quantum_da_fila][1].append(p)
-                # se tem I/O
-                # bloqueia o processo
-                else:
-                    lista_bloqueados.append(p)
-                    processos.remove(p)
-                    p.fila = 0
-                    print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (p.nome, str(tempo_utilizado), str(p.io_time)))
+                    lista_bloqueados.append(ready)              # coloca ele na lista de bloqueados
+                    ready.io_remaining_time = io_operation_time # o tempo de I/O dele e' o tempo de um I/O
 
-        numero_switches = numero_switches + 1
-        time_stamp = time_stamp + 1
+                    flag_to_be_blocked = False          # nao tem ninguem para ser bloqueado
+                    print('time_stamp=' + str(time_stamp) + '&id=msg&value=' + dicionario['process_goes_to_blocked_list'] % (ready.nome, str(ready.io_remaining_time)))
+
+        current_time = current_time + 1
+        if(ocorreu_evento):
+            output()
+
+        ocorreu_evento = False
 
     # lembra de tirar o switch_cost a mais que eu to contando
     current_time = current_time - switch_cost
@@ -297,6 +346,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 

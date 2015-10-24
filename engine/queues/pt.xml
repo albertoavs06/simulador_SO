@@ -2,11 +2,15 @@
 
 <root>
 	<message name="process_goes_to_blocked_list">
-		<value>executa processo %s por %s e vai para a lista de bloqueado por %s unidades de tempo</value>
+		<value>processo %s vai para a lista de bloqueado por %s unidades de tempo</value>
 	</message>
 
 	<message name="process_goes_to_end_of_ready_list">
 		<value>executa processo %s por %s e vai para o fim da lista de pronto</value>
+	</message>
+
+	<message name="process_executes_partially">
+		<value>executa processo %s por %s</value>
 	</message>
 
 	<message name="process_finishes">
@@ -17,4 +21,7 @@
 		<value>processo %s volta para a lista de pronto</value>
 	</message>
 
+    <message name="context_switch">
+		<value>ocorre uma troca de contexto, durando %s unidades de tempo</value>
+    </message>
 </root>

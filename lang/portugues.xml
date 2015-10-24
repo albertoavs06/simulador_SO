@@ -101,6 +101,26 @@ along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 	<item name="action">
 		<value>Ação Executada</value>
 	</item>
+	
+	<item name="owner">
+		<value>por Marcelo Koti Kamada, Maria Lydia Fioravanti</value>
+	</item>
+
+	<item name="nav_simulator">
+		<value>Simulador</value>
+	</item>
+	
+	<item name="nav_about">
+		<value>Sobre</value>
+	</item>
+	
+	<item name="panel_help">
+		<value>Como usar o I3S: Escolha um algoritmo nesta aba, adicione processos na segunda aba e execute a simulação na quarta.</value>
+	</item>
+
+	<item name="comparison_header">
+		<value>Parâmetros Globais de Simulação</value>
+	</item>
 
 	<!-- ########## Algorithms ########## -->
 	<algorithm name="round_robin">
@@ -201,6 +221,11 @@ along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 		<description>Clique no botão abaixo para realizar a simulação. Se mais de um algoritmo possuir processos na sua lista, será realizada a comparação entre estes algoritmos.</description>
 	</third_section>
 
+	<third_section name="simulation_warning">
+		<title></title>
+		<description>Neste momento, os seguintes algoritmos possuem processos:</description>
+	</third_section>
+
 	<!-- ########## Inputs ########## -->
 	<input name="execution_time">
 		<value>Tempo de execução (entre 1 e 100)</value>
@@ -285,7 +310,7 @@ along with I3S.  If not, see <http://www.gnu.org/licenses/>.
 		<value>Número de tickets</value>
 	</table_header>
 
-	<table_header name="priority">
+	<table_header name="priority_header">
 		<value>Prioridade</value>
 	</table_header>
 	
